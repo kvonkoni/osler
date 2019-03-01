@@ -10,12 +10,14 @@ from pando.assertion import IsEquivalent
 class Criterion:
     list = []
 
-    def __init__(self, assertion, truth_value, description=''):
+    def __init__(self, assertion, truth_value, description='', parent=None):
         Criterion.list.append(self)
         self.assertion = assertion
         self.truth_value = truth_value
         self.name = assertion.name+'_is_'+str(truth_value)
         self.description = description
+        self.node = anytree.Node(self.name)
+        self.parent = parent
 
 def CommonCriteria(criterionA, criterionB):
     if IsEquivalent(criterionA.assertion, criterionB.assertion) and (criterionA.truth_value == criterionB.truth_value):
