@@ -6,6 +6,9 @@ from pando.criterion import Criterion
 from pando.diagnosis import Diagnosis
 from pando.issue import Issue
 
+from anytree.exporter import DotExporter
+import graphviz
+
 #Defining assertions
 
 assertionA = Assertion('assertion A', 'is criterion A true?')
@@ -39,15 +42,14 @@ diagnosisA.node.parent = criterionA.node
 criterionA.node.parent = assertionA.node
 assertionA.node.parent = criterionC.node
 criterionC.node.parent = assertionC.node
-assertionC.node.parent = criterionB.node
-assertionB.node.parent = criterionX.node
+assertionC.node.parent = criterionX.node
 criterionX.node.parent = issue.node
 
-diagnosisB.node.parent = criterionB.node
-criterionB.node.parent = assertionB.node
-assertionB.node.parent = criterionX.node
+diagnosisB.node.parent = criterionX.node
 criterionX.node.parent = assertionX.node
-assertionX.node.parent = issue.node
+assertionX.node.parent = criterionB.node
+criterionB.node.parent = assertionB.node
+assertionB.node.parent = issue.node
 
 #Testing tree functions
 
