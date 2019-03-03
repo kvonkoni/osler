@@ -46,4 +46,4 @@ CompareDiagnoses(diagnosisA, diagnosisC)
 ConstructTree(issue)
 
 #issue.to_image("test_dot.dot")
-issue.to_png("test_dot.png")
+issue.To_png("test_dot.png")

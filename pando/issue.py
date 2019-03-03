@@ -26,13 +26,17 @@ class Issue:
     def __str__(self):
         return self.name
 
-    def render(self):
+    def Parent(self, parent):
+        self.parent = parent
+        self.node.parent = parent.node
+
+    def Render(self):
         print(anytree.RenderTree(self.node))
 
-    def to_image(self, filename):
+    def To_image(self, filename):
         DotExporter(self.node).to_dotfile(filename)
         Source.from_file(filename)
         render("dot", "png", filename)
 
-    def to_png(self, filename):
+    def To_png(self, filename):
         DotExporter(self.node).to_picture(filename)

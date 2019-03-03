@@ -29,6 +29,10 @@ class Criterion:
         else:
             return False
 
+    def Parent(self, parent):
+        self.parent = parent
+        self.node.parent = parent.node
+
     def Equivalent(self, other):
         if self.assertion.Equivalent(other.assertion) and (self.truth_value == other.truth_value):
             return True

@@ -41,6 +41,10 @@ class Diagnosis:
     def __str__(self):
         return self.name
 
+    def Parent(self, parent):
+        self.parent = parent
+        self.node.parent = parent.node
+
     def AssertionSet(self):
         result = set()
         for c in list(self.criteria):

@@ -24,6 +24,10 @@ class Assertion:
     def __str__(self):
         return self.name
 
+    def Parent(self, parent):
+        self.parent = parent
+        self.node.parent = parent.node
+
     def Equivalent(self, other):
         if self.proposition == other.proposition:
             return True
