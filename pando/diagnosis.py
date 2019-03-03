@@ -15,6 +15,7 @@ class Diagnosis:
         self.description = description
         self.remedy = remedy
         self.criteria = criteria
+        self.assertions = self.AssertionSet()
         self.prevalence = prevalence
         self.comorbidity = comorbidity
         self.node = anytree.Node(self.name)
@@ -30,7 +31,7 @@ class Diagnosis:
 
     def AssertionSet(self):
         result = set()
-        for c in self.criteria:
+        for c in list(self.criteria):
             result.add(c.assertion)
         return result
 
@@ -54,4 +55,4 @@ class Diagnosis:
                         result.add(criterionA.assertion)
             return result
         else:
-            raise TypeError("Diagnosis.Common() expected Diagnosis, received {}".format(type(other)))
+            raise TypeError("Diagnosis.Differential() expected Diagnosis, received {}".format(type(other)))

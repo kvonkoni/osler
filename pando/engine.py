@@ -8,7 +8,7 @@ def CompareDiagnoses(diagA, diagB):
     print("Common Assertions:")
     for c in list(common_assertions):
         print(c.name)
-    print("Differential Assertions")
+    print("Differential Assertions:")
     for d in list(differential_assertions):
         print(d.name)
     #print("Inconsequential Assertions")
