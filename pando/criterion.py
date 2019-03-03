@@ -9,13 +9,13 @@ import anytree
 class Criterion:
     list = []
 
-    def __init__(self, assertion, truth_value, parent=None):
+    def __init__(self, assertion, truth_value):
         Criterion.list.append(self)
         self.assertion = assertion
         self.truth_value = truth_value
         self.name = assertion.name+'_is_'+str(truth_value)
-        self.node = anytree.Node(self.name)
-        self.parent = parent
+        self.node = anytree.Node(self.name, parent=self.assertion.node)
+        self.parent = self.assertion
 
     def __hash__(self):
         return id(self)

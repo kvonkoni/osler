@@ -18,7 +18,7 @@ class Assertion:
         self.ease = ease
         self.name = proposition.replace(" ", "_")
         self.description = description
-        self.node = anytree.Node(self.name)
+        self.node = anytree.Node(self.name, parent=parent)
         self.parent = parent
 
     def Equivalent(self, other):
