@@ -29,7 +29,7 @@ class Diagnosis:
         print("  The remedy for this diagnosis is: {}".format(self.remedy))
         print("}")
 
-    def __sum__(self, other):
+    def __add__(self, other):
         name = self.name+"+"+other.name
         description = self.name+" and "+other.name
         remedy = ""
