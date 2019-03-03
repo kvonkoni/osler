@@ -5,7 +5,6 @@
 #import kanren
 import nltk
 import anytree
-from pando.assertion import IsEquivalent
 
 class Diagnosis:
     list = []
@@ -29,17 +28,30 @@ class Diagnosis:
         print("  The remedy for this diagnosis is: {}".format(self.remedy))
         print("}")
 
-def AssertionSet(diagnosis):
-    result = set()
-    for c in diagnosis.criteria:
-        result.add(c.assertion)
-    return result
+    def AssertionSet(self):
+        result = set()
+        for c in self.criteria:
+            result.add(c.assertion)
+        return result
 
-def DifferentialCriteria(diagnosisA, diagnosisB):
-    result = set()
-    for criterionA in list(diagnosisA.criteria):
-        for criterionB in list(diagnosisB.criteria):
-            if IsEquivalent(criterionA.assertion, criterionB.assertion) and (criterionA.truth_value != criterionB.truth_value):
-                result.add(criterionA)
-                result.add(criterionB)
-    return result
+    def Common(self, other):
+        if isinstance(other, Diagnosis):
+            result = set()
+            for criterionA in list(self.criteria):
+                for criterionB in list(other.criteria):
+                    if criterionA == criterionB:
+                        result.add(criterionA.assertion)
+            return result
+        else:
+            raise TypeError("Diagnosis.Common() expected Diagnosis, received {}".format(type(other)))
+
+    def Differential(self, other):
+        if isinstance(other, Diagnosis):
+            result = set()
+            for criterionA in list(self.criteria):
+                for criterionB in list(other.criteria):
+                    if criterionA.Opposite(criterionB):
+                        result.add(criterionA.assertion)
+            return result
+        else:
+            raise TypeError("Diagnosis.Common() expected Diagnosis, received {}".format(type(other)))

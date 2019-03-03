@@ -5,7 +5,6 @@
 #import kanren
 import nltk
 import anytree
-from pando.assertion import IsEquivalent
 
 class Criterion:
     list = []
@@ -19,11 +18,26 @@ class Criterion:
         self.node = anytree.Node(self.name)
         self.parent = parent
 
-def CommonCriteria(criterionA, criterionB):
-    if IsEquivalent(criterionA.assertion, criterionB.assertion) and (criterionA.truth_value == criterionB.truth_value):
-        return True
-    else:
-        return False
+    def __hash__(self):
+        return id(self)
+
+    def __eq__(self, other):
+        if isinstance(other, Criterion):
+            return self.Equivalent(other)
+        else:
+            return False
+
+    def Equivalent(self, other):
+        if self.assertion.Equivalent(other.assertion) and (self.truth_value == other.truth_value):
+            return True
+        else:
+            return False
+
+    def Opposite(self, other):
+        if self.assertion.Equivalent(other.assertion) and (self.truth_value != other.truth_value):
+            return True
+        else:
+            return False
 
 def AssertionSetFromCriterionSet(criterion_set):
     result = set()

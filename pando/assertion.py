@@ -21,12 +21,17 @@ class Assertion:
         self.node = anytree.Node(self.name)
         self.parent = parent
 
+    def Equivalent(self, other):
+        if self.proposition == other.proposition:
+            return True
+        else:
+            return False
 
-def IsEquivalent(assertionA, assertionB):
-    #tokenA = nltk.word_tokenize(assertionA)
-    #tokenB = nltk.word_tokenize(assertionB)
+    def __hash__(self):
+        return id(self)
 
-    if assertionA.proposition == assertionB.proposition:
-        return True
-    else:
-        return False
+    def __eq__(self, other):
+        if isinstance(other, Assertion):
+            return self.equivalent(other)
+        else:
+            return False
