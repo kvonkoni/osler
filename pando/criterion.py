@@ -17,6 +17,9 @@ class Criterion:
         self.node = anytree.Node(self.name, parent=self.assertion.node)
         self.parent = self.assertion
 
+    def __str__(self):
+        return self.name
+
     def __hash__(self):
         return id(self)
 

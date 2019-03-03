@@ -36,12 +36,16 @@ issue = Issue('Issue A', 'Issue A', {diagnosisA, diagnosisB})
 
 #Building a test tree
 
+#--> top level criteria are common criteria
 assertionX.node.parent = issue.node
 
+#--> second level criteria are first-(second/third) diagnosis differentials
 criterionE.assertion.node.parent = criterionX.node
 diagnosisB.node.parent = criterionE.node
 
 criterionC.assertion.node.parent = criterionX.node
+
+#--> third level criteria are second-third diagnosis differentials
 criterionA.assertion.node.parent = criterionC.node
 diagnosisA.node.parent = criterionA.node
 

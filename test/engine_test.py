@@ -3,9 +3,9 @@ lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
 from pando.assertion import Assertion
 from pando.criterion import Criterion
-from pando.diagnosis import Diagnosis
+from pando.diagnosis import Diagnosis, CompareDiagnoses
 from pando.issue import Issue
-from pando.engine import ConstructTree, CompareDiagnoses
+from pando.engine import ConstructTree
 
 #Defining assertions
 
@@ -27,23 +27,25 @@ criterionX = Criterion(assertionX, True)
 
 #Defining diagnoses
 
-diagnosisA = Diagnosis('Diagnosis A', 'Diagnosis A', 'Remedy A', {criterionA, criterionB, criterionC, criterionX}, 0.25)
 diagnosisB = Diagnosis('Diagnosis B', 'Diagnosis B', 'Remedy B', {criterionD, criterionE, criterionX}, 0.5)
-
-CompareDiagnoses(diagnosisA, diagnosisB)
-
-#Testing diagnosis functions
-
-#diagnosisA.info()
+diagnosisA = Diagnosis('Diagnosis A', 'Diagnosis A', 'Remedy A', {criterionA, criterionB, criterionC, criterionX}, 0.25)
+diagnosisC = Diagnosis('Diagnosis C', 'Diagnosis C', 'Remedy C', {criterionD, criterionC, criterionX}, 0.15)
 
 #Defining an issue
 
 issue = Issue('Issue A', 'Issue A', {diagnosisA, diagnosisB})
 
-#Testing engine
-
-#tree = ConstructTree(issue)
-
 #Testing tree functions
 
-#issue.render()
+CompareDiagnoses(diagnosisA, diagnosisB)
+CompareDiagnoses(diagnosisB, diagnosisC)
+CompareDiagnoses(diagnosisA, diagnosisC)
+
+sum_diagnosis = diagnosisA+diagnosisB
+
+#Building a test tree
+
+ConstructTree(issue)
+
+#issue.to_image("test_dot.dot")
+issue.to_png("test_dot.png")

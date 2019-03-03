@@ -9,7 +9,7 @@ import anytree
 class Diagnosis:
     list = []
 
-    def __init__(self, name, description, remedy, criteria, prevalence=0.0, comorbidity=[], parent=None):
+    def __init__(self, name, description, remedy, criteria, prevalence=0.0, comorbidity=set(), parent=None):
         Diagnosis.list.append(self)
         self.name = name
         self.description = description
@@ -28,6 +28,18 @@ class Diagnosis:
             print("    "+c.name)
         print("  The remedy for this diagnosis is: {}".format(self.remedy))
         print("}")
+
+    def __sum__(self, other):
+        name = self.name+"+"+other.name
+        description = self.name+" and "+other.name
+        remedy = ""
+        criteria = self.criteria.union(other.criteria)
+        prevalence = self.prevalence+other.prevalence
+        comorbidity = self.comorbidity.union(other.comorbidity)
+        result = Diagnosis(name, description, remedy, criteria, prevalence, comorbidity)
+
+    def __str__(self):
+        return self.name
 
     def AssertionSet(self):
         result = set()
@@ -60,7 +72,7 @@ class Diagnosis:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 
 def CompareDiagnoses(diagA, diagB):
-    common_criteria = diagA.CommonCriteria(diagB)#diagA.criteria.intersection(diagB.criteria)
+    common_criteria = diagA.CommonCriteria(diagB)
     differential_criteria = diagA.DifferentialCriteria(diagB)
     inconsequential_criteria = diagA.InconsequentialCriteria(diagB)
     print("{{Comparison of {} and {} criteria:".format(diagA.name, diagB.name))
