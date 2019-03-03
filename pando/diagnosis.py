@@ -35,24 +35,26 @@ class Diagnosis:
             result.add(c.assertion)
         return result
 
-    def Common(self, other):
+    def CommonCriteria(self, other):
         if isinstance(other, Diagnosis):
-            result = set()
-            for criterionA in list(self.criteria):
-                for criterionB in list(other.criteria):
-                    if criterionA == criterionB:
-                        result.add(criterionA.assertion)
-            return result
+            return self.criteria.intersection(other.criteria)
         else:
-            raise TypeError("Diagnosis.Common() expected Diagnosis, received {}".format(type(other)))
+            raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 
-    def Differential(self, other):
+    def DifferentialCriteria(self, other):
         if isinstance(other, Diagnosis):
             result = set()
             for criterionA in list(self.criteria):
                 for criterionB in list(other.criteria):
                     if criterionA.Opposite(criterionB):
-                        result.add(criterionA.assertion)
+                        result.add(criterionA)
+                        result.add(criterionB)
             return result
         else:
-            raise TypeError("Diagnosis.Differential() expected Diagnosis, received {}".format(type(other)))
+            raise TypeError("expected Diagnosis object, received {}".format(type(other)))
+
+    def InconsequentialCriteria(self, other):
+        if isinstance(other, Diagnosis):
+            return self.criteria.union(other.criteria).difference(self.CommonCriteria(other).union(self.DifferentialCriteria(other)))
+        else:
+            raise TypeError("expected Diagnosis object, received {}".format(type(other)))
