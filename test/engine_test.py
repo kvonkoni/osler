@@ -41,8 +41,6 @@ CompareDiagnoses(diagnosisA, diagnosisB)
 CompareDiagnoses(diagnosisB, diagnosisC)
 CompareDiagnoses(diagnosisA, diagnosisC)
 
-sum_diagnosis = diagnosisA+diagnosisB
-
 #Building a test tree
 
 ConstructTree(issue)

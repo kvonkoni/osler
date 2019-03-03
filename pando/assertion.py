@@ -21,6 +21,9 @@ class Assertion:
         self.node = anytree.Node(self.name, parent=parent)
         self.parent = parent
 
+    def __str__(self):
+        return self.name
+
     def Equivalent(self, other):
         if self.proposition == other.proposition:
             return True

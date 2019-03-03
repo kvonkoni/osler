@@ -23,6 +23,9 @@ class Issue:
         self.node = anytree.Node(self.name)
         self.parent = parent
 
+    def __str__(self):
+        return self.name
+
     def render(self):
         print(anytree.RenderTree(self.node))
 

@@ -32,11 +32,11 @@ class Diagnosis:
     def __add__(self, other):
         name = self.name+"+"+other.name
         description = self.name+" and "+other.name
-        remedy = ""
+        remedy = self.name+" remedy and/or "+other.name+" remedy"
         criteria = self.criteria.union(other.criteria)
         prevalence = self.prevalence+other.prevalence
         comorbidity = self.comorbidity.union(other.comorbidity)
-        result = Diagnosis(name, description, remedy, criteria, prevalence, comorbidity)
+        return Diagnosis(name, description, remedy, criteria, prevalence, comorbidity)
 
     def __str__(self):
         return self.name
