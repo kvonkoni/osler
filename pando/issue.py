@@ -5,6 +5,8 @@
 #import kanren
 import nltk
 import anytree
+from anytree.exporter import DotExporter
+from graphviz import Source, render
 
 class Issue:
     list = []
@@ -23,3 +25,11 @@ class Issue:
 
     def render(self):
         print(anytree.RenderTree(self.node))
+
+    def to_image(self, filename):
+        DotExporter(self.node).to_dotfile(filename)
+        Source.from_file(filename)
+        render("dot", "png", filename)
+
+    def to_png(self, filename):
+        DotExporter(self.node).to_picture(filename)

@@ -3,11 +3,8 @@ lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
 from pando.assertion import Assertion
 from pando.criterion import Criterion
-from pando.diagnosis import Diagnosis
+from pando.diagnosis import Diagnosis, CompareDiagnoses
 from pando.issue import Issue
-
-from anytree.exporter import DotExporter
-import graphviz
 
 #Defining assertions
 
@@ -29,8 +26,9 @@ criterionX = Criterion(assertionX, True)
 
 #Defining diagnoses
 
-diagnosisA = Diagnosis('Diagnosis A', 'Diagnosis A', 'Remedy A', {criterionA, criterionB, criterionC, criterionX}, 0.25)
 diagnosisB = Diagnosis('Diagnosis B', 'Diagnosis B', 'Remedy B', {criterionD, criterionE, criterionX}, 0.5)
+diagnosisA = Diagnosis('Diagnosis A', 'Diagnosis A', 'Remedy A', {criterionA, criterionB, criterionC, criterionX}, 0.25)
+diagnosisC = Diagnosis('Diagnosis C', 'Diagnosis C', 'Remedy C', {criterionD, criterionC, criterionX}, 0.15)
 
 #Defining an issue
 
@@ -38,19 +36,23 @@ issue = Issue('Issue A', 'Issue A', {diagnosisA, diagnosisB})
 
 #Building a test tree
 
-diagnosisA.node.parent = criterionA.node
-criterionA.node.parent = assertionA.node
-assertionA.node.parent = criterionC.node
-criterionC.node.parent = assertionC.node
-assertionC.node.parent = criterionX.node
-criterionX.node.parent = issue.node
+assertionX.node.parent = issue.node
 
-diagnosisB.node.parent = criterionX.node
-criterionX.node.parent = assertionX.node
-assertionX.node.parent = criterionB.node
-criterionB.node.parent = assertionB.node
-assertionB.node.parent = issue.node
+criterionE.assertion.node.parent = criterionX.node
+diagnosisB.node.parent = criterionE.node
+
+criterionC.assertion.node.parent = criterionX.node
+criterionA.assertion.node.parent = criterionC.node
+diagnosisA.node.parent = criterionA.node
+
+criterionD.assertion.node.parent = criterionC.node
+diagnosisC.node.parent = criterionD.node
 
 #Testing tree functions
 
-issue.render()
+CompareDiagnoses(diagnosisA, diagnosisB)
+CompareDiagnoses(diagnosisB, diagnosisC)
+CompareDiagnoses(diagnosisA, diagnosisC)
+
+#issue.to_image("test_dot.dot")
+issue.to_png("test_dot.png")

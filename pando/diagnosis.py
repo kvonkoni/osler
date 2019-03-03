@@ -58,3 +58,19 @@ class Diagnosis:
             return self.criteria.union(other.criteria).difference(self.CommonCriteria(other).union(self.DifferentialCriteria(other)))
         else:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
+
+def CompareDiagnoses(diagA, diagB):
+    common_criteria = diagA.CommonCriteria(diagB)#diagA.criteria.intersection(diagB.criteria)
+    differential_criteria = diagA.DifferentialCriteria(diagB)
+    inconsequential_criteria = diagA.InconsequentialCriteria(diagB)
+    print("{{Comparison of {} and {} criteria:".format(diagA.name, diagB.name))
+    print("    Common Criteria:")
+    for c in list(common_criteria):
+        print("        "+c.name)
+    print("    Differential Criteria:")
+    for d in list(differential_criteria):
+        print("        "+d.name)
+    print("    Inconsequential Criteria")
+    for i in list(inconsequential_criteria):
+        print("        "+i.name)
+    print("}")
