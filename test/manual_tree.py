@@ -11,9 +11,9 @@ import graphviz
 
 #Defining assertions
 
-assertionA = Assertion("assertion A", "is criterion A true?")
-assertionB = Assertion("assertion B", "is criterion B true?")
-assertionC = Assertion("assertion C", "is criterion C true?")
+assertionA = Assertion("assertion A", "is assertion A true?")
+assertionB = Assertion("assertion B", "is assertion B true?")
+assertionC = Assertion("assertion C", "is assertion C true?")
 assertionX = Assertion("assertion X", "is assertion X true?")
 
 #Defining criteria
