@@ -1,30 +1,9 @@
-from pando.criterion import CommonCriteria, AssertionSetFromCriterionSet
-from pando.diagnosis import DifferentialCriteria
+from pando.criterion import AssertionSetFromCriterionSet
 
 def CompareDiagnoses(diagA, diagB):
-    common_criteria = diagA.criteria.intersection(diagB.criteria)
-    differential_criteria = DifferentialCriteria(diagA, diagB)
-    inconsequential_criteria = diagA.criteria.union(diagB.criteria).difference(common_criteria.union(differential_criteria))
-
-    common_assertions = set()
-    for c in list(common_criteria):
-        common_assertions.add(c.assertion)
-    differential_assertions = set()
-    for d in list(differential_criteria):
-        differential_assertions.add(d.assertion)
-    inconsequential_assertions = set()
-    for i in list(inconsequential_criteria):
-        inconsequential_assertions.add(i.assertion)
-
-    print("Common Criteria:")
-    for c in list(common_criteria):
-        print(c.name)
-    print("Differential Criteria")
-    for d in list(differential_criteria):
-        print(d.name)
-    print("Inconsequential Criteria")
-    for i in list(inconsequential_criteria):
-        print(i.name)
+    common_assertions = diagA.Common(diagB)#diagA.criteria.intersection(diagB.criteria)
+    differential_assertions = diagA.Differential(diagB)
+    #inconsequential_assertions = diagA.assertion.union(diagB.assertion).difference(common_assertions.union(differential_assertions))
 
     print("Common Assertions:")
     for c in list(common_assertions):
@@ -32,11 +11,9 @@ def CompareDiagnoses(diagA, diagB):
     print("Differential Assertions")
     for d in list(differential_assertions):
         print(d.name)
-    print("Inconsequential Assertions")
-    for i in list(inconsequential_assertions):
-        print(i.name)
-
-    return differential_criteria
+    #print("Inconsequential Assertions")
+    #for i in list(inconsequential_assertions):
+    #    print(i.name)
 
 def ConstructTree(issue):
     diagnosislist = list(issue.candidates)
