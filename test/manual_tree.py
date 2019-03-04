@@ -32,7 +32,7 @@ diagnosisC = Diagnosis('Diagnosis C', 'Diagnosis C', 'Remedy C', {criterionD, cr
 
 #Defining an issue
 
-issue = Issue('Issue A', 'Issue A', {diagnosisA, diagnosisB})
+issue = Issue('Issue A', 'Issue A', {diagnosisA, diagnosisB, diagnosisC})
 
 #Building a test tree
 
@@ -53,10 +53,9 @@ criterionD.assertion.node.parent = criterionC.node
 diagnosisC.node.parent = criterionD.node
 
 #Testing tree functions
-
-CompareDiagnoses(diagnosisA, diagnosisB)
-CompareDiagnoses(diagnosisB, diagnosisC)
-CompareDiagnoses(diagnosisA, diagnosisC)
+result=diagnosisA+diagnosisC
+result.info()
+CompareDiagnoses(diagnosisB, diagnosisA+diagnosisC)
 
 #issue.to_image("test_dot.dot")
-issue.to_png("test_dot.png")
+issue.To_png("test_dot.png")

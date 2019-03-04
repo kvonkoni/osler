@@ -33,13 +33,13 @@ diagnosisC = Diagnosis('Diagnosis C', 'Diagnosis C', 'Remedy C', {criterionD, cr
 
 #Defining an issue
 
-issue = Issue('Issue A', 'Issue A', {diagnosisA, diagnosisB})
+issue = Issue('Issue A', 'Issue A', {diagnosisA, diagnosisB, diagnosisC})
 
 #Testing tree functions
 
-CompareDiagnoses(diagnosisA, diagnosisB)
-CompareDiagnoses(diagnosisB, diagnosisC)
-CompareDiagnoses(diagnosisA, diagnosisC)
+#CompareDiagnoses(diagnosisA, diagnosisB)
+#CompareDiagnoses(diagnosisB, diagnosisC)
+#CompareDiagnoses(diagnosisA, diagnosisC)
 
 #Building a test tree
 

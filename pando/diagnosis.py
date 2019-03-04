@@ -21,6 +21,21 @@ class Diagnosis:
         self.node = anytree.Node(self.name)
         self.parent = parent
 
+    def __add__(self, other):
+        name = self.name+"+"+other.name
+        description = self.name+" intersect "+other.name
+        remedy = self.name+" remedy and/or "+other.name+" remedy"
+        criteria = self.CommonCriteria(other)
+        prevalence = self.prevalence+other.prevalence
+        comorbidity = self.comorbidity.union(other.comorbidity)
+        return Diagnosis(name, description, remedy, criteria, prevalence, comorbidity)
+
+    def __radd__(self, other):
+        return self.__add__(other)
+
+    def __str__(self):
+        return self.name
+
     def info(self):
         print("{{Diagnosis description: {}".format(self.description))
         print("  The criteria for this diagnosis are:")
@@ -28,18 +43,6 @@ class Diagnosis:
             print("    "+c.name)
         print("  The remedy for this diagnosis is: {}".format(self.remedy))
         print("}")
-
-    def __add__(self, other):
-        name = self.name+"+"+other.name
-        description = self.name+" and "+other.name
-        remedy = self.name+" remedy and/or "+other.name+" remedy"
-        criteria = self.criteria.union(other.criteria)
-        prevalence = self.prevalence+other.prevalence
-        comorbidity = self.comorbidity.union(other.comorbidity)
-        return Diagnosis(name, description, remedy, criteria, prevalence, comorbidity)
-
-    def __str__(self):
-        return self.name
 
     def Parent(self, parent):
         self.parent = parent

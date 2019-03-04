@@ -39,6 +39,6 @@ class Assertion:
 
     def __eq__(self, other):
         if isinstance(other, Assertion):
-            return self.equivalent(other)
+            return self.Equivalent(other)
         else:
             return False
