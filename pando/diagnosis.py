@@ -89,7 +89,7 @@ def CompareDiagnoses(diagA, diagB):
     print("    Differential Criteria:")
     for d in list(differential_criteria):
         print("        "+d.name)
-    print("    Inconsequential Criteria")
+    print("    Inconsequential Criteria:")
     for i in list(inconsequential_criteria):
         print("        "+i.name)
     print("}")
