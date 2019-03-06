@@ -5,13 +5,16 @@
 #import kanren
 import nltk
 import anytree
+import itertools
 #nltk.download()
 
 class Assertion:
+    newid = itertools.count().next
     list = []
 
     def __init__(self, proposition, question, instruction='', ease=1.0, description='', parent=None):
         Assertion.list.append(self)
+        self.id = resource_cl.newid()
         self.proposition = proposition
         self.question = question
         self.instruction = instruction

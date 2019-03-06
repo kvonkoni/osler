@@ -5,12 +5,15 @@
 #import kanren
 import nltk
 import anytree
+import itertools
 
 class Criterion:
+    newid = itertools.count().next
     list = []
 
     def __init__(self, assertion, truth_value):
         Criterion.list.append(self)
+        self.id = resource_cl.newid()
         self.assertion = assertion
         self.truth_value = truth_value
         self.name = assertion.name+'_is_'+str(truth_value)

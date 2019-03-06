@@ -5,12 +5,15 @@
 #import kanren
 import nltk
 import anytree
+import itertools
 
 class Diagnosis:
+    newid = itertools.count().next
     list = []
 
     def __init__(self, name, description, remedy, criteria, prevalence=0.0, comorbidity=set(), parent=None):
         Diagnosis.list.append(self)
+        self.id = resource_cl.newid()
         self.name = name
         self.description = description
         self.remedy = remedy
