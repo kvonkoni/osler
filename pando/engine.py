@@ -1,7 +1,25 @@
 from functools import reduce
+from collections import Counter
 from pando.diagnosis import CompareDiagnoses
 
 def Test(issue):
+    diagnosislist = list(issue.candidates)
+    diagnosislist.sort(key = lambda x: x.prevalence, reverse=True)
+
+    diagnosis = diagnosislist.pop(1)
+    common_criteria = {}}
+    for d in diagnosislist:
+        #CompareDiagnoses(diagnosis, d)
+        #print(diagnosis.NumCommonCriteriaAssertions(d))
+        common_criteria.update(diagnosis.CommonCriteria(d))
+    list()
+
+def Test2(issue):
+    assertionlist = []
+    for diagnosis in list(issue.candidates):
+        assertionlist.extend(list(diagnosis.assertions))
+    counter = Counter(assertionlist)
+    print([a.name for a in assertionlist])
 
 def Test1(issue):
     num_diagnoses = len(issue.candidates)

@@ -43,7 +43,7 @@ diagnosis5 = Diagnosis('Diagnosis 5', 'Diagnosis 5', 'Remedy 5', {criterionNA, c
 
 #Defining an issue
 
-issue = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4})
+issue = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagnosis5})
 
 #Building a test tree
 
@@ -66,5 +66,10 @@ diagnosis5.Parent(criterionNE)
 criterionNE.Parent(criterionND)
 criterionND.Parent(criterionNC)
 
-#issue.to_image("test_dot.dot")
+#Printing information
+
+CompareDiagnoses(diagnosis1, diagnosis2+diagnosis3+diagnosis4+diagnosis5)
+
+#Writing tree image
+
 issue.To_png("test_manual.png")

@@ -21,6 +21,12 @@ class Diagnosis:
         self.node = anytree.Node(self.name)
         self.parent = parent
 
+    def __eq__(self, other):
+        if isinstance(other, Criterion):
+            return self.criteria = other.criteria
+        else:
+            return False
+
     def __add__(self, other):
         name = self.name+"+"+other.name
         description = self.name+" intersect "+other.name
@@ -60,6 +66,22 @@ class Diagnosis:
         else:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 
+    def CommonCriteriaAssertions(self, other):
+        if isinstance(other, Diagnosis):
+            common_criteria = self.CommonCriteria(other)
+            common_assertions = set()
+            for c in list(common_criteria):
+                common_assertions.add(c.assertion)
+            return common_assertions
+        else:
+            raise TypeError("expected Diagnosis object, received {}".format(type(other)))
+
+    def NumCommonCriteriaAssertions(self, other):
+        if isinstance(other, Diagnosis):
+            return len(self.CommonCriteriaAssertions(other))
+        else:
+            raise TypeError("expected Diagnosis object, received {}".format(type(other)))
+
     def DifferentialCriteria(self, other):
         if isinstance(other, Diagnosis):
             result = set()
@@ -69,6 +91,30 @@ class Diagnosis:
                         result.add(criterionA)
                         result.add(criterionB)
             return result
+        else:
+            raise TypeError("expected Diagnosis object, received {}".format(type(other)))
+
+    def NumDifferentialCriteria(self, other):
+        if isinstance(other, Diagnosis):
+            return len(self.DifferentialCriteria(other))
+        else:
+            raise TypeError("expected Diagnosis object, received {}".format(type(other)))
+
+    def DifferentialAssertions(self, other):
+        if isinstance(other, Diagnosis):
+            result = set()
+            for criterionA in list(self.criteria):
+                for criterionB in list(other.criteria):
+                    if criterionA.Opposite(criterionB):
+                        result.add(criterionA.assertion)
+                        result.add(criterionB.assertion)
+            return result
+        else:
+            raise TypeError("expected Diagnosis object, received {}".format(type(other)))
+
+    def NumDifferentialAssertions(self, other):
+        if isinstance(other, Diagnosis):
+            return len(self.DifferentialAssertions(other))
         else:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 

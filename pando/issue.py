@@ -7,12 +7,15 @@ import nltk
 import anytree
 from anytree.exporter import DotExporter
 from graphviz import Source, render
+import itertools
 
 class Issue:
+    newid = itertools.count().next
     list = []
 
     def __init__(self, name, description, candidates, severity=0, parent=None):
         Issue.list.append(self)
+        self.id = resource_cl.newid()
         self.name = name
         self.description = description
         self.candidates = candidates
