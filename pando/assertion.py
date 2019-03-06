@@ -9,12 +9,11 @@ import itertools
 #nltk.download()
 
 class Assertion:
-    newid = itertools.count().next
-    list = []
+    id_iter = itertools.count()
+    ID = {}
 
     def __init__(self, proposition, question, instruction='', ease=1.0, description='', parent=None):
-        Assertion.list.append(self)
-        self.id = resource_cl.newid()
+        self.id = next(self.id_iter)
         self.proposition = proposition
         self.question = question
         self.instruction = instruction
@@ -23,9 +22,19 @@ class Assertion:
         self.description = description
         self.node = anytree.Node(self.name, parent=parent)
         self.parent = parent
+        Assertion.ID["a"+str(self.id)] = self
 
     def __str__(self):
         return self.name
+
+    def __hash__(self):
+        return id(self)
+
+    def __eq__(self, other):
+        if isinstance(other, Assertion):
+            return self.Equivalent(other)
+        else:
+            return False
 
     def Parent(self, parent):
         self.parent = parent
@@ -34,14 +43,5 @@ class Assertion:
     def Equivalent(self, other):
         if self.proposition == other.proposition:
             return True
-        else:
-            return False
-
-    def __hash__(self):
-        return id(self)
-
-    def __eq__(self, other):
-        if isinstance(other, Assertion):
-            return self.Equivalent(other)
         else:
             return False

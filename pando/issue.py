@@ -10,12 +10,11 @@ from graphviz import Source, render
 import itertools
 
 class Issue:
-    newid = itertools.count().next
-    list = []
+    id_iter = itertools.count()
+    ID = {}
 
     def __init__(self, name, description, candidates, severity=0, parent=None):
-        Issue.list.append(self)
-        self.id = resource_cl.newid()
+        self.id = next(self.id_iter)
         self.name = name
         self.description = description
         self.candidates = candidates
@@ -25,9 +24,13 @@ class Issue:
             self.prevalence += s.prevalence
         self.node = anytree.Node(self.name)
         self.parent = parent
+        Issue.ID["i"+str(self.id)] = self
 
     def __str__(self):
         return self.name
+
+    def __hash__(self):
+        return id(self)
 
     def Parent(self, parent):
         self.parent = parent

@@ -8,17 +8,17 @@ import anytree
 import itertools
 
 class Criterion:
-    newid = itertools.count().next
-    list = []
+    id_iter = itertools.count()
+    ID = {}
 
     def __init__(self, assertion, truth_value):
-        Criterion.list.append(self)
-        self.id = resource_cl.newid()
+        self.id = next(self.id_iter)
         self.assertion = assertion
         self.truth_value = truth_value
         self.name = assertion.name+'_is_'+str(truth_value)
         self.node = anytree.Node(self.name, parent=self.assertion.node)
         self.parent = self.assertion
+        Criterion.ID["c"+str(self.id)] = self
 
     def __str__(self):
         return self.name
