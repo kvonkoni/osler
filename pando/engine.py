@@ -2,6 +2,8 @@ from functools import reduce
 from pando.diagnosis import CompareDiagnoses
 
 def Test(issue):
+
+def Test1(issue):
     num_diagnoses = len(issue.candidates)
     diagnosislist = list(issue.candidates)
 

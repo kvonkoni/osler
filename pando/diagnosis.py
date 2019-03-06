@@ -44,9 +44,9 @@ class Diagnosis:
         print("  The remedy for this diagnosis is: {}".format(self.remedy))
         print("}")
 
-    def Parent(self, parent):
-        self.parent = parent
-        self.node.parent = parent.node
+    def Parent(self, parent_criterion):
+        self.parent = parent_criterion
+        self.node.parent = parent_criterion.node
 
     def AssertionSet(self):
         result = set()
