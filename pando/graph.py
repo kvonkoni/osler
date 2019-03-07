@@ -16,8 +16,8 @@ class Node(Pando):
         Node.ID[self.id] = self
         Pando.ID[self.id] = self
 
-    def Parent(self, parent):
-        new_node = Node(parent, )
+    def Child(self, child):
+        new_node = Node(child, )
 
     def Render(self):
         print(anytree.RenderTree(self.node))
