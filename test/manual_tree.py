@@ -5,6 +5,8 @@ from pando.assertion import Assertion
 from pando.criterion import Criterion
 from pando.diagnosis import Diagnosis, CompareDiagnoses
 from pando.issue import Issue
+from pando.graph import Node
+from pando.common import Pando
 
 #Defining assertions
 

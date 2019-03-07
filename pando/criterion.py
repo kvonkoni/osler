@@ -6,19 +6,19 @@
 import nltk
 import anytree
 import itertools
+from pando.common import Pando
 
-class Criterion:
+class Criterion(Pando):
     id_iter = itertools.count()
     ID = {}
 
     def __init__(self, assertion, truth_value):
-        self.id = next(self.id_iter)
+        self.id = "c"+str(next(self.id_iter))
         self.assertion = assertion
         self.truth_value = truth_value
         self.name = assertion.name+'_is_'+str(truth_value)
-        self.node = anytree.Node(self.name, parent=self.assertion.node)
-        self.parent = self.assertion
-        Criterion.ID["c"+str(self.id)] = self
+        Criterion.ID[self.id] = self
+        Pando.ID[self.id] = self
 
     def __str__(self):
         return self.name
@@ -31,10 +31,6 @@ class Criterion:
             return self.Equivalent(other)
         else:
             return False
-
-    def Parent(self, parent_criterion):
-        self.assertion.parent = parent_criterion
-        self.assertion.node.parent = parent_criterion.node
 
     def Equivalent(self, other):
         if self.assertion.Equivalent(other.assertion) and (self.truth_value == other.truth_value):

@@ -6,13 +6,14 @@
 import nltk
 import anytree
 import itertools
+from pando.common import Pando
 
-class Diagnosis:
+class Diagnosis(Pando):
     id_iter = itertools.count()
     ID = {}
 
     def __init__(self, name, description, remedy, criteria, prevalence=0.0, comorbidity=set(), parent=None):
-        self.id = next(self.id_iter)
+        self.id = "d"+str(next(self.id_iter))
         self.name = name
         self.description = description
         self.remedy = remedy
@@ -20,9 +21,8 @@ class Diagnosis:
         self.assertions = self.AssertionSet()
         self.prevalence = prevalence
         self.comorbidity = comorbidity
-        self.node = anytree.Node(self.name)
-        self.parent = parent
-        Diagnosis.ID["d"+str(self.id)] = self
+        Diagnosis.ID[self.id] = self
+        Pando.ID[self.id] = self
 
     def __hash__(self):
         return id(self)
@@ -55,10 +55,6 @@ class Diagnosis:
             print("    "+c.name)
         print("  The remedy for this diagnosis is: {}".format(self.remedy))
         print("}")
-
-    def Parent(self, parent_criterion):
-        self.parent = parent_criterion
-        self.node.parent = parent_criterion.node
 
     def AssertionSet(self):
         result = set()
