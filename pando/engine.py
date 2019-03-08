@@ -1,6 +1,6 @@
 from functools import reduce
 from collections import Counter
-from numpy import matrix, zeros
+from numpy import matrix, zeros, delete
 
 class Matrix:
     def __init__(self, issue):
@@ -40,13 +40,22 @@ class Matrix:
         self.matrix = self.matrix[arg_sort]
         self.candidatelist = [self.candidatelist[i] for i in arg_sort]
 
+    def DeleteColumn(self, a):
+        self.matrix = delete(self.matrix, a, 1)
+        self.assertionlist = delete(self.assertionlist, a)
+
+    def ClearIrrelevantAssertions(self):
+        for i in range(len(self.matrix[:,0])):
+            if len(set(self.matrix[:,i])) <= 1:
+                self.DeleteColumn(i)
+
 def Test(issue):
     matrix = Matrix(issue)
     print(matrix.assertionlist)
     print(matrix.candidatelist)
     print(matrix)
     #matrix.SwapRows(0,2)
-    matrix.SortRowsByColumn(1)
+    matrix.ClearIrrelevantAssertions()
     print(matrix.assertionlist)
     print(matrix.candidatelist)
     print(matrix)
