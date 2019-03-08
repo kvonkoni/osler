@@ -29,14 +29,26 @@ class Matrix:
 
     def SwapColumns(self, a, b):
         self.matrix[:,[a, b]] = self.matrix[:,[b, a]]
+        self.assertionlist[a], self.assertionlist[b] = self.assertionlist[b], self.assertionlist[a]
 
     def SwapRows(self, a, b):
         self.matrix[[a, b],:] = self.matrix[[b, a],:]
+        self.candidatelist[a], self.candidatelist[b] = self.candidatelist[b], self.candidatelist[a]
+
+    def SortRowsByColumn(self, a):
+        arg_sort = self.matrix[:,a].argsort()
+        self.matrix = self.matrix[arg_sort]
+        self.candidatelist = [self.candidatelist[i] for i in arg_sort]
 
 def Test(issue):
     matrix = Matrix(issue)
+    print(matrix.assertionlist)
+    print(matrix.candidatelist)
     print(matrix)
-    matrix.SwapRows(0,2)
+    #matrix.SwapRows(0,2)
+    matrix.SortRowsByColumn(1)
+    print(matrix.assertionlist)
+    print(matrix.candidatelist)
     print(matrix)
 
 def Test2(issue):
