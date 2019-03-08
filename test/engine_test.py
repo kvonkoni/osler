@@ -50,4 +50,4 @@ issue = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnos
 
 Test(issue)
 
-issue.To_png("test_engine.png")
+#issue.To_png("test_engine.png")

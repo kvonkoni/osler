@@ -1,8 +1,35 @@
 from functools import reduce
 from collections import Counter
+from numpy import matrix, zeros
+
+class Matrix:
+    def __init__(self, issue):
+        self.candidatelist = list(issue.candidates)
+        assertions = set()
+        for d in self.candidatelist:
+            assertions.update(d.assertions)
+        self.assertionlist = list(assertions)
+
+        matrix = zeros((len(self.candidatelist), len(self.assertionlist)))
+        for i in range(len(self.candidatelist)):
+            for j in range(len(self.assertionlist)):
+                for c in list(self.candidatelist[i].criteria):
+                    if c.assertion == self.assertionlist[j]:
+                        if c.truth_value:
+                            matrix[i, j] = 1
+                        else:
+                            matrix[i, j] = 2
+        self.matrix = matrix
+
+    def __str__(self):
+        return str(self.matrix)
+
+    def __repr__(self):
+        return self.__str__()
 
 def Test(issue):
-    
+    matrix = Matrix(issue)
+    print(matrix)
 
 def Test2(issue):
     assertionlist = []
