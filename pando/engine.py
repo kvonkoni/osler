@@ -27,8 +27,13 @@ class Matrix:
     def __repr__(self):
         return self.__str__()
 
+    def SwapColumns(self, a, b):
+        self.matrix[:,[a, b]] = self.matrix[:,[b, a]]
+
 def Test(issue):
     matrix = Matrix(issue)
+    print(matrix)
+    matrix.SwapColumns(0,2)
     print(matrix)
 
 def Test2(issue):
