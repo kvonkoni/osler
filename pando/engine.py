@@ -54,13 +54,26 @@ class Matrix:
                 dellist.append(i)
         self.DeleteColumn(dellist)
 
+    def BringForwardBestAssertion(self):
+        least = 10**8
+        num_diagnoses = len(self.matrix[0,:])
+        for i in range(num_diagnoses):
+            count = Counter(self.matrix[:,i])
+            measure = (count[0])**2+(count[1]-num_diagnoses/2.0)**2+(count[1]-num_diagnoses/2.0)**2
+            print(measure)
+            if measure < least:
+                least = measure
+                id = i
+        self.SwapColumns(0, id)
+
 def Test(issue):
     matrix = Matrix(issue)
     print(matrix.assertionlist)
     print(matrix.candidatelist)
     print(matrix)
-    #matrix.SwapRows(0,2)
     matrix.ClearIrrelevantAssertions()
+    matrix.BringForwardBestAssertion()
+    matrix.SortRowsByColumn(0)
     print(matrix.assertionlist)
     print(matrix.candidatelist)
     print(matrix)
