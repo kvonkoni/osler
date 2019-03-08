@@ -65,7 +65,8 @@ class Matrix:
                 id = i
         self.SwapColumns(0, id)
 
-    def SplitByTruthValue(self)
+    def SplitByTruthValue(self):
+        pass
 
 def ConstructTree(matrix):
     pass
