@@ -45,9 +45,14 @@ class Matrix:
         self.assertionlist = delete(self.assertionlist, a)
 
     def ClearIrrelevantAssertions(self):
-        for i in range(len(self.matrix[:,0])):
-            if len(set(self.matrix[:,i])) <= 1:
-                self.DeleteColumn(i)
+        dellist = []
+        for i in range(len(self.matrix[0,:])):
+            truth_set = set(self.matrix[:,i])
+            if len(truth_set) <= 1:
+                dellist.append(i)
+            elif 0 in truth_set and len(truth_set) == 2:
+                dellist.append(i)
+        self.DeleteColumn(dellist)
 
 def Test(issue):
     matrix = Matrix(issue)
