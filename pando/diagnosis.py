@@ -52,8 +52,8 @@ class Diagnosis(Pando):
     def __repr__(self):
         return self.__str__()
 
-    def Parent(self, other):
-        Pando.nodelist.append(Node(self, other))
+    def Parent(self, parent_node):
+        Pando.nodelist.append(Node(self, parent_node))
 
     def info(self):
         print("{{Diagnosis description: {}".format(self.description))

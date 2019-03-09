@@ -40,8 +40,8 @@ class Assertion(Pando):
         else:
             return False
 
-    def Parent(self, other):
-        Pando.nodelist.append(Node(self, other))
+    def Parent(self, parent_node):
+        Pando.nodelist.append(Node(self, parent_node))
 
     def Equivalent(self, other):
         if self.proposition == other.proposition:

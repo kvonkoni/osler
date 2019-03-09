@@ -2,9 +2,13 @@ from functools import reduce
 from collections import Counter
 from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concatenate
 from copy import copy
+from pando.common import Pando
+from pando.graph import Node
 
 class Matrix:
     def __init__(self, issue):
+        self.progenitor = Node(issue)
+        self.node = self.progenitor
         self.candidatelist = list(issue.candidates)
         assertions = set()
         for d in self.candidatelist:
@@ -21,6 +25,7 @@ class Matrix:
                         else:
                             matrix[i, j] = 2
         self.matrix = matrix
+        #Pando.nodelist.append(self.progenitor)
 
     def __str__(self):
         return str(self.matrix)
@@ -75,10 +80,16 @@ class Matrix:
         matrix_two = copy(self)
         matrix_null.matrix = self.matrix[index_null,:]
         matrix_null.candidatelist = [self.candidatelist[i] for i in index_null]
+        matrix_null.projenitor = self.assertionlist[0]
+        matrix_null.DeleteColumn(0)
         matrix_one.matrix = self.matrix[index_one,:]
         matrix_one.candidatelist = [self.candidatelist[i] for i in index_one]
+        matrix_one.projenitor = self.assertionlist[0]
+        matrix_one.DeleteColumn(0)
         matrix_two.matrix = self.matrix[index_two,:]
         matrix_two.candidatelist = [self.candidatelist[i] for i in index_two]
+        matrix_two.projenitor = self.assertionlist[0]
+        matrix_two.DeleteColumn(0)
         return (matrix_null, matrix_one, matrix_two)
 
     def Combine(self, other):
@@ -96,8 +107,14 @@ class Matrix:
         return self
 
 def ConstructTree(matrix):
-    pass
-    #Recursion
+    matrix.ClearIrrelevantAssertions()
+    matrix.BringForwardBestAssertion()
+    matrix.SortRowsByColumn(0)
+    matrix.assertionlist[0].Parent(matrix.progenitor)
+    matrix_null, matrix_one, matrix_two = matrix.SplitByTruthValue()
+    matrix_one.assertion
+    matrix_null.projenitor = self.assertionlist[0]
+    matrix_null.DeleteColumn(0)
 
 def Test(issue):
     matrix = Matrix(issue)

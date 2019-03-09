@@ -36,8 +36,8 @@ class Criterion(Pando):
         else:
             return False
 
-    def Parent(self, other):
-        Pando.nodelist.append(Node(self, other))
+    def Parent(self, parent_node):
+        Pando.nodelist.append(Node(self, parent_node))
 
     def Equivalent(self, other):
         if self.assertion.Equivalent(other.assertion) and (self.truth_value == other.truth_value):
@@ -56,3 +56,9 @@ def AssertionSetFromCriterionSet(criterion_set):
     for c in list(criterion_set):
         result.add(c.assertion)
     return result
+
+def Search(criteria, assertion, truth_value):
+    criterion = Criterion(assertion, truth_value)
+    for c in list(criteria):
+        if c == criterion:
+            return c

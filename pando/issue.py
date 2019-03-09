@@ -26,7 +26,7 @@ class Issue(Pando):
             self.prevalence += s.prevalence
         Issue.ID[self.id] = self
         Pando.ID[self.id] = self
-        Pando.nodelist.append(Node(self))
+        #Pando.nodelist.append(Node(self))
 
     def __str__(self):
         return self.name
@@ -37,5 +37,5 @@ class Issue(Pando):
     def __hash__(self):
         return id(self)
 
-    def Parent(self, other):
-        Pando.nodelist.append(Node(self, other))
+    def Parent(self, parent_node):
+        Pando.nodelist.append(Node(self, parent_node))
