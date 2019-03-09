@@ -129,45 +129,46 @@ matrix4 = [ [2, 2, 1], #4
 #For diagnosis 1
 #I->C->A->1
 
-assertionC.Parent(Pando.nodelist[-1])
+inode = Node(issue)
+aCnode = assertionC.Parent(inode)
 
-criterionC.Parent(Pando.nodelist[-1])
-assertionA.Parent(Pando.nodelist[-1])
-criterionA.Parent(Pando.nodelist[-1])
-diagnosis1.Parent(Pando.nodelist[-1])
+cCnode = criterionC.Parent(aCnode)
+aAnode = assertionA.Parent(cCnode)
+cAnode = criterionA.Parent(aAnode)
+d1node = diagnosis1.Parent(cAnode)
 
 
 #For diagnosis 2
 #I->C->D->2
 
-criterionNC.Parent(Pando.nodelist[-5])
-assertionD.Parent(Pando.nodelist[-1])
-criterionD.Parent(Pando.nodelist[-1])
-diagnosis2.Parent(Pando.nodelist[-1])
+cNCnode = criterionNC.Parent(aCnode)
+aDnode = assertionD.Parent(cNCnode)
+cDnode = criterionD.Parent(aDnode)
+d2node = diagnosis2.Parent(cDnode)
 
 
 #For diagnosis 3
 #I->C->A->3
 
-criterionNA.Parent(Pando.nodelist[-7])
-diagnosis3.Parent(Pando.nodelist[-1])
+cNAnode = criterionNA.Parent(aAnode)
+d3node = diagnosis3.Parent(cNAnode)
 
 
 #For diagnosis 4
 #I->C->D->->E->4
 
-criterionND.Parent(Pando.nodelist[-5])
-assertionE.Parent(Pando.nodelist[-1])
-criterionE.Parent(Pando.nodelist[-1])
-diagnosis4.Parent(Pando.nodelist[-1])
+cNDnode = criterionND.Parent(aDnode)
+aEnode = assertionE.Parent(cNDnode)
+cEnode = criterionE.Parent(aEnode)
+d4node = diagnosis4.Parent(cEnode)
 
 
 
 #For diagnosis 4
 #I->C->D->->E->4
 
-criterionNE.Parent(Pando.nodelist[-3])
-diagnosis5.Parent(Pando.nodelist[-1])
+cNEnode = criterionNE.Parent(aEnode)
+d5node = diagnosis5.Parent(cNEnode)
 
 
 
