@@ -38,4 +38,6 @@ class Issue(Pando):
         return id(self)
 
     def Parent(self, parent_node):
-        Pando.nodelist.append(Node(self, parent_node))
+        node = Node(self, parent_node)
+        Pando.nodelist.append(node)
+        return node

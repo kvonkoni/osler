@@ -4,6 +4,7 @@ from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concate
 from copy import copy
 from pando.common import Pando
 from pando.graph import Node
+from pando.criterion import Criterion, Search
 
 class Matrix:
     def __init__(self, issue):
@@ -34,12 +35,14 @@ class Matrix:
         return self.__str__()
 
     def SwapColumns(self, a, b):
-        self.matrix[:,[a, b]] = self.matrix[:,[b, a]]
-        self.assertionlist[a], self.assertionlist[b] = self.assertionlist[b], self.assertionlist[a]
+        if a != b:
+            self.matrix[:,[a, b]] = self.matrix[:,[b, a]]
+            self.assertionlist[a], self.assertionlist[b] = self.assertionlist[b], self.assertionlist[a]
 
     def SwapRows(self, a, b):
-        self.matrix[[a, b],:] = self.matrix[[b, a],:]
-        self.candidatelist[a], self.candidatelist[b] = self.candidatelist[b], self.candidatelist[a]
+        if a != b:
+            self.matrix[[a, b],:] = self.matrix[[b, a],:]
+            self.candidatelist[a], self.candidatelist[b] = self.candidatelist[b], self.candidatelist[a]
 
     def SortRowsByColumn(self, a):
         arg_sort = self.matrix[:,a].argsort()
@@ -81,15 +84,15 @@ class Matrix:
         matrix_null.matrix = self.matrix[index_null,:]
         matrix_null.candidatelist = [self.candidatelist[i] for i in index_null]
         matrix_null.projenitor = self.assertionlist[0]
-        matrix_null.DeleteColumn(0)
+        #matrix_null.DeleteColumn(0)
         matrix_one.matrix = self.matrix[index_one,:]
         matrix_one.candidatelist = [self.candidatelist[i] for i in index_one]
         matrix_one.projenitor = self.assertionlist[0]
-        matrix_one.DeleteColumn(0)
+        #matrix_one.DeleteColumn(0)
         matrix_two.matrix = self.matrix[index_two,:]
         matrix_two.candidatelist = [self.candidatelist[i] for i in index_two]
         matrix_two.projenitor = self.assertionlist[0]
-        matrix_two.DeleteColumn(0)
+        #matrix_two.DeleteColumn(0)
         return (matrix_null, matrix_one, matrix_two)
 
     def Combine(self, other):
@@ -106,15 +109,58 @@ class Matrix:
             raise TypeError("matrix mismatch")
         return self
 
-def ConstructTree(matrix):
+def ConstructTree(matrix, debug=False):
+    print(matrix.assertionlist)
+    print(matrix.candidatelist)
+    print(matrix)
+    #Choosing the next assertion
     matrix.ClearIrrelevantAssertions()
     matrix.BringForwardBestAssertion()
     matrix.SortRowsByColumn(0)
-    matrix.assertionlist[0].Parent(matrix.progenitor)
+    #Linking the next assertion to the progenitor
+    progenitor_node = matrix.assertionlist[0].Parent(matrix.progenitor)
+    #Splitting the matrix
     matrix_null, matrix_one, matrix_two = matrix.SplitByTruthValue()
-    matrix_one.assertion
-    matrix_null.projenitor = self.assertionlist[0]
-    matrix_null.DeleteColumn(0)
+    if debug:
+        print("Matrix 0:")
+        print(matrix_null.assertionlist)
+        print(matrix_null.candidatelist)
+        print(matrix_null)
+        print("Matrix 1:")
+        print(matrix_one.assertionlist)
+        print(matrix_one.candidatelist)
+        print(matrix_one)
+        print("Matrix 2:")
+        print(matrix_two.assertionlist)
+        print(matrix_two.candidatelist)
+        print(matrix_two)
+        print("")
+    #Linking the "true" matrix to the assertion and deleting the previous assertion
+    if len(matrix_one.candidatelist) > 1:
+        criterion_true = Search(Criterion.list, matrix.assertionlist[0], True)
+        criterion_true_node = criterion_true.Parent(progenitor_node)
+        matrix_one.progenitor = criterion_true_node
+        matrix_one.DeleteColumn(0)
+        ConstructTree(matrix_one)
+    elif len(matrix_one.candidatelist) == 1:
+        criterion_true = Search(Criterion.list, matrix.assertionlist[0], True)
+        criterion_true_node = criterion_true.Parent(progenitor_node)
+        matrix_one.candidatelist[0].Parent(criterion_true_node)
+    #Linking the "false" matrix to the assertion and deleting the previous assertion
+    if len(matrix_two.candidatelist) > 1:
+        criterion_false = Search(Criterion.list, matrix.assertionlist[0], False)
+        criterion_false_node = criterion_false.Parent(progenitor_node)
+        matrix_two.progenitor = criterion_false_node
+        matrix_two.DeleteColumn(0)
+        ConstructTree(matrix_two)
+    elif len(matrix_two.candidatelist) == 1:
+        criterion_false = Search(Criterion.list, matrix.assertionlist[0], False)
+        criterion_false_node = criterion_false.Parent(progenitor_node)
+        matrix_two.candidatelist[0].Parent(criterion_false_node)
+    #Dealing with the "null" matrix
+    if len(matrix_null.candidatelist) > 1:
+        matrix_null.DeleteColumn(0)
+        ConstructTree(matrix_null)
 
 def Test(issue):
     matrix = Matrix(issue)

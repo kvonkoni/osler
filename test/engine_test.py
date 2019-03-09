@@ -49,9 +49,6 @@ issue = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnos
 #Building a test tree
 
 matrix = Matrix(issue)
-print(matrix.assertionlist)
-print(matrix.candidatelist)
-print(matrix)
 ConstructTree(matrix)
 
 matrix.node.To_png("test_engine.png")
