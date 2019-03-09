@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import anytree
+from anytree.exporter import DotExporter
 import itertools
 from pando.common import Pando
 

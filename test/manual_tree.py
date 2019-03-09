@@ -129,41 +129,50 @@ matrix4 = [ [2, 2, 1], #4
 #For diagnosis 1
 #I->C->A->1
 
-#assertionC.Parent(issue)
+assertionC.Parent(Pando.nodelist[-1])
 
-#diagnosis1.Parent(criterionA)
-#criterionA.Parent(criterionC)
+criterionC.Parent(Pando.nodelist[-1])
+assertionA.Parent(Pando.nodelist[-1])
+criterionA.Parent(Pando.nodelist[-1])
+diagnosis1.Parent(Pando.nodelist[-1])
+
 
 #For diagnosis 2
 #I->C->D->2
 
-#diagnosis2.Parent(criterionD)
-#criterionD.Parent(criterionNC)
+criterionNC.Parent(Pando.nodelist[-5])
+assertionD.Parent(Pando.nodelist[-1])
+criterionD.Parent(Pando.nodelist[-1])
+diagnosis2.Parent(Pando.nodelist[-1])
+
 
 #For diagnosis 3
 #I->C->A->3
 
-#diagnosis3.Parent(criterionNA)
-#criterionNA.Parent(criterionC)
+criterionNA.Parent(Pando.nodelist[-7])
+diagnosis3.Parent(Pando.nodelist[-1])
+
 
 #For diagnosis 4
 #I->C->D->->E->4
 
-#diagnosis4.Parent(criterionE)
-#criterionE.Parent(criterionND)
-#criterionND.Parent(criterionNC)
+criterionND.Parent(Pando.nodelist[-5])
+assertionE.Parent(Pando.nodelist[-1])
+criterionE.Parent(Pando.nodelist[-1])
+diagnosis4.Parent(Pando.nodelist[-1])
+
+
 
 #For diagnosis 4
 #I->C->D->->E->4
 
-#diagnosis5.Parent(criterionNE)
-#criterionNE.Parent(criterionND)
-#criterionND.Parent(criterionNC)
+criterionNE.Parent(Pando.nodelist[-3])
+diagnosis5.Parent(Pando.nodelist[-1])
+
+
 
 #Printing information
 
-CompareDiagnoses(diagnosis1, diagnosis2+diagnosis3+diagnosis4+diagnosis5)
-
 #Writing tree image
 
-#issue.To_png("test_manual.png")
+Pando.nodelist[0].To_png("test_manual.png")
