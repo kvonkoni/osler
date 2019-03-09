@@ -1,6 +1,7 @@
 from functools import reduce
 from collections import Counter
-from numpy import matrix, zeros, delete
+from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concatenate
+from copy import copy
 
 class Matrix:
     def __init__(self, issue):
@@ -66,10 +67,37 @@ class Matrix:
         self.SwapColumns(0, id)
 
     def SplitByTruthValue(self):
-        pass
+        index_null = reshape(argwhere(self.matrix[:,0]==0),-1)
+        index_one = reshape(argwhere(self.matrix[:,0]==1),-1)
+        index_two = reshape(argwhere(self.matrix[:,0]==2),-1)
+        matrix_null = copy(self)
+        matrix_one = copy(self)
+        matrix_two = copy(self)
+        matrix_null.matrix = self.matrix[index_null,:]
+        matrix_null.candidatelist = [self.candidatelist[i] for i in index_null]
+        matrix_one.matrix = self.matrix[index_one,:]
+        matrix_one.candidatelist = [self.candidatelist[i] for i in index_one]
+        matrix_two.matrix = self.matrix[index_two,:]
+        matrix_two.candidatelist = [self.candidatelist[i] for i in index_two]
+        return (matrix_null, matrix_one, matrix_two)
+
+    def Combine(self, other):
+        if array_equal(self.assertionlist, other.assertionlist):
+            if self.matrix.size > 0 and other.matrix.size > 0:
+                self.matrix = concatenate((self.matrix, other.matrix), axis=0)
+                self.candidatelist = concatenate((self.candidatelist, other.candidatelist))
+            elif self.matrix.size == 0:
+                self.matrix = other.matrix.copy()
+                self.candidatelist = other.candidatelist.copy()
+            elif other.matrix.size == 0:
+                pass
+        else:
+            raise TypeError("matrix mismatch")
+        return self
 
 def ConstructTree(matrix):
     pass
+    print(matrix_null.size)
     #Recursion
 
 def Test(issue):
@@ -80,6 +108,11 @@ def Test(issue):
     matrix.ClearIrrelevantAssertions()
     matrix.BringForwardBestAssertion()
     matrix.SortRowsByColumn(0)
+    print(matrix.assertionlist)
+    print(matrix.candidatelist)
+    print(matrix)
+    matrix_null, matrix_one, matrix_two = matrix.SplitByTruthValue()
+    matrix = matrix_null.Combine(matrix_one).Combine(matrix_two)
     print(matrix.assertionlist)
     print(matrix.candidatelist)
     print(matrix)
