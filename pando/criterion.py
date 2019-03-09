@@ -7,6 +7,7 @@ import nltk
 import anytree
 import itertools
 from pando.common import Pando
+from pando.graph import Node
 
 class Criterion(Pando):
     id_iter = itertools.count()
@@ -34,6 +35,9 @@ class Criterion(Pando):
             return self.Equivalent(other)
         else:
             return False
+
+    def Parent(self, other):
+        Pando.nodelist.append(Node(self, other))
 
     def Equivalent(self, other):
         if self.assertion.Equivalent(other.assertion) and (self.truth_value == other.truth_value):

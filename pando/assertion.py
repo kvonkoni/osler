@@ -8,6 +8,7 @@ import anytree
 import itertools
 #nltk.download()
 from pando.common import Pando
+from pando.graph import Node
 
 class Assertion(Pando):
     id_iter = itertools.count()
@@ -38,6 +39,9 @@ class Assertion(Pando):
             return self.Equivalent(other)
         else:
             return False
+
+    def Parent(self, other):
+        Pando.nodelist.append(Node(self, other))
 
     def Equivalent(self, other):
         if self.proposition == other.proposition:

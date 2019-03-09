@@ -97,7 +97,6 @@ class Matrix:
 
 def ConstructTree(matrix):
     pass
-    print(matrix_null.size)
     #Recursion
 
 def Test(issue):

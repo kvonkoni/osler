@@ -166,4 +166,4 @@ CompareDiagnoses(diagnosis1, diagnosis2+diagnosis3+diagnosis4+diagnosis5)
 
 #Writing tree image
 
-issue.To_png("test_manual.png")
+#issue.To_png("test_manual.png")

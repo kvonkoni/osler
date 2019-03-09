@@ -7,6 +7,7 @@ import nltk
 import anytree
 import itertools
 from pando.common import Pando
+from pando.graph import Node
 
 class Diagnosis(Pando):
     id_iter = itertools.count()
@@ -50,6 +51,9 @@ class Diagnosis(Pando):
 
     def __repr__(self):
         return self.__str__()
+
+    def Parent(self, other):
+        Pando.nodelist.append(Node(self, other))
 
     def info(self):
         print("{{Diagnosis description: {}".format(self.description))

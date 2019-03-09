@@ -9,6 +9,7 @@ from anytree.exporter import DotExporter
 from graphviz import Source, render
 import itertools
 from pando.common import Pando
+from pando.graph import Node
 
 class Issue(Pando):
     id_iter = itertools.count()
@@ -25,6 +26,7 @@ class Issue(Pando):
             self.prevalence += s.prevalence
         Issue.ID[self.id] = self
         Pando.ID[self.id] = self
+        Pando.nodelist.append(Node(self))
 
     def __str__(self):
         return self.name
@@ -34,3 +36,6 @@ class Issue(Pando):
 
     def __hash__(self):
         return id(self)
+
+    def Parent(self, other):
+        Pando.nodelist.append(Node(self, other))
