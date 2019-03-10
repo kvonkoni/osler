@@ -51,4 +51,4 @@ issue = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnos
 matrix = Matrix(issue)
 ConstructTree(matrix)
 
-matrix.node.To_png("test_engine.png")
+matrix.node.To_png("engine_test1.png")

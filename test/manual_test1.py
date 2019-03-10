@@ -176,4 +176,4 @@ d5node = diagnosis5.Parent(cNEnode)
 
 #Writing tree image
 
-inode.To_png("test_manual.png")
+inode.To_png("manual_test1.png")

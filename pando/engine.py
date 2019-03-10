@@ -110,9 +110,10 @@ class Matrix:
         return self
 
 def ConstructTree(matrix, debug=False):
-    print(matrix.assertionlist)
-    print(matrix.candidatelist)
-    print(matrix)
+    if debug:
+        print(matrix.assertionlist)
+        print(matrix.candidatelist)
+        print(matrix)
     #Choosing the next assertion
     matrix.ClearIrrelevantAssertions()
     matrix.BringForwardBestAssertion()
