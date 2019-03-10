@@ -15,6 +15,10 @@ class Issue(Pando):
     id_iter = itertools.count()
     ID = {}
 
+    @classmethod
+    def AddToClass(cls, id, instance):
+        cls.ID[id] = instance
+
     def __init__(self, name, description, candidates, severity=0, parent=None):
         self.id = "i"+str(next(self.id_iter))
         self.name = name
@@ -24,9 +28,8 @@ class Issue(Pando):
         self.prevalence = 0.0
         for s in list(self.candidates):
             self.prevalence += s.prevalence
-        Issue.ID[self.id] = self
-        Pando.ID[self.id] = self
-        #Pando.nodelist.append(Node(self))
+        self.AddToClass(self.id, self)
+        self.AddToGlobal(self.id, self)
 
     def __str__(self):
         return self.name
@@ -39,5 +42,4 @@ class Issue(Pando):
 
     def Parent(self, parent_node):
         node = Node(self, parent_node)
-        Pando.nodelist.append(node)
         return node

@@ -27,7 +27,6 @@ class Matrix:
                         else:
                             matrix[i, j] = 2
         self.matrix = matrix
-        #Pando.nodelist.append(self.progenitor)
 
     def __str__(self):
         return str(self.matrix)

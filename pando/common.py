@@ -2,4 +2,7 @@
 
 class Pando:
     ID = {}
-    nodelist = []
+
+    @classmethod
+    def AddToGlobal(cls, id, instance):
+        cls.ID[id] = instance

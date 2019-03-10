@@ -13,6 +13,10 @@ class Diagnosis(Pando):
     id_iter = itertools.count()
     ID = {}
 
+    @classmethod
+    def AddToClass(cls, id, instance):
+        cls.ID[id] = instance
+
     def __init__(self, name, description, remedy, criteria, prevalence=0.0, comorbidity=set(), parent=None):
         self.id = "d"+str(next(self.id_iter))
         self.name = name
@@ -22,8 +26,8 @@ class Diagnosis(Pando):
         self.assertions = self.AssertionSet()
         self.prevalence = prevalence
         self.comorbidity = comorbidity
-        Diagnosis.ID[self.id] = self
-        Pando.ID[self.id] = self
+        self.AddToClass(self.id, self)
+        self.AddToGlobal(self.id, self)
 
     def __hash__(self):
         return id(self)
@@ -54,7 +58,6 @@ class Diagnosis(Pando):
 
     def Parent(self, parent_node):
         node = Node(self, parent_node)
-        Pando.nodelist.append(node)
         return node
 
     def info(self):

@@ -14,6 +14,10 @@ class Assertion(Pando):
     id_iter = itertools.count()
     ID = {}
 
+    @classmethod
+    def AddToClass(cls, id, instance):
+        cls.ID[id] = instance
+
     def __init__(self, proposition, question, instruction='', ease=1.0, description='', parent=None):
         self.id = "a"+str(next(self.id_iter))
         self.proposition = proposition
@@ -22,8 +26,8 @@ class Assertion(Pando):
         self.ease = ease
         self.name = proposition.replace(" ", "_")
         self.description = description
-        Assertion.ID[self.id] = self
-        Pando.ID[self.id] = self
+        self.AddToClass(self.id, self)
+        self.AddToGlobal(self.id, self)
 
     def __str__(self):
         return self.name
@@ -42,7 +46,6 @@ class Assertion(Pando):
 
     def Parent(self, parent_node):
         node = Node(self, parent_node)
-        Pando.nodelist.append(node)
         return node
 
     def Equivalent(self, other):

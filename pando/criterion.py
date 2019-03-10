@@ -15,6 +15,11 @@ class Criterion(Pando):
     list = []
 
     @classmethod
+    def AddToClass(cls, id, instance):
+        cls.ID[id] = instance
+        cls.list.append(instance)
+
+    @classmethod
     def Search(cls, assertion, truth_value, criterialist=None):
         if not criterialist:
             criterialist = cls.list
@@ -28,9 +33,8 @@ class Criterion(Pando):
         self.assertion = assertion
         self.truth_value = truth_value
         self.name = assertion.name+'_is_'+str(truth_value)
-        Criterion.list.append(self)
-        Criterion.ID[self.id] = self
-        Pando.ID[self.id] = self
+        self.AddToClass(self.id, self)
+        self.AddToGlobal(self.id, self)
 
     def __str__(self):
         return self.name
@@ -49,7 +53,6 @@ class Criterion(Pando):
 
     def Parent(self, parent_node):
         node = Node(self, parent_node)
-        Pando.nodelist.append(node)
         return node
 
     def Equivalent(self, other):
