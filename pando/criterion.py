@@ -14,6 +14,15 @@ class Criterion(Pando):
     ID = {}
     list = []
 
+    @classmethod
+    def Search(cls, assertion, truth_value, criterialist=None):
+        if not criterialist:
+            criterialist = cls.list
+        criterion = Criterion(assertion, truth_value)
+        for c in criterialist:
+            if c == criterion:
+                return c
+
     def __init__(self, assertion, truth_value):
         self.id = "c"+str(next(self.id_iter))
         self.assertion = assertion
@@ -60,9 +69,3 @@ def AssertionSetFromCriterionSet(criterion_set):
     for c in list(criterion_set):
         result.add(c.assertion)
     return result
-
-def Search(criterialist, assertion, truth_value):
-    criterion = Criterion(assertion, truth_value)
-    for c in criterialist:
-        if c == criterion:
-            return c
