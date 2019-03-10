@@ -135,6 +135,10 @@ def ConstructTree(matrix, debug=False):
         print(matrix_two.candidatelist)
         print(matrix_two)
         print("")
+    #Combining the the "null" matrix into both the ones and zeros matrices, inheriting their respective progenitors
+    if len(matrix_null.candidatelist) > 1:
+        matrix_one.Combine(matrix_null)
+        matrix_two.Combine(matrix_null)
     #Linking the "true" matrix to the assertion and deleting the previous assertion
     if len(matrix_one.candidatelist) > 1:
         criterion_true = Search(Criterion.list, matrix.assertionlist[0], True)
@@ -157,10 +161,6 @@ def ConstructTree(matrix, debug=False):
         criterion_false = Search(Criterion.list, matrix.assertionlist[0], False)
         criterion_false_node = criterion_false.Parent(progenitor_node)
         matrix_two.candidatelist[0].Parent(criterion_false_node)
-    #Dealing with the "null" matrix
-    if len(matrix_null.candidatelist) > 1:
-        matrix_null.DeleteColumn(0)
-        ConstructTree(matrix_null)
 
 def Test(issue):
     matrix = Matrix(issue)
