@@ -7,8 +7,6 @@ from pando.diagnosis import Diagnosis, CompareDiagnoses
 from pando.issue import Issue
 from pando.engine import ConstructTree, Matrix
 
-from ete3 import TreeStyle, TextFace, add_face_to_node
-
 #Defining assertions
 
 assertionA = Assertion("assertion A", "is assertion A true?")
@@ -54,14 +52,4 @@ matrix = Matrix(issue)
 ConstructTree(matrix)
 
 matrix.node.To_png("engine_test1.png")
-t = matrix.node.etenode
-ts = TreeStyle()
-ts.show_leaf_name = False
-def my_layout(node):
-        F = TextFace(node.name, tight_text=True)
-        add_face_to_node(F, node, column=0, position="branch-right")
-ts.layout_fn = my_layout
-ts.mode = "c"
-ts.arc_start = 45 # 0 degrees = 3 o'clock
-ts.arc_span = 135
-t.render("engine_test1.svg", tree_style=ts)
+matrix.node.To_svg("engine_test1.svg")
