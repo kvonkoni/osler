@@ -12,7 +12,6 @@ class Matrix:
     def __init__(self, issue):
         self.progenitor = Node(issue)
         self.node = self.progenitor
-        self.node.etenode = ete3.Tree()
         self.candidatelist = list(issue.candidates)
         assertions = set()
         for d in self.candidatelist:

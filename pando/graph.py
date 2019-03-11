@@ -4,7 +4,7 @@ import anytree
 import ete3
 from anytree.exporter import DotExporter
 import itertools
-from ete3 import TreeStyle, TextFace, add_face_to_node
+from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
 
 from pando.common import Pando
 
@@ -15,13 +15,13 @@ class Node(Pando):
     def __init__(self, object, parent=None):
         self.id = "n"+str(next(self.id_iter))
         self.object = object.id
-        self.node = anytree.Node(object.name)
+        self.anynode = anytree.Node(object.name)
         if parent:
-            self.node.parent = parent.node
+            self.anynode.parent = parent.anynode
             self.etenode = parent.etenode.add_child(name=object.name)
         else:
-            self.node.parent = None
-            self.etenode = None
+            self.anynode.parent = None
+            self.etenode = Tree()
         self.parent = parent
         Node.ID[self.id] = self
         Pando.ID[self.id] = self
@@ -30,15 +30,15 @@ class Node(Pando):
         new_node = Node(child, )
 
     def Render(self):
-        print(anytree.RenderTree(self.node))
+        print(anytree.RenderTree(self.anynode))
 
     def To_image(self, filename):
-        DotExporter(self.node).to_dotfile(filename)
+        DotExporter(self.anynode).to_dotfile(filename)
         Source.from_file(filename)
         render("dot", "png", filename)
 
     def To_png(self, filename):
-        DotExporter(self.node).to_picture(filename)
+        DotExporter(self.anynode).to_picture(filename)
 
     def To_svg(self, filename):
         t = self.etenode
