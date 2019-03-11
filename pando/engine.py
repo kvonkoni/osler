@@ -2,6 +2,7 @@ from functools import reduce
 from collections import Counter
 from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concatenate
 from copy import copy
+import ete3
 
 from pando.common import Pando
 from pando.graph import Node
@@ -11,6 +12,7 @@ class Matrix:
     def __init__(self, issue):
         self.progenitor = Node(issue)
         self.node = self.progenitor
+        self.node.etenode = ete3.Tree()
         self.candidatelist = list(issue.candidates)
         assertions = set()
         for d in self.candidatelist:

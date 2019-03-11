@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import anytree
+import ete3
 from anytree.exporter import DotExporter
 import itertools
 from pando.common import Pando
@@ -13,6 +14,7 @@ class Node(Pando):
         self.id = "n"+str(next(self.id_iter))
         self.object = object.id
         self.node = anytree.Node(object.name)
+        self.etenode = None
         if parent:
             self.node.parent = parent.node
         else:
