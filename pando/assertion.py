@@ -45,10 +45,7 @@ class Assertion(Pando):
             return False
 
     def Parent(self, parent_node):
-        node = Node(self, parent_node)
-        etenode = parent_node.etenode.add_child(name=self.name)
-        node.etenode = etenode
-        return node
+        return Node(self, parent_node)
 
     def Equivalent(self, other):
         if self.proposition == other.proposition:

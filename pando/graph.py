@@ -14,11 +14,12 @@ class Node(Pando):
         self.id = "n"+str(next(self.id_iter))
         self.object = object.id
         self.node = anytree.Node(object.name)
-        self.etenode = None
         if parent:
             self.node.parent = parent.node
+            self.etenode = parent.etenode.add_child(name=object.name)
         else:
             self.node.parent = None
+            self.etenode = None
         self.parent = parent
         Node.ID[self.id] = self
         Pando.ID[self.id] = self
