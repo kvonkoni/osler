@@ -110,59 +110,59 @@ class Matrix:
             raise TypeError("matrix mismatch")
         return self
 
-def ConstructTree(matrix, debug=False):
-    if debug:
-        print(matrix.assertionlist)
-        print(matrix.candidatelist)
-        print(matrix)
-    #Choosing the next assertion
-    matrix.ClearIrrelevantAssertions()
-    matrix.BringForwardBestAssertion()
-    matrix.SortRowsByColumn(0)
-    #Linking the next assertion to the progenitor
-    progenitor_node = matrix.assertionlist[0].Parent(matrix.progenitor)
-    #Splitting the matrix
-    matrix_null, matrix_one, matrix_two = matrix.SplitByTruthValue()
-    if debug:
-        print("Matrix 0:")
-        print(matrix_null.assertionlist)
-        print(matrix_null.candidatelist)
-        print(matrix_null)
-        print("Matrix 1:")
-        print(matrix_one.assertionlist)
-        print(matrix_one.candidatelist)
-        print(matrix_one)
-        print("Matrix 2:")
-        print(matrix_two.assertionlist)
-        print(matrix_two.candidatelist)
-        print(matrix_two)
-        print("")
-    #Combining the the "null" matrix into both the ones and zeros matrices, inheriting their respective progenitors
-    if len(matrix_null.candidatelist) > 1:
-        matrix_one.Combine(matrix_null)
-        matrix_two.Combine(matrix_null)
-    #Linking the "true" matrix to the assertion and deleting the previous assertion
-    if len(matrix_one.candidatelist) > 1:
-        criterion_true = Criterion.Search(matrix.assertionlist[0], True)
-        criterion_true_node = criterion_true.Parent(progenitor_node)
-        matrix_one.progenitor = criterion_true_node
-        matrix_one.DeleteColumn(0)
-        ConstructTree(matrix_one)
-    elif len(matrix_one.candidatelist) == 1:
-        criterion_true = Criterion.Search(matrix.assertionlist[0], True)
-        criterion_true_node = criterion_true.Parent(progenitor_node)
-        matrix_one.candidatelist[0].Parent(criterion_true_node)
-    #Linking the "false" matrix to the assertion and deleting the previous assertion
-    if len(matrix_two.candidatelist) > 1:
-        criterion_false = Criterion.Search(matrix.assertionlist[0], False)
-        criterion_false_node = criterion_false.Parent(progenitor_node)
-        matrix_two.progenitor = criterion_false_node
-        matrix_two.DeleteColumn(0)
-        ConstructTree(matrix_two)
-    elif len(matrix_two.candidatelist) == 1:
-        criterion_false = Criterion.Search(matrix.assertionlist[0], False)
-        criterion_false_node = criterion_false.Parent(progenitor_node)
-        matrix_two.candidatelist[0].Parent(criterion_false_node)
+    def ConstructTree(self, debug=False):
+        if debug:
+            print(self.assertionlist)
+            print(self.candidatelist)
+            print(self)
+        #Choosing the next assertion
+        self.ClearIrrelevantAssertions()
+        self.BringForwardBestAssertion()
+        self.SortRowsByColumn(0)
+        #Linking the next assertion to the progenitor
+        progenitor_node = self.assertionlist[0].Parent(self.progenitor)
+        #Splitting the matrix
+        matrix_null, matrix_one, matrix_two = self.SplitByTruthValue()
+        if debug:
+            print("Matrix 0:")
+            print(matrix_null.assertionlist)
+            print(matrix_null.candidatelist)
+            print(matrix_null)
+            print("Matrix 1:")
+            print(matrix_one.assertionlist)
+            print(matrix_one.candidatelist)
+            print(matrix_one)
+            print("Matrix 2:")
+            print(matrix_two.assertionlist)
+            print(matrix_two.candidatelist)
+            print(matrix_two)
+            print("")
+        #Combining the the "null" matrix into both the ones and zeros matrices, inheriting their respective progenitors
+        if len(matrix_null.candidatelist) > 1:
+            matrix_one.Combine(matrix_null)
+            matrix_two.Combine(matrix_null)
+        #Linking the "true" matrix to the assertion and deleting the previous assertion
+        if len(matrix_one.candidatelist) > 1:
+            criterion_true = Criterion.Search(self.assertionlist[0], True)
+            criterion_true_node = criterion_true.Parent(progenitor_node)
+            matrix_one.progenitor = criterion_true_node
+            matrix_one.DeleteColumn(0)
+            matrix_one.ConstructTree()
+        elif len(matrix_one.candidatelist) == 1:
+            criterion_true = Criterion.Search(self.assertionlist[0], True)
+            criterion_true_node = criterion_true.Parent(progenitor_node)
+            matrix_one.candidatelist[0].Parent(criterion_true_node)
+        #Linking the "false" matrix to the assertion and deleting the previous assertion
+        if len(matrix_two.candidatelist) > 1:
+            criterion_false = Criterion.Search(self.assertionlist[0], False)
+            criterion_false_node = criterion_false.Parent(progenitor_node)
+            matrix_two.progenitor = criterion_false_node
+            matrix_two.DeleteColumn(0)
+            matrix_two.ConstructTree()
+        elif len(matrix_two.candidatelist) == 1:
+            criterion_false = Criterion.Search(self.assertionlist[0], False)
+            criterion_false_node = criterion_false.Parent(progenitor_node)
+            matrix_two.candidatelist[0].Parent(criterion_false_node)
 
 def Test(issue):
     matrix = Matrix(issue)

@@ -5,7 +5,7 @@ from pando.assertion import Assertion
 from pando.criterion import Criterion
 from pando.diagnosis import Diagnosis, CompareDiagnoses
 from pando.issue import Issue
-from pando.engine import ConstructTree, Matrix
+from pando.engine import Matrix
 
 #Defining assertions
 
@@ -49,7 +49,7 @@ issue = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnos
 #Building a test tree
 
 matrix = Matrix(issue)
-ConstructTree(matrix)
+matrix.ConstructTree()
 
 matrix.node.To_png("engine_test1.png")
 matrix.node.To_svg("engine_test1.svg")
