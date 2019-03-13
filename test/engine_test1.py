@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os,sys,math,csv
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
