@@ -147,7 +147,7 @@ class Matrix:
             criterion_true_node = criterion_true.Parent(progenitor_node)
             matrix_one.progenitor = criterion_true_node
             matrix_one.DeleteColumn(0)
-            matrix_one.ConstructTree()
+            matrix_one.ConstructTree(debug)
         elif len(matrix_one.candidatelist) == 1:
             criterion_true = Criterion.Search(self.assertionlist[0], True)
             criterion_true_node = criterion_true.Parent(progenitor_node)
@@ -158,7 +158,7 @@ class Matrix:
             criterion_false_node = criterion_false.Parent(progenitor_node)
             matrix_two.progenitor = criterion_false_node
             matrix_two.DeleteColumn(0)
-            matrix_two.ConstructTree()
+            matrix_two.ConstructTree(debug)
         elif len(matrix_two.candidatelist) == 1:
             criterion_false = Criterion.Search(self.assertionlist[0], False)
             criterion_false_node = criterion_false.Parent(progenitor_node)
