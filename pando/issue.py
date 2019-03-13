@@ -19,7 +19,7 @@ class Issue(Pando):
     def AddToClass(cls, id, instance):
         cls.ID[id] = instance
 
-    def __init__(self, name, description, candidates, severity=0, parent=None):
+    def __init__(self, name, description, candidates, severity=0):
         self.id = "i"+str(next(self.id_iter))
         self.name = name
         self.description = description

@@ -22,7 +22,7 @@ class Assertion(Pando):
     def ClearAll(cls):
         cls.ID = {}
 
-    def __init__(self, proposition, question, instruction='', ease=1.0, description='', parent=None):
+    def __init__(self, proposition, question, instruction='', ease=1.0, description=''):
         self.id = "a"+str(next(self.id_iter))
         self.proposition = proposition
         self.question = question

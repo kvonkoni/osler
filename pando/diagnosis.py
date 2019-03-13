@@ -17,7 +17,7 @@ class Diagnosis(Pando):
     def AddToClass(cls, id, instance):
         cls.ID[id] = instance
 
-    def __init__(self, name, description, remedy, criteria, prevalence=0.0, comorbidity=set(), parent=None):
+    def __init__(self, name, description, remedy, criteria, prevalence=0.0, comorbidity=set()):
         self.id = "d"+str(next(self.id_iter))
         self.name = name
         self.description = description
