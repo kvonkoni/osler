@@ -18,21 +18,18 @@ class Node(object):
             self.etenode = Tree()
         self.parent = parent
 
-    def Child(self, child):
-        new_node = Node(child, )
-
-    def Render(self):
+    def render(self):
         print(anytree.RenderTree(self.anynode))
 
-    def To_image(self, filename):
+    def to_image(self, filename):
         DotExporter(self.anynode).to_dotfile(filename)
         Source.from_file(filename)
         render("dot", "png", filename)
 
-    def To_png(self, filename):
+    def to_png(self, filename):
         DotExporter(self.anynode).to_picture(filename)
 
-    def To_svg(self, filename):
+    def to_svg(self, filename):
         t = self.etenode
         ts = TreeStyle()
         ts.show_leaf_name = False

@@ -6,7 +6,7 @@ sys.path.append(lib_path)
 import numpy.matlib
 from pando.assertion import Assertion
 from pando.criterion import Criterion
-from pando.diagnosis import Diagnosis, CompareDiagnoses
+from pando.diagnosis import Diagnosis
 from pando.issue import Issue
 from pando.graph import Node
 
@@ -131,45 +131,45 @@ matrix4 = [ [2, 2, 1], #4
 #I->C->A->1
 
 inode = Node(issue)
-aCnode = assertionC.Parent(inode)
+aCnode = assertionC.parent(inode)
 
-cCnode = criterionC.Parent(aCnode)
-aAnode = assertionA.Parent(cCnode)
-cAnode = criterionA.Parent(aAnode)
-d1node = diagnosis1.Parent(cAnode)
+cCnode = criterionC.parent(aCnode)
+aAnode = assertionA.parent(cCnode)
+cAnode = criterionA.parent(aAnode)
+d1node = diagnosis1.parent(cAnode)
 
 
 #For diagnosis 2
 #I->C->D->2
 
-cNCnode = criterionNC.Parent(aCnode)
-aDnode = assertionD.Parent(cNCnode)
-cDnode = criterionD.Parent(aDnode)
-d2node = diagnosis2.Parent(cDnode)
+cNCnode = criterionNC.parent(aCnode)
+aDnode = assertionD.parent(cNCnode)
+cDnode = criterionD.parent(aDnode)
+d2node = diagnosis2.parent(cDnode)
 
 
 #For diagnosis 3
 #I->C->A->3
 
-cNAnode = criterionNA.Parent(aAnode)
-d3node = diagnosis3.Parent(cNAnode)
+cNAnode = criterionNA.parent(aAnode)
+d3node = diagnosis3.parent(cNAnode)
 
 
 #For diagnosis 4
 #I->C->D->->E->4
 
-cNDnode = criterionND.Parent(aDnode)
-aEnode = assertionE.Parent(cNDnode)
-cEnode = criterionE.Parent(aEnode)
-d4node = diagnosis4.Parent(cEnode)
+cNDnode = criterionND.parent(aDnode)
+aEnode = assertionE.parent(cNDnode)
+cEnode = criterionE.parent(aEnode)
+d4node = diagnosis4.parent(cEnode)
 
 
 
 #For diagnosis 4
 #I->C->D->->E->4
 
-cNEnode = criterionNE.Parent(aEnode)
-d5node = diagnosis5.Parent(cNEnode)
+cNEnode = criterionNE.parent(aEnode)
+d5node = diagnosis5.parent(cNEnode)
 
 
 
@@ -177,4 +177,4 @@ d5node = diagnosis5.Parent(cNEnode)
 
 #Writing tree image
 
-inode.To_png("manual_test1.png")
+inode.to_png("manual_test1.png")

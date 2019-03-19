@@ -5,7 +5,7 @@ lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
 from pando.assertion import Assertion
 from pando.criterion import Criterion
-from pando.diagnosis import Diagnosis, CompareDiagnoses
+from pando.diagnosis import Diagnosis
 from pando.issue import Issue
 from pando.engine import Matrix
 
@@ -51,7 +51,7 @@ issue = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnos
 #Building a test tree
 
 matrix = Matrix(issue)
-matrix.ConstructTree()
+matrix.construct_tree()
 
-matrix.node.To_png("engine_test1.png")
-matrix.node.To_svg("engine_test1.svg")
+matrix.node.to_png("engine_test1.png")
+matrix.node.to_svg("engine_test1.svg")

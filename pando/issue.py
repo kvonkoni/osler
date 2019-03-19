@@ -29,5 +29,5 @@ class Issue(object):
     def __hash__(self):
         return id(self)
 
-    def Parent(self, parent_node):
+    def parent(self, parent_node):
         return Node(self, parent_node)

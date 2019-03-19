@@ -10,7 +10,7 @@ from pando.graph import Node
 class Criterion(object):
 
     @classmethod
-    def Search(cls, assertion, truth_value, criterialist):
+    def search(cls, assertion, truth_value, criterialist):
         criterion = Criterion(assertion, truth_value)
         for c in criterialist:
             if c == criterion:
@@ -32,26 +32,26 @@ class Criterion(object):
 
     def __eq__(self, other):
         if isinstance(other, Criterion):
-            return self.Equivalent(other)
+            return self.equivalent(other)
         else:
             return False
 
-    def Parent(self, parent_node):
+    def parent(self, parent_node):
         return Node(self, parent_node)
 
-    def Equivalent(self, other):
-        if self.assertion.Equivalent(other.assertion) and (self.truth_value == other.truth_value):
+    def equivalent(self, other):
+        if self.assertion.equivalent(other.assertion) and (self.truth_value == other.truth_value):
             return True
         else:
             return False
 
-    def Opposite(self, other):
-        if self.assertion.Equivalent(other.assertion) and (self.truth_value != other.truth_value):
+    def opposite(self, other):
+        if self.assertion.equivalent(other.assertion) and (self.truth_value != other.truth_value):
             return True
         else:
             return False
 
-def AssertionSetFromCriterionSet(criterion_set):
+def assertion_set_from_criterion_set(criterion_set):
     result = set()
     for c in list(criterion_set):
         result.add(c.assertion)

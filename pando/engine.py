@@ -37,26 +37,26 @@ class Matrix(object):
     def __repr__(self):
         return self.__str__()
 
-    def SwapColumns(self, a, b):
+    def swap_columns(self, a, b):
         if a != b:
             self.matrix[:,[a, b]] = self.matrix[:,[b, a]]
             self.assertionlist[a], self.assertionlist[b] = self.assertionlist[b], self.assertionlist[a]
 
-    def SwapRows(self, a, b):
+    def swap_rows(self, a, b):
         if a != b:
             self.matrix[[a, b],:] = self.matrix[[b, a],:]
             self.candidatelist[a], self.candidatelist[b] = self.candidatelist[b], self.candidatelist[a]
 
-    def SortRowsByColumn(self, a):
+    def sort_rows_by_column(self, a):
         arg_sort = self.matrix[:,a].argsort()
         self.matrix = self.matrix[arg_sort]
         self.candidatelist = [self.candidatelist[i] for i in arg_sort]
 
-    def DeleteColumn(self, a):
+    def delete_column(self, a):
         self.matrix = delete(self.matrix, a, 1)
         self.assertionlist = delete(self.assertionlist, a)
 
-    def ClearIrrelevantAssertions(self):
+    def clear_irrelevant_assertions(self):
         dellist = []
         for i in range(len(self.matrix[0,:])):
             truth_set = set(self.matrix[:,i])
@@ -64,9 +64,9 @@ class Matrix(object):
                 dellist.append(i)
             elif 0 in truth_set and len(truth_set) == 2:
                 dellist.append(i)
-        self.DeleteColumn(dellist)
+        self.delete_column(dellist)
 
-    def BringForwardBestAssertion(self):
+    def bring_forward_best_assertion(self):
         least = 10**8
         num_diagnoses = len(self.matrix[0,:])
         for i in range(num_diagnoses):
@@ -75,9 +75,9 @@ class Matrix(object):
             if measure < least:
                 least = measure
                 id = i
-        self.SwapColumns(0, id)
+        self.swap_columns(0, id)
 
-    def SplitByTruthValue(self):
+    def split_by_truth_value(self):
         index_null = reshape(argwhere(self.matrix[:,0]==0),-1)
         index_one = reshape(argwhere(self.matrix[:,0]==1),-1)
         index_two = reshape(argwhere(self.matrix[:,0]==2),-1)
@@ -98,7 +98,7 @@ class Matrix(object):
         #matrix_two.DeleteColumn(0)
         return (matrix_null, matrix_one, matrix_two)
 
-    def Combine(self, other):
+    def combine(self, other):
         if array_equal(self.assertionlist, other.assertionlist):
             if self.matrix.size > 0 and other.matrix.size > 0:
                 self.matrix = concatenate((self.matrix, other.matrix), axis=0)
@@ -112,19 +112,19 @@ class Matrix(object):
             raise TypeError("matrix mismatch")
         return self
 
-    def ConstructTree(self, debug=False):
+    def construct_tree(self, debug=False):
         if debug:
             print(self.assertionlist)
             print(self.candidatelist)
             print(self)
         #Choosing the next assertion
-        self.ClearIrrelevantAssertions()
-        self.BringForwardBestAssertion()
-        self.SortRowsByColumn(0)
+        self.clear_irrelevant_assertions()
+        self.bring_forward_best_assertion()
+        self.sort_rows_by_column(0)
         #Linking the next assertion to the progenitor
-        progenitor_node = self.assertionlist[0].Parent(self.progenitor)
+        progenitor_node = self.assertionlist[0].parent(self.progenitor)
         #Splitting the matrix
-        matrix_null, matrix_one, matrix_two = self.SplitByTruthValue()
+        matrix_null, matrix_one, matrix_two = self.split_by_truth_value()
         if debug:
             print("Matrix 0:")
             print(matrix_null.assertionlist)
@@ -141,121 +141,27 @@ class Matrix(object):
             print("")
         #Combining the the "null" matrix into both the ones and zeros matrices, inheriting their respective progenitors
         if len(matrix_null.candidatelist) > 1:
-            matrix_one.Combine(matrix_null)
-            matrix_two.Combine(matrix_null)
+            matrix_one.combine(matrix_null)
+            matrix_two.combine(matrix_null)
         #Linking the "true" matrix to the assertion and deleting the previous assertion
         if len(matrix_one.candidatelist) > 1:
-            criterion_true = Criterion.Search(self.assertionlist[0], True, self.criterionlist)
-            criterion_true_node = criterion_true.Parent(progenitor_node)
+            criterion_true = Criterion.search(self.assertionlist[0], True, self.criterionlist)
+            criterion_true_node = criterion_true.parent(progenitor_node)
             matrix_one.progenitor = criterion_true_node
-            matrix_one.DeleteColumn(0)
-            matrix_one.ConstructTree(debug)
+            matrix_one.delete_column(0)
+            matrix_one.construct_tree(debug)
         elif len(matrix_one.candidatelist) == 1:
-            criterion_true = Criterion.Search(self.assertionlist[0], True, self.criterionlist)
-            criterion_true_node = criterion_true.Parent(progenitor_node)
-            matrix_one.candidatelist[0].Parent(criterion_true_node)
+            criterion_true = Criterion.search(self.assertionlist[0], True, self.criterionlist)
+            criterion_true_node = criterion_true.parent(progenitor_node)
+            matrix_one.candidatelist[0].parent(criterion_true_node)
         #Linking the "false" matrix to the assertion and deleting the previous assertion
         if len(matrix_two.candidatelist) > 1:
-            criterion_false = Criterion.Search(self.assertionlist[0], False, self.criterionlist)
-            criterion_false_node = criterion_false.Parent(progenitor_node)
+            criterion_false = Criterion.search(self.assertionlist[0], False, self.criterionlist)
+            criterion_false_node = criterion_false.parent(progenitor_node)
             matrix_two.progenitor = criterion_false_node
-            matrix_two.DeleteColumn(0)
-            matrix_two.ConstructTree(debug)
+            matrix_two.delete_column(0)
+            matrix_two.construct_tree(debug)
         elif len(matrix_two.candidatelist) == 1:
-            criterion_false = Criterion.Search(self.assertionlist[0], False, self.criterionlist)
-            criterion_false_node = criterion_false.Parent(progenitor_node)
-            matrix_two.candidatelist[0].Parent(criterion_false_node)
-
-def Test(issue):
-    matrix = Matrix(issue)
-    print(matrix.assertionlist)
-    print(matrix.candidatelist)
-    print(matrix)
-    matrix.ClearIrrelevantAssertions()
-    matrix.BringForwardBestAssertion()
-    matrix.SortRowsByColumn(0)
-    print(matrix.assertionlist)
-    print(matrix.candidatelist)
-    print(matrix)
-    matrix_null, matrix_one, matrix_two = matrix.SplitByTruthValue()
-    matrix = matrix_null.Combine(matrix_one).Combine(matrix_two)
-    print(matrix.assertionlist)
-    print(matrix.candidatelist)
-    print(matrix)
-
-def Test2(issue):
-    assertionlist = []
-    for diagnosis in list(issue.candidates):
-        assertionlist.extend(list(diagnosis.assertions))
-    counter = Counter(assertionlist)
-    print([a.name for a in assertionlist])
-
-def Test1(issue):
-    num_diagnoses = len(issue.candidates)
-    diagnosislist = list(issue.candidates)
-
-    order = []
-
-    for i in range(num_diagnoses):
-        temp = diagnosislist.copy()
-        d1 = temp.pop(i)
-        residual = reduce(lambda x, y: x + y, temp)
-        differentials = d1.DifferentialCriteria(residual)
-        number_criteria = len(differentials)
-        order.append((diagnosislist[i], diagnosislist[i].name, number_criteria))
-
-    order.sort(key = lambda x: x[2], reverse=True)
-
-    for i in range(num_diagnoses-1):
-        current = order.pop(i)
-        current_diagnosis = current[0]
-        remaining_diagnoses = [d[0] for d in order]
-        residual = reduce(lambda x, y: x + y, remaining_diagnoses)
-        differential = current_diagnosis.DifferentialCriteria(residual)
-        differentiallist = list(differential)
-        differentiallist.sort(key = lambda x: x.assertion.ease)
-        current_diagnosis.Parent(differentiallist[0])
-        for j in range(len(differential)-1):
-            if differentiallist[j].assertion != differentiallist[j+1].assertion:
-                print(differentiallist[j].assertion.name+"-->"+(differentiallist[j+1]).name)
-                differentiallist[j].assertion.Parent(differentiallist[j+1])
-
-def LikeliestFirst(issue):
-    diagnosislist = list(issue.candidates)
-    diagnosislist.sort(key = lambda x: x.prevalence, reverse=True)
-
-    num_diagnoses = len(diagnosislist)
-
-    commoncriteria = reduce(lambda x, y: x + y, diagnosislist)
-    common = set()
-    for c in list(commoncriteria.criteria):
-            common.add(c)
-
-    if len(common) != 0:
-        commonlist = list(common)
-        commonlist.sort(key = lambda x: x.assertion.ease)
-        for j in range(len(commonlist)-1):
-            commonlist[j].assertion.Parent(commonlist[j+1])
-        commonlist[-1].assertion.Parent(issue)
-        for c in commonlist:
-            print(c)
-        print("...")
-
-    for i in range(0, num_diagnoses-1):
-        residual = reduce(lambda x, y: x + y, diagnosislist[i+1])
-        differential = diagnosislist[i].DifferentialCriteria(residual)
-        #differential = diagnosislist[i].DifferentialCriteria(sum(diagnosislist[i+1:]))
-
-        differentiallist = list(differential)
-        differentiallist.sort(key = lambda x: x.assertion.ease)
-
-        for j in range(len(differentiallist)-1):
-            print(differentiallist[j])
-            print(differentiallist[j+1])
-            if differentiallist[j].assertion != differentiallist[j+1].assertion:
-                differentiallist[j].assertion.Parent(differentiallist[j+1])
-
-        if len(common) != 0:
-            differentiallist[-1].assertion.Parent(commonlist[0])
-        else:
-            differentiallist[-1].assertion.Parent(issue)
+            criterion_false = Criterion.search(self.assertionlist[0], False, self.criterionlist)
+            criterion_false_node = criterion_false.parent(progenitor_node)
+            matrix_two.candidatelist[0].parent(criterion_false_node)
