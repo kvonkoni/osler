@@ -27,5 +27,10 @@ class TestAssertion(unittest.TestCase):
         assertion = Assertion("This is an assertion", "This is the question that tests the assertion", "These are instructions on how to test the assertion", 1.3, "Here are more details")
         self.assertEqual(assertion.description, "Here are more details")
 
+    def test_equivalent(self):
+        assertion1 = Assertion("This is an assertion", "This is the question that tests the assertion", "These are instructions on how to test the assertion", 1.3, "Here are more details")
+        assertion2 = Assertion("This is an assertion", "This is the question that tests the assertion", "These are instructions on how to test the assertion", 1.3, "Here are more details")
+        self.assertEqual(assertion1, assertion2)
+
 if __name__ == '__main__':
     unittest.main()
