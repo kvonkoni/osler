@@ -3,18 +3,12 @@
 import anytree
 import ete3
 from anytree.exporter import DotExporter
-import itertools
 from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
 
-from pando.common import Pando
-
-class Node(Pando):
-    id_iter = itertools.count()
-    ID = {}
+class Node(object):
 
     def __init__(self, object, parent=None):
-        self.id = "n"+str(next(self.id_iter))
-        self.object = object.id
+        self.object = object
         self.anynode = anytree.Node(object.name)
         if parent:
             self.anynode.parent = parent.anynode
@@ -23,8 +17,6 @@ class Node(Pando):
             self.anynode.parent = None
             self.etenode = Tree()
         self.parent = parent
-        Node.ID[self.id] = self
-        Pando.ID[self.id] = self
 
     def Child(self, child):
         new_node = Node(child, )

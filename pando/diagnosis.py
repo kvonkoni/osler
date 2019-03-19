@@ -5,20 +5,11 @@
 #import kanren
 import nltk
 import anytree
-import itertools
-from pando.common import Pando
 from pando.graph import Node
 
-class Diagnosis(Pando):
-    id_iter = itertools.count()
-    ID = {}
-
-    @classmethod
-    def AddToClass(cls, id, instance):
-        cls.ID[id] = instance
+class Diagnosis(object):
 
     def __init__(self, name, description, remedy, criteria, prevalence=0.0, comorbidity=set()):
-        self.id = "d"+str(next(self.id_iter))
         self.name = name
         self.description = description
         self.remedy = remedy
@@ -26,8 +17,6 @@ class Diagnosis(Pando):
         self.assertions = self.AssertionSet()
         self.prevalence = prevalence
         self.comorbidity = comorbidity
-        self.AddToClass(self.id, self)
-        self.AddToGlobal(self.id, self)
 
     def __hash__(self):
         return id(self)

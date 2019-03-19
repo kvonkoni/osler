@@ -5,36 +5,21 @@
 #import kanren
 import nltk
 import anytree
-import itertools
-from pando.common import Pando
 from pando.graph import Node
 
-class Criterion(Pando):
-    id_iter = itertools.count()
-    ID = {}
-    list = []
+class Criterion(object):
 
     @classmethod
-    def AddToClass(cls, id, instance):
-        cls.ID[id] = instance
-        cls.list.append(instance)
-
-    @classmethod
-    def Search(cls, assertion, truth_value, criterialist=None):
-        if not criterialist:
-            criterialist = cls.list
+    def Search(cls, assertion, truth_value, criterialist):
         criterion = Criterion(assertion, truth_value)
         for c in criterialist:
             if c == criterion:
                 return c
 
     def __init__(self, assertion, truth_value):
-        self.id = "c"+str(next(self.id_iter))
         self.assertion = assertion
         self.truth_value = truth_value
         self.name = assertion.name+'_is_'+str(truth_value)
-        self.AddToClass(self.id, self)
-        self.AddToGlobal(self.id, self)
 
     def __str__(self):
         return self.name

@@ -4,19 +4,21 @@ from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concate
 from copy import copy
 import ete3
 
-from pando.common import Pando
 from pando.graph import Node
 from pando.criterion import Criterion
 
-class Matrix:
+class Matrix(object):
     def __init__(self, issue):
         self.progenitor = Node(issue)
         self.node = self.progenitor
         self.candidatelist = list(issue.candidates)
         assertions = set()
+        criteria = set()
         for d in self.candidatelist:
             assertions.update(d.assertions)
+            criteria.update(d.criteria)
         self.assertionlist = list(assertions)
+        self.criterionlist = list(criteria)
 
         matrix = zeros((len(self.candidatelist), len(self.assertionlist)))
         for i in range(len(self.candidatelist)):
@@ -143,24 +145,24 @@ class Matrix:
             matrix_two.Combine(matrix_null)
         #Linking the "true" matrix to the assertion and deleting the previous assertion
         if len(matrix_one.candidatelist) > 1:
-            criterion_true = Criterion.Search(self.assertionlist[0], True)
+            criterion_true = Criterion.Search(self.assertionlist[0], True, self.criterionlist)
             criterion_true_node = criterion_true.Parent(progenitor_node)
             matrix_one.progenitor = criterion_true_node
             matrix_one.DeleteColumn(0)
             matrix_one.ConstructTree(debug)
         elif len(matrix_one.candidatelist) == 1:
-            criterion_true = Criterion.Search(self.assertionlist[0], True)
+            criterion_true = Criterion.Search(self.assertionlist[0], True, self.criterionlist)
             criterion_true_node = criterion_true.Parent(progenitor_node)
             matrix_one.candidatelist[0].Parent(criterion_true_node)
         #Linking the "false" matrix to the assertion and deleting the previous assertion
         if len(matrix_two.candidatelist) > 1:
-            criterion_false = Criterion.Search(self.assertionlist[0], False)
+            criterion_false = Criterion.Search(self.assertionlist[0], False, self.criterionlist)
             criterion_false_node = criterion_false.Parent(progenitor_node)
             matrix_two.progenitor = criterion_false_node
             matrix_two.DeleteColumn(0)
             matrix_two.ConstructTree(debug)
         elif len(matrix_two.candidatelist) == 1:
-            criterion_false = Criterion.Search(self.assertionlist[0], False)
+            criterion_false = Criterion.Search(self.assertionlist[0], False, self.criterionlist)
             criterion_false_node = criterion_false.Parent(progenitor_node)
             matrix_two.candidatelist[0].Parent(criterion_false_node)
 
