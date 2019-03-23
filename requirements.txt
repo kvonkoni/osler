@@ -1,2 +1,3 @@
 anytree
+ete3
 nltk
