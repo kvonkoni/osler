@@ -23,6 +23,10 @@ class TestAssertion(unittest.TestCase):
         assertion = Assertion("This is an assertion", "This is the question that tests the assertion", "These are instructions on how to test the assertion", 1.3, "Here are more details")
         self.assertEqual(assertion.ease, 1.3)
 
+    def test_name(self):
+        assertion = Assertion("This is an assertion", "This is the question that tests the assertion", "These are instructions on how to test the assertion", 1.3, "Here are more details")
+        self.assertEqual(assertion.name, "This_is_an_assertion")
+
     def test_description(self):
         assertion = Assertion("This is an assertion", "This is the question that tests the assertion", "These are instructions on how to test the assertion", 1.3, "Here are more details")
         self.assertEqual(assertion.description, "Here are more details")
