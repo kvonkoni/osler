@@ -22,7 +22,7 @@ class Diagnosis(object):
         return id(self)
 
     def __eq__(self, other):
-        if isinstance(other, Criterion):
+        if isinstance(other, Diagnosis):
             return self.criteria == other.criteria
         else:
             return False

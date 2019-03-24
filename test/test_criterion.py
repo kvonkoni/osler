@@ -13,6 +13,7 @@ class TestCriterion(unittest.TestCase):
         criterion = Criterion(assertion, True)
         self.assertEqual(criterion.assertion, assertion)
         self.assertEqual(criterion.truth_value, True)
+        self.assertEqual(criterion.name, "This_is_an_assertion_is_True")
 
 if __name__ == '__main__':
     unittest.main()
