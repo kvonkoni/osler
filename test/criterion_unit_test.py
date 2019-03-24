@@ -8,15 +8,12 @@ from pando.criterion import Criterion
 
 class TestCriterion(unittest.TestCase):
 
-    def test_assertion(self):
+    def test_init(self):
         assertion = Assertion("This is an assertion", "This is the question that tests the assertion?", "These are instructions on how to test the assertion", 1.3, "Here are more details")
         criterion = Criterion(assertion, True)
         self.assertEqual(criterion.assertion, assertion)
-    
-    def test_truth_value(self):
-        assertion = Assertion("This is an assertion", "This is the question that tests the assertion?", "These are instructions on how to test the assertion", 1.3, "Here are more details")
-        criterion = Criterion(assertion, True)
         self.assertEqual(criterion.truth_value, True)
 
 if __name__ == '__main__':
     unittest.main()
+ 
