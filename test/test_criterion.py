@@ -14,6 +14,13 @@ class TestCriterion(unittest.TestCase):
         self.assertEqual(criterion.assertion, assertion)
         self.assertEqual(criterion.truth_value, True)
         self.assertEqual(criterion.name, "This_is_an_assertion_is_True")
+    
+    def test_equivalence(self):
+        assertion1 = Assertion("This is an assertion", "This is the question that tests the assertion?", "These are instructions on how to test the assertion", 1.3, "Here are more details")
+        criterion1 = Criterion(assertion1, True)
+        assertion2 = Assertion("This is an assertion", "This is the question that tests the assertion?", "These are instructions on how to test the assertion", 1.3, "Here are more details")
+        criterion2 = Criterion(assertion2, True)
+        self.assertEqual(criterion1, criterion2)
 
 if __name__ == '__main__':
     unittest.main()
