@@ -21,12 +21,14 @@ class TestCriterion(unittest.TestCase):
         assertion2 = Assertion("This is an assertion", "This is the question that tests the assertion?", "These are instructions on how to test the assertion", 1.3, "Here are more details")
         criterion2 = Criterion(assertion2, True)
         self.assertTrue(criterion1==criterion2)
+        self.assertFalse(criterion1.opposite(criterion2))
     
     def test_opposites(self):
         assertion = Assertion("This is an assertion", "This is the question that tests the assertion?", "These are instructions on how to test the assertion", 1.3, "Here are more details")
         criterion1 = Criterion(assertion, True)
         criterion2 = Criterion(assertion, False)
         self.assertTrue(criterion1.opposite(criterion2))
+        self.assertFalse(criterion1==criterion2)
 
 if __name__ == '__main__':
     unittest.main()

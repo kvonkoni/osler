@@ -31,7 +31,7 @@ class Diagnosis(object):
         name = self.name+"+"+other.name
         description = self.name+" intersect "+other.name
         remedy = self.name+" remedy and/or "+other.name+" remedy"
-        criteria = self.CommonCriteria(other)
+        criteria = self.common_criteria(other)
         prevalence = self.prevalence+other.prevalence
         comorbidity = self.comorbidity.union(other.comorbidity)
         return Diagnosis(name, description, remedy, criteria, prevalence, comorbidity)
