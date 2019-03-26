@@ -32,9 +32,9 @@ class TestDiagnosis(unittest.TestCase):
         assertionB = Assertion("assertion B", "is assertion B true?")
         assertionC = Assertion("assertion C", "is assertion C true?")
         assertionX = Assertion("assertion X", "is assertion X true?")
-        diagnosis1 = Diagnosis('Diagnosis 1', 'Diagnosis Description 1', 'Diagnosis Remedy 1', {assertionA.true(), assertionB.false(), assertionC.true(), assertionX.false()}, 0.25)
-        diagnosis2 = Diagnosis('Diagnosis 2', 'Diagnosis Description 2', 'Diagnosis Remedy 2', {assertionA.true(), assertionB.false(), assertionC.true(), assertionX.false()}, 0.5)
-        diagnosis3 = Diagnosis('Diagnosis 1', 'Diagnosis Description 1', 'Diagnosis Remedy 1', {assertionA.true(), assertionB.false(), assertionC.false(), assertionX.false()}, 0.25)
+        diagnosis1 = Diagnosis('Diagnosis 1', 'Diagnosis Description 1', 'Diagnosis Remedy 1', {assertionA.true, assertionB.false, assertionC.true, assertionX.false}, 0.25)
+        diagnosis2 = Diagnosis('Diagnosis 2', 'Diagnosis Description 2', 'Diagnosis Remedy 2', {assertionA.true, assertionB.false, assertionC.true, assertionX.false}, 0.5)
+        diagnosis3 = Diagnosis('Diagnosis 1', 'Diagnosis Description 1', 'Diagnosis Remedy 1', {assertionA.true, assertionB.false, assertionC.false, assertionX.false}, 0.25)
         self.assertTrue(diagnosis1==diagnosis2)
         self.assertFalse(diagnosis1==diagnosis3)
 

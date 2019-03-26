@@ -18,6 +18,8 @@ class Assertion(object):
         self.ease = ease
         self.name = proposition.replace(" ", "_")
         self.description = description
+        self.true = Criterion(self, True)
+        self.false = Criterion(self, False)
 
     def __str__(self):
         return self.name
@@ -36,9 +38,3 @@ class Assertion(object):
 
     def parent(self, parent_node):
         return Node(self, parent_node)
-    
-    def true(self):
-        return Criterion(self, True)
-    
-    def false(self):
-        return Criterion(self, False)
