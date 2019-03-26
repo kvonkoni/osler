@@ -29,19 +29,13 @@ class Assertion(object):
         return id(self)
 
     def __eq__(self, other):
-        if isinstance(other, Assertion):
-            return self.equivalent(other)
+        if self.proposition == other.proposition:
+            return True
         else:
             return False
 
     def parent(self, parent_node):
         return Node(self, parent_node)
-
-    def equivalent(self, other):
-        if self.proposition == other.proposition:
-            return True
-        else:
-            return False
     
     def true(self):
         return Criterion(self, True)
