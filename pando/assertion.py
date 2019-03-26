@@ -7,6 +7,7 @@ import nltk
 import anytree
 #nltk.download()
 from pando.graph import Node
+from pando.criterion import Criterion
 
 class Assertion(object):
 
@@ -41,3 +42,9 @@ class Assertion(object):
             return True
         else:
             return False
+    
+    def true(self):
+        return Criterion(self, True)
+    
+    def false(self):
+        return Criterion(self, False)
