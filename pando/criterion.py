@@ -31,19 +31,13 @@ class Criterion(object):
         return id(self)
 
     def __eq__(self, other):
-        if isinstance(other, Criterion):
-            return self.equivalent(other)
+        if self.assertion.equivalent(other.assertion) and (self.truth_value == other.truth_value):
+            return True
         else:
             return False
 
     def parent(self, parent_node):
         return Node(self, parent_node)
-
-    def equivalent(self, other):
-        if self.assertion.equivalent(other.assertion) and (self.truth_value == other.truth_value):
-            return True
-        else:
-            return False
 
     def opposite(self, other):
         if self.assertion.equivalent(other.assertion) and (self.truth_value != other.truth_value):
