@@ -11,7 +11,7 @@ if os.path.isfile(requirementPath):
         install_requires = f.read().splitlines()
 
 setup(name='Osler',
-      version='1.0',
+      version='0.1',
       description='Diagnostic Decision Tree Generator',
       author='Kier von Konigslow',
       author_email='kvonkonigslow@gmail.com',
