@@ -4,8 +4,8 @@ from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concate
 from copy import copy
 import ete3
 
-from pando.graph import Node
-from pando.criterion import Criterion
+from osler.graph import Node
+from osler.criterion import Criterion
 
 class Matrix(object):
     def __init__(self, issue):

@@ -7,7 +7,7 @@ import nltk
 import anytree
 from anytree.exporter import DotExporter
 from graphviz import Source, render
-from pando.graph import Node
+from osler.graph import Node
 
 class Issue(object):
 

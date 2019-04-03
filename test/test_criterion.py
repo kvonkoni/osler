@@ -3,8 +3,8 @@
 import os, sys, unittest
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
-from pando.assertion import Assertion
-from pando.criterion import Criterion
+from osler.assertion import Assertion
+from osler.criterion import Criterion
 
 class TestCriterion(unittest.TestCase):
 

@@ -5,7 +5,7 @@
 #import kanren
 import nltk
 import anytree
-from pando.graph import Node
+from osler.graph import Node
 
 class Criterion(object):
 

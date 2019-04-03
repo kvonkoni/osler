@@ -10,12 +10,12 @@ if os.path.isfile(requirementPath):
     with open(requirementPath) as f:
         install_requires = f.read().splitlines()
 
-setup(name='Pando',
+setup(name='Osler',
       version='1.0',
       description='Diagnostic Decision Tree Generator',
       author='Kier von Konigslow',
       author_email='kvonkonigslow@gmail.com',
-      url='kvonkonigslow.com/Pando',
-      packages=['pando'],
+      url='kvonkonigslow.com/Osler',
+      packages=['osler'],
       install_requires=install_requires
      )

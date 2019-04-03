@@ -6,8 +6,8 @@
 import nltk
 import anytree
 #nltk.download()
-from pando.graph import Node
-from pando.criterion import Criterion
+from osler.graph import Node
+from osler.criterion import Criterion
 
 class Assertion(object):
 

@@ -4,11 +4,11 @@ import os,sys,math,csv
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
 import numpy.matlib
-from pando.assertion import Assertion
-from pando.criterion import Criterion
-from pando.diagnosis import Diagnosis
-from pando.issue import Issue
-from pando.graph import Node
+from osler.assertion import Assertion
+from osler.criterion import Criterion
+from osler.diagnosis import Diagnosis
+from osler.issue import Issue
+from osler.graph import Node
 
 #Defining assertions
 
