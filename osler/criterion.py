@@ -31,7 +31,7 @@ class Criterion(object):
         return id(self)
 
     def __eq__(self, other):
-        if self.assertion.equivalent(other.assertion) and (self.truth_value == other.truth_value):
+        if self.assertion == other.assertion and (self.truth_value == other.truth_value):
             return True
         else:
             return False
@@ -40,7 +40,7 @@ class Criterion(object):
         return Node(self, parent_node)
 
     def opposite(self, other):
-        if self.assertion.equivalent(other.assertion) and (self.truth_value != other.truth_value):
+        if self.assertion == other.assertion and (self.truth_value != other.truth_value):
             return True
         else:
             return False
