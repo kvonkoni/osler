@@ -4,3 +4,5 @@ graphviz
 nltk
 PyQt5
 six
+numpy
+lxml
