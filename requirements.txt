@@ -6,3 +6,15 @@ PyQt5
 six
 numpy
 lxml
+argtable2
+cloog
+gcc
+gmp
+icu
+isl
+libxml2
+libxslt
+mpc
+mpfr
+qt 
+sip
