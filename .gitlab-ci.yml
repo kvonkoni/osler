@@ -2,3 +2,7 @@ before_script:
   - apt-get update -qy
   - apt-get install -y python-dev python-pip
   - pip install -r requirements.txt
+
+assetion_unit_tests:
+  script:
+    - python ./test/test_assertion.py test
