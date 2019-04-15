@@ -20,6 +20,7 @@ class Criterion(object):
         self.assertion = assertion
         self.truth_value = truth_value
         self.name = assertion.name+'_is_'+str(truth_value)
+        self.id = self.name
 
     def __str__(self):
         return self.name

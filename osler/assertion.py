@@ -17,6 +17,7 @@ class Assertion(object):
         self.instruction = instruction
         self.ease = ease
         self.name = proposition.replace(" ", "_")
+        self.id = self.name
         self.description = description
         self.true = Criterion(self, True)
         self.false = Criterion(self, False)

@@ -12,7 +12,8 @@ from osler.graph import Node
 class Issue(object):
 
     def __init__(self, name, description, candidates, severity=0):
-        self.name = name
+        self.name = name.replace(" ", "_")
+        self.id = self.name
         self.description = description
         self.candidates = candidates
         self.severity = severity
