@@ -1,6 +1,5 @@
 anytree
 ete3
-ete3_external_apps
 graphviz
 nltk
-PyQt5
+pyqt
