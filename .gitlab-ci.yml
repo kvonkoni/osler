@@ -1,8 +1,12 @@
 before_script:
   - apt-get update -qy
   - apt-get install -y python-dev python-pip
+  - pip install --upgrade pip
   - pip install -r requirements.txt
 
-assetion_unit_tests:
+unit_tests:
+  image: python:3.7
   script:
     - python ./test/test_assertion.py test
+    - python ./test/test_criterion.py test
+    - python ./test/test_diagnosis.py test
