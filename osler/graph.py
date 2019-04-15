@@ -2,7 +2,7 @@
 
 import anytree
 import ete3
-from anytree.exporter import DotExporter
+from anytree.exporter import DotExporter, JsonExporter
 from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
 
 class Node(object):
@@ -41,3 +41,14 @@ class Node(object):
         ts.arc_start = 45 # 0 degrees = 3 o'clock
         ts.arc_span = 135
         t.render(filename, tree_style=ts)
+
+class OslerTree(object):
+    
+    def __init__(self, name):
+        self.name = name.replace(" ", "_")
+        self.id = self.name
+        self.tree = {"id":self.id, "children":[]}
+    
+    def add_child(self, child):
+        dict = {"id":child.id, "children":[]}
+        self.tree["children"].append(dict)
