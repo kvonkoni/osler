@@ -2,4 +2,4 @@ anytree
 ete3
 graphviz
 nltk
-pyqt4
+PyQt4
