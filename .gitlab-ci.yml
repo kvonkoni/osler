@@ -1,11 +1,7 @@
 image: python:3.7
 
 before_script:
-  - apt-get update -qy
-  - apt-get install -y python-dev python-pip
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
-  - python setup.py
+  - python setup.py install
 
 unit_tests:
   script:
