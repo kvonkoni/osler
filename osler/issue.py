@@ -7,29 +7,22 @@ import nltk
 import anytree
 from anytree.exporter import DotExporter
 from graphviz import Source, render
-import itertools
-from pando.common import Pando
-from pando.graph import Node
 
-class Issue(Pando):
-    id_iter = itertools.count()
-    ID = {}
+from osler.graph import Node
+from osler.diagnosis import diagnosable, undiagnosable
 
-    @classmethod
-    def AddToClass(cls, id, instance):
-        cls.ID[id] = instance
+class Issue(object):
 
-    def __init__(self, name, description, candidates, severity=0, parent=None):
-        self.id = "i"+str(next(self.id_iter))
-        self.name = name
+    def __init__(self, name, description, candidates, severity=0):
+        self.name = name.replace(" ", "_")
+        self.id = self.name
         self.description = description
         self.candidates = candidates
         self.severity = severity
         self.prevalence = 0.0
         for s in list(self.candidates):
             self.prevalence += s.prevalence
-        self.AddToClass(self.id, self)
-        self.AddToGlobal(self.id, self)
+        self.validate()
 
     def __str__(self):
         return self.name
@@ -40,5 +33,9 @@ class Issue(Pando):
     def __hash__(self):
         return id(self)
 
-    def Parent(self, parent_node):
+    def parent(self, parent_node):
         return Node(self, parent_node)
+    
+    def validate(self):
+        if not diagnosable(self.candidates):
+            raise Exception("Candidate diagnoses must be diagnosable: can't differentiate {}.".format(str(undiagnosable(self.candidates))))

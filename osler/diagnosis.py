@@ -5,35 +5,25 @@
 #import kanren
 import nltk
 import anytree
-import itertools
-from pando.common import Pando
-from pando.graph import Node
+from osler.graph import Node
 
-class Diagnosis(Pando):
-    id_iter = itertools.count()
-    ID = {}
+class Diagnosis(object):
 
-    @classmethod
-    def AddToClass(cls, id, instance):
-        cls.ID[id] = instance
-
-    def __init__(self, name, description, remedy, criteria, prevalence=0.0, comorbidity=set(), parent=None):
-        self.id = "d"+str(next(self.id_iter))
-        self.name = name
+    def __init__(self, name, description, remedy, criteria, prevalence=0.0, comorbidity=set()):
+        self.name = name.replace(" ", "_")
+        self.id = self.name
         self.description = description
         self.remedy = remedy
         self.criteria = criteria
-        self.assertions = self.AssertionSet()
+        self.assertions = self.assertion_set()
         self.prevalence = prevalence
         self.comorbidity = comorbidity
-        self.AddToClass(self.id, self)
-        self.AddToGlobal(self.id, self)
 
     def __hash__(self):
         return id(self)
 
     def __eq__(self, other):
-        if isinstance(other, Criterion):
+        if isinstance(other, Diagnosis):
             return self.criteria == other.criteria
         else:
             return False
@@ -42,7 +32,7 @@ class Diagnosis(Pando):
         name = self.name+"+"+other.name
         description = self.name+" intersect "+other.name
         remedy = self.name+" remedy and/or "+other.name+" remedy"
-        criteria = self.CommonCriteria(other)
+        criteria = self.common_criteria(other)
         prevalence = self.prevalence+other.prevalence
         comorbidity = self.comorbidity.union(other.comorbidity)
         return Diagnosis(name, description, remedy, criteria, prevalence, comorbidity)
@@ -56,7 +46,7 @@ class Diagnosis(Pando):
     def __repr__(self):
         return self.__str__()
 
-    def Parent(self, parent_node):
+    def parent(self, parent_node):
         return Node(self, parent_node)
 
     def info(self):
@@ -67,21 +57,21 @@ class Diagnosis(Pando):
         print("  The remedy for this diagnosis is: {}".format(self.remedy))
         print("}")
 
-    def AssertionSet(self):
+    def assertion_set(self):
         result = set()
         for c in list(self.criteria):
             result.add(c.assertion)
         return result
 
-    def CommonCriteria(self, other):
+    def common_criteria(self, other):
         if isinstance(other, Diagnosis):
             return self.criteria.intersection(other.criteria)
         else:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 
-    def CommonCriteriaAssertions(self, other):
+    def common_criteria_assertions(self, other):
         if isinstance(other, Diagnosis):
-            common_criteria = self.CommonCriteria(other)
+            common_criteria = self.common_criteria(other)
             common_assertions = set()
             for c in list(common_criteria):
                 common_assertions.add(c.assertion)
@@ -89,58 +79,58 @@ class Diagnosis(Pando):
         else:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 
-    def NumCommonCriteriaAssertions(self, other):
+    def num_common_criteria_assertions(self, other):
         if isinstance(other, Diagnosis):
-            return len(self.CommonCriteriaAssertions(other))
+            return len(self.common_criteria_assertions(other))
         else:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 
-    def DifferentialCriteria(self, other):
+    def differential_criteria(self, other):
         if isinstance(other, Diagnosis):
             result = set()
             for criterionA in list(self.criteria):
                 for criterionB in list(other.criteria):
-                    if criterionA.Opposite(criterionB):
+                    if criterionA.opposite(criterionB):
                         result.add(criterionA)
                         result.add(criterionB)
             return result
         else:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 
-    def NumDifferentialCriteria(self, other):
+    def num_differential_criteria(self, other):
         if isinstance(other, Diagnosis):
-            return len(self.DifferentialCriteria(other))
+            return len(self.differential_criteria(other))
         else:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 
-    def DifferentialAssertions(self, other):
+    def differential_assertions(self, other):
         if isinstance(other, Diagnosis):
             result = set()
             for criterionA in list(self.criteria):
                 for criterionB in list(other.criteria):
-                    if criterionA.Opposite(criterionB):
+                    if criterionA.opposite(criterionB):
                         result.add(criterionA.assertion)
                         result.add(criterionB.assertion)
             return result
         else:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 
-    def NumDifferentialAssertions(self, other):
+    def num_differential_assertions(self, other):
         if isinstance(other, Diagnosis):
-            return len(self.DifferentialAssertions(other))
+            return len(self.differential_assertions(other))
         else:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 
-    def InconsequentialCriteria(self, other):
+    def inconsequential_criteria(self, other):
         if isinstance(other, Diagnosis):
-            return self.criteria.union(other.criteria).difference(self.CommonCriteria(other).union(self.DifferentialCriteria(other)))
+            return self.criteria.union(other.criteria).difference(self.common_criteria(other).union(self.differential_criteria(other)))
         else:
             raise TypeError("expected Diagnosis object, received {}".format(type(other)))
 
-def CompareDiagnoses(diagA, diagB):
-    common_criteria = diagA.CommonCriteria(diagB)
-    differential_criteria = diagA.DifferentialCriteria(diagB)
-    inconsequential_criteria = diagA.InconsequentialCriteria(diagB)
+def compare_diagnoses(diagA, diagB):
+    common_criteria = diagA.common_criteria(diagB)
+    differential_criteria = diagA.differential_criteria(diagB)
+    inconsequential_criteria = diagA.inconsequential_criteria(diagB)
     print("{{Comparison of {} and {} criteria:".format(diagA.name, diagB.name))
     print("    Common Criteria:")
     for c in list(common_criteria):
@@ -152,3 +142,22 @@ def CompareDiagnoses(diagA, diagB):
     for i in list(inconsequential_criteria):
         print("        "+i.name)
     print("}")
+
+def diagnosable(diagnosis_set):
+    diagnosis_list = list(diagnosis_set)
+    num_diagnoses = len(diagnosis_set)
+    for i in range(num_diagnoses):
+        for j in range(i+1, num_diagnoses):
+            if not diagnosis_list[i].differential_assertions(diagnosis_list[j]):
+                return False
+    return True
+
+def undiagnosable(diagnosis_set):
+    undiagnosable = set()
+    diagnosis_list = list(diagnosis_set)
+    num_diagnoses = len(diagnosis_set)
+    for i in range(num_diagnoses):
+        for j in range(i+1, num_diagnoses):
+            if not diagnosis_list[i].differential_assertions(diagnosis_list[j]):
+                undiagnosable.add(diagnosis_list[i].name+"/"+diagnosis_list[j].name)
+    return undiagnosable
