@@ -19,7 +19,7 @@ class TestDiagnosis(unittest.TestCase):
         criterionNB = Criterion(assertionB, False)
         criterionX = Criterion(assertionX, True)
         diagnosis = Diagnosis('Diagnosis Name', 'Diagnosis Description', 'Diagnosis Remedy', {criterionA, criterionNB, criterionC, criterionX}, 0.25)
-        self.assertEqual(diagnosis.name, "Diagnosis Name")
+        self.assertEqual(diagnosis.name, "Diagnosis_Name")
         self.assertEqual(diagnosis.description, "Diagnosis Description")
         self.assertEqual(diagnosis.remedy, "Diagnosis Remedy")
         self.assertEqual(diagnosis.criteria, {criterionA, criterionNB, criterionC, criterionX})
