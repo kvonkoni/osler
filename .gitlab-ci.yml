@@ -5,6 +5,6 @@ before_script:
 
 unit_tests:
   script:
-    - python ./test/test_assertion.py test
-    - python ./test/test_criterion.py test
-    - python ./test/test_diagnosis.py test
+    - python ./test/test_assertion.py
+    - python ./test/test_criterion.py
+    - python ./test/test_diagnosis.py
