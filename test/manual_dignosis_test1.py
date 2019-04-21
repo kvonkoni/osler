@@ -49,7 +49,7 @@ diagnosis6 = Diagnosis('Diagnosis 6', 'Diagnosis 6', 'Remedy 6', {criterionA, cr
 
 #Testing diagnoses
 #Should pass
-diagnosable({diagnosis1, diagnosis2, diagnosis3, diagnosis5})
+print(diagnosable({diagnosis1, diagnosis2, diagnosis3, diagnosis5}))
 
 #Should fail (1 and 6)
-diagnosable({diagnosis1, diagnosis2, diagnosis3, diagnosis5, diagnosis6})
+print(diagnosable({diagnosis1, diagnosis2, diagnosis3, diagnosis5, diagnosis6}))

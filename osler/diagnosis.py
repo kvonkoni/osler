@@ -149,6 +149,5 @@ def diagnosable(diagnosis_set):
     for i in range(num_diagnoses):
         for j in range(i+1, num_diagnoses):
             if not diagnosis_list[i].differential_assertions(diagnosis_list[j]):
-                print("Undiagnosible:")
-                print(diagnosis_list[i])
-                print(diagnosis_list[j])
+                return False
+    return True
