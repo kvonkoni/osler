@@ -6,7 +6,7 @@ sys.path.append(lib_path)
 import numpy.matlib
 from osler.assertion import Assertion
 from osler.criterion import Criterion
-from osler.diagnosis import Diagnosis, diagnosable
+from osler.diagnosis import Diagnosis, diagnosable, undiagnosable
 from osler.issue import Issue
 
 #Defining assertions
@@ -53,3 +53,5 @@ print(diagnosable({diagnosis1, diagnosis2, diagnosis3, diagnosis5}))
 
 #Should fail (1 and 6)
 print(diagnosable({diagnosis1, diagnosis2, diagnosis3, diagnosis5, diagnosis6}))
+
+print(undiagnosable({diagnosis1, diagnosis2, diagnosis3, diagnosis5, diagnosis6}))

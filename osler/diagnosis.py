@@ -151,3 +151,13 @@ def diagnosable(diagnosis_set):
             if not diagnosis_list[i].differential_assertions(diagnosis_list[j]):
                 return False
     return True
+
+def undiagnosable(diagnosis_set):
+    undiagnosable = set()
+    diagnosis_list = list(diagnosis_set)
+    num_diagnoses = len(diagnosis_set)
+    for i in range(num_diagnoses):
+        for j in range(i+1, num_diagnoses):
+            if not diagnosis_list[i].differential_assertions(diagnosis_list[j]):
+                undiagnosable.add(diagnosis_list[i].name+"/"+diagnosis_list[j].name)
+    return undiagnosable

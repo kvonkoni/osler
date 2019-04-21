@@ -9,7 +9,7 @@ from anytree.exporter import DotExporter
 from graphviz import Source, render
 
 from osler.graph import Node
-from osler.diagnosis import diagnosable
+from osler.diagnosis import diagnosable, undiagnosable
 
 class Issue(object):
 
@@ -38,4 +38,4 @@ class Issue(object):
     
     def validate(self):
         if not diagnosable(self.candidates):
-            raise Exception("{} candidate diagnoses must be diagnosable".format(self.name))
+            raise Exception("Candidate diagnoses must be diagnosable: can't differentiate {}.".format(str(undiagnosable(self.candidates))))
