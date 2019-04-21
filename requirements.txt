@@ -2,3 +2,5 @@ anytree
 ete3
 graphviz
 nltk
+PyQt4
+PyQt5
