@@ -7,7 +7,9 @@ import nltk
 import anytree
 from anytree.exporter import DotExporter
 from graphviz import Source, render
+
 from osler.graph import Node
+from osler.diagnosis import diagnosable
 
 class Issue(object):
 
@@ -20,6 +22,7 @@ class Issue(object):
         self.prevalence = 0.0
         for s in list(self.candidates):
             self.prevalence += s.prevalence
+        self.validate()
 
     def __str__(self):
         return self.name
@@ -32,3 +35,7 @@ class Issue(object):
 
     def parent(self, parent_node):
         return Node(self, parent_node)
+    
+    def validate(self):
+        if not diagnosable(self.candidates):
+            raise Exception("{} candidate diagnoses must be diagnosable".format(self.name))
