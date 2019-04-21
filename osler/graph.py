@@ -3,7 +3,9 @@
 import anytree
 import ete3
 from anytree.exporter import DotExporter, JsonExporter
-from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
+#from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
+from ete3 import Tree
+from graphviz import render, Source
 
 class Node(object):
 
@@ -31,16 +33,17 @@ class Node(object):
 
     def to_svg(self, filename):
         t = self.etenode
-        ts = TreeStyle()
-        ts.show_leaf_name = False
-        def my_layout(node):
-                F = TextFace(node.name, tight_text=True)
-                add_face_to_node(F, node, column=0, position="branch-right")
-        ts.layout_fn = my_layout
-        ts.mode = "c"
-        ts.arc_start = 45 # 0 degrees = 3 o'clock
-        ts.arc_span = 135
-        t.render(filename, tree_style=ts)
+        #ts = TreeStyle()
+        #ts.show_leaf_name = False
+        #def my_layout(node):
+        #        F = TextFace(node.name, tight_text=True)
+        #        add_face_to_node(F, node, column=0, position="branch-right")
+        #ts.layout_fn = my_layout
+        #ts.mode = "c"
+        #ts.arc_start = 45 # 0 degrees = 3 o'clock
+        #ts.arc_span = 135
+        #t.render(filename, tree_style=ts)
+        t.render(filename)
 
 class OslerTree(object):
     
