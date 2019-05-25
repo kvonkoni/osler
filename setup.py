@@ -17,7 +17,7 @@ if os.path.isfile(requirementPath):
         long_description = fh.read()
 
 setup(name='osler',
-      version='v0.1.0',
+      version='v0.1.1',
       author='Kier von Konigslow',
       author_email='kvonkonigslow@gmail.com',
       description='Diagnostic Decision Tree Generator',
