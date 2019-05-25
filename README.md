@@ -12,6 +12,8 @@ python setup.py install
 
 ## Usage
 
+A minimal example:
+
 ```python
 from osler.assertion import Assertion
 from osler.criterion import Criterion
@@ -67,7 +69,7 @@ matrix.node.to_png("tree.png")
 matrix.node.to_svg("tree.svg")
 ```
 
-This results in the decision tree
+This results in the decision tree:
 ![Example decision tree](test/engine_tree_test1.png?raw=true "Decision Tree Example")
 
 ## Contributing
