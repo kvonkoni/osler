@@ -23,6 +23,7 @@ from osler.engine import Matrix
 
 #Defining assertions
 
+#            Assertion( Name        ,  Proposition          )
 assertionA = Assertion("assertion A", "is assertion A true?")
 assertionB = Assertion("assertion B", "is assertion B true?")
 assertionC = Assertion("assertion C", "is assertion C true?")
@@ -33,6 +34,7 @@ assertionY = Assertion("assertion Y", "is assertion Y true?")
 
 #Defining criteria
 
+#            Criterion(Assertion, Truth Value )
 criterionA = Criterion(assertionA, True)
 criterionB = Criterion(assertionB, True)
 criterionC = Criterion(assertionC, True)
@@ -50,6 +52,7 @@ criterionY = Criterion(assertionY, False)
 
 #Defining diagnoses
 
+#            Diagnosis(Name         ,  Description ,  Remedy   , Set of Criteria                                      , Probability )
 diagnosis1 = Diagnosis('Diagnosis 1', 'Diagnosis 1', 'Remedy 1', {criterionA, criterionNB, criterionC, criterionX}, 0.25)
 diagnosis2 = Diagnosis('Diagnosis 2', 'Diagnosis 2', 'Remedy 2', {criterionNA, criterionNC, criterionD, criterionY, criterionX}, 0.15)
 diagnosis3 = Diagnosis('Diagnosis 3', 'Diagnosis 3', 'Remedy 3', {criterionNA, criterionC, criterionX}, 0.5)
@@ -58,6 +61,7 @@ diagnosis5 = Diagnosis('Diagnosis 5', 'Diagnosis 5', 'Remedy 5', {criterionNA, c
 
 #Defining an issue
 
+#       Issue( Name    ,  Description , Set of Diagnoses )
 issue = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagnosis5})
 
 #Building a test tree
