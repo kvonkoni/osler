@@ -14,13 +14,53 @@ class Node(object):
         self.anynode = anytree.Node(object.name)
         self.parent = parent
         self.children = []
+        self.leaf = True
         if parent:
+            self.root = False
+            self.parent.leaf = False
+            self.parent.children.append(self)
             self.anynode.parent = parent.anynode
             self.etenode = parent.etenode.add_child(name=object.name)
-            self.parent.children.append(self)
         else:
+            self.root = True
             self.anynode.parent = None
             self.etenode = Tree()
+    
+    def __eq__(self, other):
+        if self.path_set() == other.path_set():
+            return True
+        else:
+            return False
+    
+    def find_subnodes(self, nodes):
+        nodes.add(self)
+        for c in self.children:
+            c.find_subnodes()
+    
+    def leaf_set(self):
+        leaves = set()
+        nodelist = list(self.node_set())
+        for n in nodelist:
+            if n.leaf:
+                leaves.add(self)
+        return leaves
+
+    def node_set(self):
+        nodes = set()
+        self.find_subnodes(nodes)
+        return nodes
+    
+    def path_set(self):
+        paths = set()
+        leaflist = list(self.leaf_set())
+        for l in leaflist:
+            path = []
+            current = l
+            while not current.root:
+                path.append(current)
+                current = current.parent
+            paths.add(path)
+            return paths
 
     def render(self):
         print(anytree.RenderTree(self.anynode))
