@@ -45,7 +45,7 @@ class TestEngine(unittest.TestCase):
         diagnosis2 = Diagnosis('Diagnosis 2', 'Diagnosis 2', 'Remedy 2', {criterionNA, criterionNC, criterionD, criterionY, criterionX}, 0.2)
         diagnosis3 = Diagnosis('Diagnosis 3', 'Diagnosis 3', 'Remedy 3', {criterionNA, criterionC, criterionX}, 0.2)
         diagnosis4 = Diagnosis('Diagnosis 4', 'Diagnosis 4', 'Remedy 4', {criterionNA, criterionNC, criterionND, criterionE, criterionX}, 0.2)
-        diagnosis5 = Diagnosis('Diagnosis 5', 'Diagnosis 5', 'Remedy 5', {criterionNA, criterionNC, criterionND, criterionNE, criterionX}, 0.02)
+        diagnosis5 = Diagnosis('Diagnosis 5', 'Diagnosis 5', 'Remedy 5', {criterionNA, criterionNC, criterionND, criterionNE, criterionX}, 0.2)
 
         #Defining an issue
 
@@ -67,7 +67,7 @@ class TestEngine(unittest.TestCase):
         cCnode = criterionC.parent(aCnode)
         aAnode = assertionA.parent(cCnode)
         cAnode = criterionA.parent(aAnode)
-        d1node = diagnosis1.parent(cAnode)
+        diagnosis1.parent(cAnode)
 
 
         #For diagnosis 2
@@ -76,14 +76,14 @@ class TestEngine(unittest.TestCase):
         cNCnode = criterionNC.parent(aCnode)
         aDnode = assertionD.parent(cNCnode)
         cDnode = criterionD.parent(aDnode)
-        d2node = diagnosis2.parent(cDnode)
+        diagnosis2.parent(cDnode)
 
 
         #For diagnosis 3
         #I->C->A->3
 
         cNAnode = criterionNA.parent(aAnode)
-        d3node = diagnosis3.parent(cNAnode)
+        diagnosis3.parent(cNAnode)
 
 
         #For diagnosis 4
@@ -92,7 +92,7 @@ class TestEngine(unittest.TestCase):
         cNDnode = criterionND.parent(aDnode)
         aEnode = assertionE.parent(cNDnode)
         cEnode = criterionE.parent(aEnode)
-        d4node = diagnosis4.parent(cEnode)
+        diagnosis4.parent(cEnode)
 
 
 
@@ -100,7 +100,7 @@ class TestEngine(unittest.TestCase):
         #I->C->D->->E->4
 
         cNEnode = criterionNE.parent(aEnode)
-        d5node = diagnosis5.parent(cNEnode)
+        diagnosis5.parent(cNEnode)
 
         # Assert that the manually-generated tree is equal to the engine-generated tree
         self.assertTrue(matrix.tree == inode)
