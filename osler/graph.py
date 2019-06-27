@@ -12,13 +12,15 @@ class Node(object):
     def __init__(self, object, parent=None):
         self.object = object
         self.anynode = anytree.Node(object.name)
+        self.parent = parent
+        self.children = []
         if parent:
             self.anynode.parent = parent.anynode
             self.etenode = parent.etenode.add_child(name=object.name)
+            self.parent.children.append(self)
         else:
             self.anynode.parent = None
             self.etenode = Tree()
-        self.parent = parent
 
     def render(self):
         print(anytree.RenderTree(self.anynode))
@@ -47,11 +49,8 @@ class Node(object):
 
 class OslerTree(object):
     
-    def __init__(self, name):
+    def __init__(self, name, root):
         self.name = name.replace(" ", "_")
         self.id = self.name
-        self.tree = {"id":self.id, "children":[]}
-    
-    def add_child(self, child):
-        dict = {"id":child.id, "children":[]}
-        self.tree["children"].append(dict)
+        self.root = root
+        self.tree = {"node":self.root, "children":[]}

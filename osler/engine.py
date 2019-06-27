@@ -4,7 +4,7 @@ from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concate
 from copy import copy
 import ete3
 
-from osler.graph import Node
+from osler.graph import Node, OslerTree
 from osler.criterion import Criterion
 
 class Matrix(object):
@@ -30,6 +30,7 @@ class Matrix(object):
                         else:
                             matrix[i, j] = 2
         self.matrix = matrix
+        self.tree = OslerTree(issue.name, self.node)
 
     def __str__(self):
         return str(self.matrix)
