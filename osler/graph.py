@@ -6,6 +6,9 @@ from anytree.exporter import DotExporter, JsonExporter
 #from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
 from ete3 import Tree
 from graphviz import render, Source
+import sys
+
+sys.setrecursionlimit(1500)
 
 class Node(object):
 
@@ -32,26 +35,39 @@ class Node(object):
         else:
             return False
     
-    def find_subnodes(self, nodes):
-        nodes.add(self)
+    def __repr__(self):
+        return self.__str__()
+    
+    def __str__(self):
+        if self.parent:
+            return str(self.object)# +"_childof_" + str(self.parent)
+        else:
+            return str(self.object)# +"_root"
+    
+    def __hash__(self):
+        return hash(str(self))
+    
+    def find_subnodes(self, nodeset):
+        nodeset.add(self)
+        #print("node: "+str(self)+"; leaf: "+str(self.leaf)+"; root: "+str(self.root))
         for c in self.children:
-            c.find_subnodes()
+            c.find_subnodes(nodeset)
     
     def leaf_set(self):
-        leaves = set()
+        leafset = set()
         nodelist = list(self.node_set())
         for n in nodelist:
             if n.leaf:
-                leaves.add(self)
-        return leaves
+                leafset.add(n)
+        return leafset
 
     def node_set(self):
-        nodes = set()
-        self.find_subnodes(nodes)
-        return nodes
+        nodeset = set()
+        self.find_subnodes(nodeset)
+        return nodeset
     
     def path_set(self):
-        paths = set()
+        pathset = set()
         leaflist = list(self.leaf_set())
         for l in leaflist:
             path = []
@@ -59,8 +75,9 @@ class Node(object):
             while not current.root:
                 path.append(current)
                 current = current.parent
-            paths.add(path)
-            return paths
+            pathtuple = tuple(path)
+            pathset.add(pathtuple)
+        return pathset
 
     def render(self):
         print(anytree.RenderTree(self.anynode))

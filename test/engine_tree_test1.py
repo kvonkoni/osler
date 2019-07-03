@@ -46,12 +46,28 @@ diagnosis5 = Diagnosis('Diagnosis 5', 'Diagnosis 5', 'Remedy 5', {criterionNA, c
 
 #Defining an issue
 
-issue = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagnosis5})
+issue1 = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagnosis5})
+issue2 = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagnosis5})
+issue3 = Issue('Issue II', 'Issue II', {diagnosis1, diagnosis2, diagnosis3, diagnosis4})
 
 #Building a test tree
 
-matrix = Matrix(issue)
-matrix.construct_tree()
+matrix1 = Matrix(issue1)
+matrix1.construct_tree()
+#print(matrix1.node.node_set())
+#print(matrix1.node.leaf_set())
+#print(matrix1.node)
+print(matrix1.node.path_set())
 
-matrix.node.to_png("engine_test1.png")
-matrix.node.to_svg("engine_test1.svg")
+matrix2 = Matrix(issue1)
+matrix2.construct_tree()
+print(matrix2.node.path_set())
+
+#matrix3 = Matrix(issue1)
+#matrix3.construct_tree()
+
+#print(matrix1.node == matrix2.node)
+#print(matrix1.node == matrix3.node)
+
+#matrix1.node.to_png("engine_test1.png")
+#matrix1.node.to_svg("engine_test1.svg")
