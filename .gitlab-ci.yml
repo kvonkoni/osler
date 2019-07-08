@@ -9,4 +9,5 @@ unit_tests:
     - python ./test/test_criterion.py
     - python ./test/test_diagnosis.py
     - python ./test/test_issue.py
+    - python ./test/test_graph.py
     - python ./test/test_engine.py
