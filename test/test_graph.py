@@ -114,25 +114,24 @@ class TestNode(unittest.TestCase):
 
         #Building a second test tree manually
 
-        #For diagnosis 1
+        #For diagnosis 2
         #I->C->A->1
 
         inode2 = Node(issue)
         aCnode2 = assertionC.parent(inode2)
 
-        cCnode2 = criterionC.parent(aCnode2)
-        aAnode2 = assertionA.parent(cCnode2)
-        cAnode2 = criterionA.parent(aAnode2)
-        diagnosis1.parent(cAnode2)
-
-
-        #For diagnosis 2
-        #I->C->D->2
-
         cNCnode2 = criterionNC.parent(aCnode2)
         aDnode2 = assertionD.parent(cNCnode2)
         cDnode2 = criterionD.parent(aDnode2)
         diagnosis2.parent(cDnode2)
+
+        #For diagnosis 1
+        #I->C->D->2
+
+        cCnode2 = criterionC.parent(aCnode2)
+        aAnode2 = assertionA.parent(cCnode2)
+        cAnode2 = criterionA.parent(aAnode2)
+        diagnosis1.parent(cAnode2)
 
 
         #For diagnosis 3
