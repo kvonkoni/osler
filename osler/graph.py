@@ -30,6 +30,13 @@ class Node(object):
             self.etenode = Tree()
     
     def __eq__(self, other):
+        if isinstance(self, Node) and isinstance(other, Node):
+            if self.object == other.object:
+                return True
+            else:
+                return False
+    
+    def is_equal_to_subtree(self, other):
         if self.path_set() == other.path_set():
             return True
         else:
@@ -39,17 +46,14 @@ class Node(object):
         return self.__str__()
     
     def __str__(self):
-        if self.parent:
-            return str(self.object)# +"_childof_" + str(self.parent)
-        else:
-            return str(self.object)# +"_root"
+        return str(self.object)
     
     def __hash__(self):
         return hash(str(self))
     
     def find_subnodes(self, nodeset):
         nodeset.add(self)
-        #print("node: "+str(self)+"; leaf: "+str(self.leaf)+"; root: "+str(self.root))
+        #print("node: "+str(self)+"; leaf: "+str(self.leaf)+"; root: "+str(self.root) + "; children: " + str(self.children))
         for c in self.children:
             c.find_subnodes(nodeset)
     
@@ -73,7 +77,7 @@ class Node(object):
             path = []
             current = l
             while not current.root:
-                path.append(current)
+                path.append(current.object)
                 current = current.parent
             pathtuple = tuple(path)
             pathset.add(pathtuple)
@@ -104,7 +108,7 @@ class Node(object):
         #t.render(filename, tree_style=ts)
         t.render(filename)
 
-class OslerTree(object):
+class OslerTree(Node):
     
     def __init__(self, name, root):
         self.name = name.replace(" ", "_")

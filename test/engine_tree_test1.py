@@ -63,11 +63,12 @@ matrix2 = Matrix(issue1)
 matrix2.construct_tree()
 print(matrix2.node.path_set())
 
-#matrix3 = Matrix(issue1)
-#matrix3.construct_tree()
+matrix3 = Matrix(issue3)
+matrix3.construct_tree()
+print(matrix2.node.path_set())
 
-#print(matrix1.node == matrix2.node)
-#print(matrix1.node == matrix3.node)
+print(matrix1.node == matrix2.node)
+print(matrix1.node == matrix3.node)
 
 #matrix1.node.to_png("engine_test1.png")
 #matrix1.node.to_svg("engine_test1.svg")
