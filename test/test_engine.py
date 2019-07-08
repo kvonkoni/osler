@@ -103,7 +103,7 @@ class TestEngine(unittest.TestCase):
         diagnosis5.parent(cNEnode)
 
         # Assert that the manually-generated tree is equal to the engine-generated tree
-        self.assertTrue(matrix.tree == inode)
+        self.assertEqual(matrix.node, inode)
 
 if __name__ == '__main__':
     unittest.main()
