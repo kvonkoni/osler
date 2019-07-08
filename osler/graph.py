@@ -31,10 +31,7 @@ class Node(object):
     
     def __eq__(self, other):
         if isinstance(self, Node) and isinstance(other, Node):
-            if self.object == other.object:
-                return True
-            else:
-                return False
+            return self.object == other.object
     
     def is_equal_to_subtree(self, other):
         if self.path_set() == other.path_set():
