@@ -33,7 +33,7 @@ class Assertion(object):
 
     def __eq__(self, other):
         if isinstance(other, Assertion):
-            return self.proposition == other.proposition:
+            return self.proposition == other.proposition
         else:
             return False
 
