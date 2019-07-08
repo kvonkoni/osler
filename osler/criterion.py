@@ -32,8 +32,11 @@ class Criterion(object):
         return id(self)
 
     def __eq__(self, other):
-        if self.assertion == other.assertion and (self.truth_value == other.truth_value):
-            return True
+        if isinstance(other, Criterion):
+            if self.assertion == other.assertion and (self.truth_value == other.truth_value):
+                return True
+            else:
+                return False
         else:
             return False
 

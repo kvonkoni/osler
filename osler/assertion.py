@@ -32,8 +32,8 @@ class Assertion(object):
         return id(self)
 
     def __eq__(self, other):
-        if self.proposition == other.proposition:
-            return True
+        if isinstance(other, Assertion):
+            return self.proposition == other.proposition:
         else:
             return False
 
