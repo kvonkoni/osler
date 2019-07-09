@@ -15,6 +15,16 @@ python setup.py install
 This package allows for creating a differential diagnosis decision tree based on the following assumptions:
 * It is possible to test every assertion.
 
+## Features
+
+* Given two diagnoses, determines differential criteria.
+* Determines the most efficient decision tree, given multiple diagnoses.
+
+## Features to Add
+
+* Allow for assertions that have a test order constraint.
+* Add prevalence to test order selection so that most likely diagnosis can be found in the least number of steps.
+
 ## Usage
 
 A minimal example:
