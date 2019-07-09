@@ -151,13 +151,17 @@ class TestNode(unittest.TestCase):
 
 
 
-        #For diagnosis 4
-        #I->C->D->->E->4
+        #For diagnosis 5
+        #I->C->D->E->5
 
         cNEnode2 = criterionNE.parent(aEnode2)
         diagnosis5.parent(cNEnode2)
 
-        # Assert that the manually-generated tree is equal to the engine-generated tree
+        #Building a third test tree manually
+
+        
+
+        # Assert that the node 1 tree is equal to the node 2 tree
         self.assertEqual(inode1, inode2)
 
 if __name__ == '__main__':
