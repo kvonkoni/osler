@@ -10,6 +10,12 @@ Use the Setup.py to install osler.
 python setup.py install
 ```
 
+## Underlying Assumptions
+
+This package allows for creating a differential diagnosis decision tree based on the following assumptions:
+* It is possible to test every assertion.
+* The assertion tests can be done in any order.
+
 ## Usage
 
 A minimal example:
