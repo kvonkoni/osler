@@ -78,8 +78,8 @@ class Matrix(object):
         self.delete_column(dellist)
     
     def calculate_selection_measure_of_column(self, a, method="halving"):
+        num_diagnoses = len(self.matrix[0,:])
         if method == "halving":
-            num_diagnoses = len(self.matrix[0,:])
             count = Counter(self.matrix[:,a])
             return (count[0])**2+(count[1]-num_diagnoses/2.0)**2+(count[1]-num_diagnoses/2.0)**2
 
