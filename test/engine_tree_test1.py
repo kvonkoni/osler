@@ -70,5 +70,5 @@ print(matrix2.node.path_set())
 print(matrix1.node == matrix2.node)
 print(matrix1.node == matrix3.node)
 
-#matrix1.node.to_png("engine_test1.png")
+matrix1.node.to_png("engine_test1.png")
 #matrix1.node.to_svg("engine_test1.svg")

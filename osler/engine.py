@@ -48,6 +48,14 @@ class Matrix(object):
             self.matrix[[a, b],:] = self.matrix[[b, a],:]
             self.candidatelist[a], self.candidatelist[b] = self.candidatelist[b], self.candidatelist[a]
 
+    def move_column_to_first_position(self, a):
+        if a > 0:
+            column_ids = [i for i in range(len(self.matrix[0,:]))]
+            column_ids.remove(a)
+            column_ids.insert(0, a)
+            self.matrix = self.matrix[:,column_ids]
+            self.assertionlist = self.assertionlist[column_ids]
+
     def sort_rows_by_column(self, a):
         arg_sort = self.matrix[:,a].argsort()
         self.matrix = self.matrix[arg_sort]
@@ -67,16 +75,14 @@ class Matrix(object):
                 dellist.append(i)
         self.delete_column(dellist)
 
-    def bring_forward_best_assertion(self):
-        least = 10**8
+    def select_next_assertion(self):
         num_diagnoses = len(self.matrix[0,:])
+        measures = [0 for _ in range(num_diagnoses)]
         for i in range(num_diagnoses):
             count = Counter(self.matrix[:,i])
-            measure = (count[0])**2+(count[1]-num_diagnoses/2.0)**2+(count[1]-num_diagnoses/2.0)**2
-            if measure < least:
-                least = measure
-                id = i
-        self.swap_columns(0, id)
+            measures[i] = (count[0])**2+(count[1]-num_diagnoses/2.0)**2+(count[1]-num_diagnoses/2.0)**2
+            id = measures.index(min(measures))
+        self.move_column_to_first_position(id)
 
     def split_by_truth_value(self):
         index_null = reshape(argwhere(self.matrix[:,0]==0),-1)
@@ -120,7 +126,7 @@ class Matrix(object):
             print(self)
         #Choosing the next assertion
         self.clear_irrelevant_assertions()
-        self.bring_forward_best_assertion()
+        self.select_next_assertion()
         self.sort_rows_by_column(0)
         #Linking the next assertion to the progenitor
         progenitor_node = self.assertionlist[0].parent(self.progenitor)
