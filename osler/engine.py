@@ -20,6 +20,8 @@ class Matrix(object):
         self.assertionlist = list(assertions)
         self.criterionlist = list(criteria)
 
+        # Column = Assertion
+        # Row = Diagnosis
         matrix = zeros((len(self.candidatelist), len(self.assertionlist)))
         for i in range(len(self.candidatelist)):
             for j in range(len(self.assertionlist)):
@@ -74,13 +76,18 @@ class Matrix(object):
             elif 0 in truth_set and len(truth_set) == 2:
                 dellist.append(i)
         self.delete_column(dellist)
+    
+    def calculate_selection_measure_of_column(self, a, method="halving"):
+        if method == "halving":
+            num_diagnoses = len(self.matrix[0,:])
+            count = Counter(self.matrix[:,a])
+            return (count[0])**2+(count[1]-num_diagnoses/2.0)**2+(count[1]-num_diagnoses/2.0)**2
 
     def select_next_assertion(self):
         num_diagnoses = len(self.matrix[0,:])
         measures = [0 for _ in range(num_diagnoses)]
         for i in range(num_diagnoses):
-            count = Counter(self.matrix[:,i])
-            measures[i] = (count[0])**2+(count[1]-num_diagnoses/2.0)**2+(count[1]-num_diagnoses/2.0)**2
+            measures[i] = self.calculate_selection_measure_of_column(i)
             id = measures.index(min(measures))
         self.move_column_to_first_position(id)
 
