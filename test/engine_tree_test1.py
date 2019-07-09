@@ -54,9 +54,6 @@ issue3 = Issue('Issue II', 'Issue II', {diagnosis1, diagnosis2, diagnosis3, diag
 
 matrix1 = Matrix(issue1)
 matrix1.construct_tree()
-#print(matrix1.node.node_set())
-#print(matrix1.node.leaf_set())
-#print(matrix1.node)
 print(matrix1.node.path_set())
 
 matrix2 = Matrix(issue1)
@@ -65,7 +62,7 @@ print(matrix2.node.path_set())
 
 matrix3 = Matrix(issue3)
 matrix3.construct_tree()
-print(matrix2.node.path_set())
+print(matrix3.node.path_set())
 
 print(matrix1.node == matrix2.node)
 print(matrix1.node == matrix3.node)
