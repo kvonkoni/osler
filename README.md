@@ -89,7 +89,7 @@ matrix.node.to_svg("tree.svg")
 ```
 
 This results in the decision tree:
-![Example decision tree](test/engine_tree_test1.png)
+![Example decision tree](https://gitlab.com/kvonkoni/osler/blob/develop/test/engine_test1.png "Decision Tree Example")
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
