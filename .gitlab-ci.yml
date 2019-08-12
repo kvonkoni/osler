@@ -1,7 +1,6 @@
-image: continuumio/anaconda3
+image: continuumio/anaconda3:latest
 
 before_script:
-  - apt-get install -y python-setuptools
   - python setup.py install
 
 unit_tests:
