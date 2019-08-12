@@ -89,7 +89,7 @@ class Matrix(object):
         for i in range(num_diagnoses):
             measures[i] = self.calculate_selection_measure_of_column(i)
             id = measures.index(min(measures))
-        self.move_column_to_first_position(id)
+        return id
 
     def split_by_truth_value(self):
         index_null = reshape(argwhere(self.matrix[:,0]==0),-1)
@@ -133,7 +133,12 @@ class Matrix(object):
             print(self)
         #Choosing the next assertion
         self.clear_irrelevant_assertions()
-        self.select_next_assertion()
+        id = self.select_next_assertion()
+        if self.assertionlist[id].cannot_proceed:
+            #if any self.assertionlist.cannot_proceed[id] assertion exists in the list self.assertionlist
+                #id = id_of_self.assertionlist[cannot_proceed item index]
+            pass
+        self.move_column_to_first_position(id)
         self.sort_rows_by_column(0)
         #Linking the next assertion to the progenitor
         progenitor_node = self.assertionlist[0].parent(self.progenitor)
