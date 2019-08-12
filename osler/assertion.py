@@ -11,7 +11,7 @@ from osler.criterion import Criterion
 
 class Assertion(object):
 
-    def __init__(self, proposition, question, instruction='', ease=1.0, description=''):
+    def __init__(self, proposition, question, instruction='', ease=1.0, description='', **kwargs):
         self.proposition = proposition
         self.question = question
         self.instruction = instruction
@@ -21,6 +21,10 @@ class Assertion(object):
         self.description = description
         self.true = Criterion(self, True)
         self.false = Criterion(self, False)
+        if 'cannot_preceed' in kwargs:
+            self.cannot_preceed = kwargs.get('cannot_preceed')
+        else:
+            self.cannot_preceed = None
 
     def __str__(self):
         return self.name

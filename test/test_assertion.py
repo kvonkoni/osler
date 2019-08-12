@@ -15,6 +15,7 @@ class TestAssertion(unittest.TestCase):
         self.assertEqual(assertion.ease, 1.3)
         self.assertEqual(assertion.name, "This_is_an_assertion")
         self.assertEqual(assertion.description, "Here are more details")
+        self.assertFalse(assertion.cannot_preceed)
 
     def test_equivalent(self):
         assertion1 = Assertion("This is an assertion", "This is the question that tests the assertion", "These are instructions on how to test the assertion", 1.3, "Here are more details")
