@@ -134,10 +134,10 @@ class Matrix(object):
         #Choosing the next assertion
         self.clear_irrelevant_assertions()
         id = self.select_next_assertion()
-        if self.assertionlist[id].cannot_proceed:
-            #if any self.assertionlist.cannot_proceed[id] assertion exists in the list self.assertionlist
-                #id = id_of_self.assertionlist[cannot_proceed item index]
-            pass
+        #if self.assertionlist[id].cannot_preceed:
+        #    if any self.assertionlist.cannot_proceed[id] assertion exists in the list self.assertionlist
+        #        id = id_of_self.assertionlist[cannot_proceed item index]
+        #    pass
         self.move_column_to_first_position(id)
         self.sort_rows_by_column(0)
         #Linking the next assertion to the progenitor
