@@ -1,4 +1,4 @@
-image: continuumio/anaconda3:latest
+image: kvonkoni/osler:v0.1.0
 
 before_script:
   - python setup.py install
