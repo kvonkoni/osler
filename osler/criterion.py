@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 
-#import PyLog
-#import PyKnow
-#import kanren
-import nltk
-import anytree
 from osler.graph import Node
 
 class Criterion(object):
@@ -29,16 +24,13 @@ class Criterion(object):
         return self.__str__()
 
     def __hash__(self):
-        return id(self)
+        return hash(str(self))
 
     def __eq__(self, other):
         if isinstance(other, Criterion):
-            if self.assertion == other.assertion and (self.truth_value == other.truth_value):
-                return True
-            else:
-                return False
+            return self.assertion == other.assertion and (self.truth_value == other.truth_value)
         else:
-            return False
+            return Flase
 
     def parent(self, parent_node):
         return Node(self, parent_node)

@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 
-#import PyLog
-#import PyKnow
-#import kanren
-import nltk
-import anytree
 from osler.graph import Node
 
 class Diagnosis(object):
@@ -20,7 +15,7 @@ class Diagnosis(object):
         self.comorbidity = comorbidity
 
     def __hash__(self):
-        return id(self)
+        return hash(str(self))
 
     def __eq__(self, other):
         if isinstance(other, Diagnosis):

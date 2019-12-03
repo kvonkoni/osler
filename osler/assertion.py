@@ -1,24 +1,14 @@
 #!/usr/bin/env python
 
-#import PyLog
-#import PyKnow
-#import kanren
-import nltk
-import anytree
-#nltk.download()
 from osler.graph import Node
 from osler.criterion import Criterion
 
 class Assertion(object):
 
-    def __init__(self, proposition, question, instruction='', ease=1.0, description='', **kwargs):
+    def __init__(self, proposition, question, instruction='', test_difficulty=0.0, description='', **kwargs):
         self.proposition = proposition
-        self.question = question
-        self.instruction = instruction
-        self.ease = ease
         self.name = proposition.replace(" ", "_")
-        self.id = self.name
-        self.description = description
+        self.test_difficulty = test_difficulty
         self.true = Criterion(self, True)
         self.false = Criterion(self, False)
         if 'cannot_preceed' in kwargs:
@@ -33,7 +23,7 @@ class Assertion(object):
         return self.__str__()
 
     def __hash__(self):
-        return id(self)
+        return hash(str(self))
 
     def __eq__(self, other):
         if isinstance(other, Assertion):

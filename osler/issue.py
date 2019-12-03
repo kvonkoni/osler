@@ -1,27 +1,14 @@
 #!/usr/bin/env python
 
-#import PyLog
-#import PyKnow
-#import kanren
-import nltk
-import anytree
-from anytree.exporter import DotExporter
-from graphviz import Source, render
-
 from osler.graph import Node
 from osler.diagnosis import diagnosable, undiagnosable
 
 class Issue(object):
 
-    def __init__(self, name, description, candidates, severity=0):
+    def __init__(self, name, description, candidates):
         self.name = name.replace(" ", "_")
-        self.id = self.name
         self.description = description
         self.candidates = candidates
-        self.severity = severity
-        self.prevalence = 0.0
-        for s in list(self.candidates):
-            self.prevalence += s.prevalence
         self.validate()
 
     def __str__(self):
@@ -31,7 +18,13 @@ class Issue(object):
         return self.__str__()
 
     def __hash__(self):
-        return id(self)
+        return hash(str(self))
+    
+    def prevalence(self):
+        prevalence = 0.0
+        for s in list(self.candidates):
+            prevalence += s.prevalence
+        return prevalence
 
     def parent(self, parent_node):
         return Node(self, parent_node)
