@@ -10,11 +10,8 @@ class TestAssertion(unittest.TestCase):
     def test_init(self):
         assertion = Assertion("This is an assertion", "This is the question that tests the assertion?", "These are instructions on how to test the assertion", 1.3, "Here are more details")
         self.assertEqual(assertion.proposition, "This is an assertion")
-        self.assertEqual(assertion.question, "This is the question that tests the assertion?")
-        self.assertEqual(assertion.instruction, "These are instructions on how to test the assertion")
-        self.assertEqual(assertion.ease, 1.3)
+        self.assertEqual(assertion.test_difficulty, 1.3)
         self.assertEqual(assertion.name, "This_is_an_assertion")
-        self.assertEqual(assertion.description, "Here are more details")
         self.assertFalse(assertion.cannot_preceed)
 
     def test_equivalent(self):
