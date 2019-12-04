@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 
+import sys
+
 import anytree
-import ete3
-from anytree.exporter import DotExporter, JsonExporter
-#from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
+from anytree.exporter import DotExporter
 from ete3 import Tree
 from graphviz import render, Source
-import sys
 
 sys.setrecursionlimit(1500)
 
@@ -50,7 +49,6 @@ class Node(object):
     
     def find_subnodes(self, nodeset):
         nodeset.add(self)
-        #print("node: "+str(self)+"; leaf: "+str(self.leaf)+"; root: "+str(self.root) + "; children: " + str(self.children))
         for c in self.children:
             c.find_subnodes(nodeset)
     
@@ -93,16 +91,6 @@ class Node(object):
 
     def to_svg(self, filename):
         t = self.etenode
-        #ts = TreeStyle()
-        #ts.show_leaf_name = False
-        #def my_layout(node):
-        #        F = TextFace(node.name, tight_text=True)
-        #        add_face_to_node(F, node, column=0, position="branch-right")
-        #ts.layout_fn = my_layout
-        #ts.mode = "c"
-        #ts.arc_start = 45 # 0 degrees = 3 o'clock
-        #ts.arc_span = 135
-        #t.render(filename, tree_style=ts)
         t.render(filename)
 
 class OslerTree(Node):
