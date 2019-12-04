@@ -5,12 +5,13 @@ from osler.criterion import Criterion
 
 class Assertion(object):
 
-    def __init__(self, proposition, question, instruction='', test_difficulty=0.0, description='', **kwargs):
+    def __init__(self, proposition, test_difficulty=0.0, **kwargs):
         self.proposition = proposition
         self.name = proposition.replace(" ", "_")
         self.test_difficulty = test_difficulty
         self.true = Criterion(self, True)
         self.false = Criterion(self, False)
+        self.metadata = kwargs
         if 'cannot_preceed' in kwargs:
             self.cannot_preceed = kwargs.get('cannot_preceed')
         else:

@@ -4,15 +4,12 @@ from osler.graph import Node
 
 class Diagnosis(object):
 
-    def __init__(self, name, description, remedy, criteria, prevalence=0.0, comorbidity=set()):
+    def __init__(self, name, criteria, prevalence=0.0, **kwargs):
         self.name = name.replace(" ", "_")
-        self.id = self.name
-        self.description = description
-        self.remedy = remedy
         self.criteria = criteria
         self.assertions = self.assertion_set()
         self.prevalence = prevalence
-        self.comorbidity = comorbidity
+        self.metadata = kwargs
 
     def __hash__(self):
         return hash(str(self))

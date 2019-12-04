@@ -5,10 +5,10 @@ from osler.diagnosis import diagnosable, undiagnosable
 
 class Issue(object):
 
-    def __init__(self, name, description, candidates):
+    def __init__(self, name, candidates, **kwargs):
         self.name = name.replace(" ", "_")
-        self.description = description
         self.candidates = candidates
+        self.metadata = kwargs
         self.validate()
 
     def __str__(self):
