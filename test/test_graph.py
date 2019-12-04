@@ -11,7 +11,7 @@ from osler.graph import Node
 
 class TestNode(unittest.TestCase):
     def test_init(self):
-        assertionA = Assertion("assertion A", "is assertion A true?")
+        assertionA = Assertion("assertion A")
         criterionA = Criterion(assertionA, True)
 
         parent_node = Node(assertionA)
@@ -30,13 +30,13 @@ class TestNode(unittest.TestCase):
     def test_equal(self):
         #Defining assertions
 
-        assertionA = Assertion("assertion A", "is assertion A true?")
-        assertionB = Assertion("assertion B", "is assertion B true?")
-        assertionC = Assertion("assertion C", "is assertion C true?")
-        assertionD = Assertion("assertion D", "is assertion D true?")
-        assertionE = Assertion("assertion E", "is assertion E true?")
-        assertionX = Assertion("assertion X", "is assertion X true?")
-        assertionY = Assertion("assertion Y", "is assertion Y true?")
+        assertionA = Assertion("assertion A")
+        assertionB = Assertion("assertion B")
+        assertionC = Assertion("assertion C")
+        assertionD = Assertion("assertion D")
+        assertionE = Assertion("assertion E")
+        assertionX = Assertion("assertion X")
+        assertionY = Assertion("assertion Y")
 
         #Defining criteria
 
@@ -56,15 +56,15 @@ class TestNode(unittest.TestCase):
 
         #Defining diagnoses
 
-        diagnosis1 = Diagnosis('Diagnosis 1', 'Diagnosis 1', 'Remedy 1', {criterionA, criterionNB, criterionC, criterionX}, 0.2)
-        diagnosis2 = Diagnosis('Diagnosis 2', 'Diagnosis 2', 'Remedy 2', {criterionNA, criterionNC, criterionD, criterionY, criterionX}, 0.2)
-        diagnosis3 = Diagnosis('Diagnosis 3', 'Diagnosis 3', 'Remedy 3', {criterionNA, criterionC, criterionX}, 0.2)
-        diagnosis4 = Diagnosis('Diagnosis 4', 'Diagnosis 4', 'Remedy 4', {criterionNA, criterionNC, criterionND, criterionE, criterionX}, 0.2)
-        diagnosis5 = Diagnosis('Diagnosis 5', 'Diagnosis 5', 'Remedy 5', {criterionNA, criterionNC, criterionND, criterionNE, criterionX}, 0.2)
+        diagnosis1 = Diagnosis('Diagnosis 1', {criterionA, criterionNB, criterionC, criterionX}, 0.2)
+        diagnosis2 = Diagnosis('Diagnosis 2', {criterionNA, criterionNC, criterionD, criterionY, criterionX}, 0.2)
+        diagnosis3 = Diagnosis('Diagnosis 3', {criterionNA, criterionC, criterionX}, 0.2)
+        diagnosis4 = Diagnosis('Diagnosis 4', {criterionNA, criterionNC, criterionND, criterionE, criterionX}, 0.2)
+        diagnosis5 = Diagnosis('Diagnosis 5', {criterionNA, criterionNC, criterionND, criterionNE, criterionX}, 0.2)
 
         #Defining an issue
 
-        issue = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagnosis5})
+        issue = Issue('Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagnosis5})
 
         #Building a test tree manually
 
