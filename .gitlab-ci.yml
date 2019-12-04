@@ -1,4 +1,4 @@
-image: kvonkoni/osler:v0.1.0
+image: kvonkoni/osler:v0.3.0
 
 before_script:
   - python3 setup.py install
