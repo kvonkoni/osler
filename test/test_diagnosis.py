@@ -25,10 +25,10 @@ class TestDiagnosis(unittest.TestCase):
         self.assertEqual(diagnosis.prevalence, 0.25)
     
     def test_equality(self):
-        assertionA = Assertion("assertion A", "is assertion A true?")
-        assertionB = Assertion("assertion B", "is assertion B true?")
-        assertionC = Assertion("assertion C", "is assertion C true?")
-        assertionX = Assertion("assertion X", "is assertion X true?")
+        assertionA = Assertion("assertion A")
+        assertionB = Assertion("assertion B")
+        assertionC = Assertion("assertion C")
+        assertionX = Assertion("assertion X")
         diagnosis1 = Diagnosis('Diagnosis 1', {assertionA.true, assertionB.false, assertionC.true, assertionX.false}, 0.25)
         diagnosis2 = Diagnosis('Diagnosis 2', {assertionA.true, assertionB.false, assertionC.true, assertionX.false}, 0.5)
         diagnosis3 = Diagnosis('Diagnosis 1', {assertionA.true, assertionB.false, assertionC.false, assertionX.false}, 0.25)
@@ -36,10 +36,10 @@ class TestDiagnosis(unittest.TestCase):
         self.assertFalse(diagnosis1==diagnosis3)
     
     def test_diagnosable(self):
-        assertionA = Assertion("assertion A", "is assertion A true?")
-        assertionB = Assertion("assertion B", "is assertion B true?")
-        assertionC = Assertion("assertion C", "is assertion C true?")
-        assertionX = Assertion("assertion X", "is assertion X true?")
+        assertionA = Assertion("assertion A")
+        assertionB = Assertion("assertion B")
+        assertionC = Assertion("assertion C")
+        assertionX = Assertion("assertion X")
         diagnosis1 = Diagnosis('Diagnosis 1', {assertionA.true, assertionB.false, assertionC.true, assertionX.false}, 0.25)
         diagnosis2 = Diagnosis('Diagnosis 2', {assertionA.true, assertionB.false, assertionC.true, assertionX.false}, 0.5)
         diagnosis3 = Diagnosis('Diagnosis 3', {assertionA.true, assertionB.false, assertionC.false, assertionX.false}, 0.25)
@@ -47,10 +47,10 @@ class TestDiagnosis(unittest.TestCase):
         self.assertFalse(diagnosable({diagnosis1, diagnosis2}))
     
     def test_undiagnosable(self):
-        assertionA = Assertion("assertion A", "is assertion A true?")
-        assertionB = Assertion("assertion B", "is assertion B true?")
-        assertionC = Assertion("assertion C", "is assertion C true?")
-        assertionX = Assertion("assertion X", "is assertion X true?")
+        assertionA = Assertion("assertion A")
+        assertionB = Assertion("assertion B")
+        assertionC = Assertion("assertion C")
+        assertionX = Assertion("assertion X")
         diagnosis1 = Diagnosis('Diagnosis 1', {assertionA.true, assertionB.false, assertionC.true, assertionX.false}, 0.25)
         diagnosis2 = Diagnosis('Diagnosis 2', {assertionA.true, assertionB.false, assertionC.true, assertionX.false}, 0.5)
         self.assertEqual(undiagnosable({diagnosis1, diagnosis2}), {"Diagnosis_1/Diagnosis_2"})
