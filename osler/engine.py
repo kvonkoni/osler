@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import logging
+log = logging.getLogger(__name__)
+
 from collections import Counter
 from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concatenate
 from copy import copy

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import sys
+import logging
+log = logging.getLogger(__name__)
 
 import anytree
 from anytree.exporter import DotExporter
