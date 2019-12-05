@@ -25,12 +25,9 @@ class Diagnosis(object):
 
     def __add__(self, other):
         name = self.name+"+"+other.name
-        description = self.name+" intersect "+other.name
-        remedy = self.name+" remedy and/or "+other.name+" remedy"
         criteria = self.common_criteria(other)
         prevalence = self.prevalence+other.prevalence
-        comorbidity = self.comorbidity.union(other.comorbidity)
-        return Diagnosis(name, description, remedy, criteria, prevalence, comorbidity)
+        return Diagnosis(name, criteria, prevalence)
 
     def __radd__(self, other):
         return self.__add__(other)
@@ -45,11 +42,10 @@ class Diagnosis(object):
         return Node(self, parent_node)
 
     def info(self):
-        print("{{Diagnosis description: {}".format(self.description))
+        print("{{Diagnosis name: {}".format(self.name))
         print("  The criteria for this diagnosis are:")
         for c in list(self.criteria):
             print("    "+c.name)
-        print("  The remedy for this diagnosis is: {}".format(self.remedy))
         print("}")
 
     def assertion_set(self):
