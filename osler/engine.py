@@ -70,6 +70,11 @@ class Matrix(object):
         arg_sort = self.matrix[:,0].argsort()
         self.matrix = self.matrix[arg_sort]
         self.candidatelist = [self.candidatelist[i] for i in arg_sort]
+    
+    def sort_matrix_by_assertions(self):
+        arg_sort = self.matrix[0,:].argsort()
+        self.matrix = self.matrix[:,arg_sort]
+        self.assrtionlist = [self.assertionlist[i] for i in arg_sort]
 
     def delete_assertion(self, a):
         self.matrix = delete(self.matrix, a, 1)
