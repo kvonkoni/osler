@@ -12,8 +12,6 @@ class Assertion(object):
         self.proposition = proposition
         self.name = proposition.replace(" ", "_")
         self.test_difficulty = test_difficulty
-        self.true = Criterion(self, True)
-        self.false = Criterion(self, False)
         self.metadata = kwargs
         if 'cannot_preceed' in kwargs:
             self.cannot_preceed = kwargs.get('cannot_preceed')
@@ -34,6 +32,12 @@ class Assertion(object):
             return self.proposition == other.proposition
         else:
             return False
+    
+    def true(self):
+        return Criterion(self, True)
+    
+    def false(self):
+        return Criterion(self, False)
 
     def parent(self, parent_node):
         return Node(self, parent_node)
