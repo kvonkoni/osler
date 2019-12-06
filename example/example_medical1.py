@@ -27,8 +27,6 @@ uncertain2 = Diagnosis('Uncertain configuration 2', {aHBc_pos.false(), aHDV_neg.
 hepBD = Diagnosis('Hepatitis B+D', {aHDV_neg.false(), HBsAg_pos.true()})
 unclear_poss_resolved = Diagnosis('Unclear (possibly resolved)', {aHBc_pos.true(), aHBs_pos.false(), HBsAg_pos.false()})
 no_suspicion = Diagnosis('Healthy not vaccinated or suspicious', {aHBc_pos.false(), aHBs_pos.false(), HBsAg_pos.false()})
-cured = Diagnosis('Cured', {aHBc_pos.true(), aHBs_pos.true(), HBsAg_pos.false()})
-vaccinated = Diagnosis('Vaccinated', {aHBc_pos.false(), aHBs_pos.true(), HBsAg_pos.false()})
 
 #Defining an issue
 
@@ -37,6 +35,6 @@ hepB_pred = Issue('Hepatitis B predictions', {acute_infection, chronic_infection
 #Building a test tree
 
 matrix = Matrix(hepB_pred)
-matrix.construct_tree(debug=True)
+matrix.construct_tree()
 
 matrix.node.to_png("result_example_medical1.png")
