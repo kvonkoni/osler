@@ -54,7 +54,7 @@ class TestEngine(unittest.TestCase):
         #Building a test tree using the engine
 
         matrix = Matrix(issue)
-        matrix.construct_tree(debug=True)
+        matrix.construct_tree()
 
         #Building a test tree manually
 
