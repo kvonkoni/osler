@@ -94,12 +94,6 @@ class Matrix(object):
             elif 0 in truth_set and len(truth_set) == 2:
                 dellist.append(i)
         self.delete_assertion(dellist)
-    
-    def calculate_selection_measure_of_column(self, a, method="halving"):
-        num_diagnoses = len(self.matrix[0,:])
-        if method == "halving":
-            count = Counter(self.matrix[:,a])
-            return (count[0])**2+(count[1]-num_diagnoses/2.0)**2+(count[1]-num_diagnoses/2.0)**2
 
     def select_next_assertion(self):
         num_diagnoses = len(self.matrix[0,:])
@@ -108,6 +102,12 @@ class Matrix(object):
             measures[i] = self.calculate_selection_measure_of_column(i)
             index = measures.index(min(measures))
         return index
+    
+    def calculate_selection_measure_of_column(self, a, method="widest"):
+        num_diagnoses = len(self.matrix[0,:])
+        if method == "widest":
+            count = Counter(self.matrix[:,a])
+            return (count[0])**2+(count[1]-num_diagnoses/2.0)**2+(count[1]-num_diagnoses/2.0)**2
 
     def split_by_truth_value(self):
         # For the assertion in position 0, split the matrix instance into 3 smaller matrix objects....
@@ -185,24 +185,24 @@ class Matrix(object):
         
         # Linking the "true" matrix to the assertion and deleting the previous assertion
         if len(matrix_one.candidatelist) > 1:
-            criterion_true = Criterion.search(self.assertionlist[0], True, self.criterionlist)
+            criterion_true = self.assertionlist[0].true()
             criterion_true_node = criterion_true.parent(progenitor_node)
             matrix_one.progenitor = criterion_true_node
             matrix_one.delete_assertion(0)
             matrix_one.construct_tree(debug)
         elif len(matrix_one.candidatelist) == 1:
-            criterion_true = Criterion.search(self.assertionlist[0], True, self.criterionlist)
+            criterion_true = self.assertionlist[0].true()
             criterion_true_node = criterion_true.parent(progenitor_node)
             matrix_one.candidatelist[0].parent(criterion_true_node)
         
         # Linking the "false" matrix to the assertion and deleting the previous assertion
         if len(matrix_two.candidatelist) > 1:
-            criterion_false = Criterion.search(self.assertionlist[0], False, self.criterionlist)
+            criterion_false = self.assertionlist[0].false()
             criterion_false_node = criterion_false.parent(progenitor_node)
             matrix_two.progenitor = criterion_false_node
             matrix_two.delete_assertion(0)
             matrix_two.construct_tree(debug)
         elif len(matrix_two.candidatelist) == 1:
-            criterion_false = Criterion.search(self.assertionlist[0], False, self.criterionlist)
+            criterion_false = self.assertionlist[0].false()
             criterion_false_node = criterion_false.parent(progenitor_node)
             matrix_two.candidatelist[0].parent(criterion_false_node)

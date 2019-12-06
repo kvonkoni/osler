@@ -27,8 +27,8 @@ uncertain2 = Diagnosis('Uncertain configuration 2', {aHBc_pos.false(), aHDV_neg.
 hepBD = Diagnosis('Hepatitis B+D', {aHDV_neg.false(), HBsAg_pos.true()})
 unclear_poss_resolved = Diagnosis('Unclear (possibly resolved)', {aHBc_pos.true(), aHBs_pos.false(), HBsAg_pos.false()})
 no_suspicion = Diagnosis('Healthy not vaccinated or suspicious', {aHBc_pos.false(), aHBs_pos.false(), HBsAg_pos.false()})
-#cured = Diagnosis('Cured', {aHBc_pos.true(), aHBs_pos.true(), HBsAg_pos.false()})
-#vaccinated = Diagnosis('Vaccinated', {aHBc_pos.false(), aHBs_pos.true(), HBsAg_pos.false()})
+cured = Diagnosis('Cured', {aHBc_pos.true(), aHBs_pos.true(), HBsAg_pos.false()})
+vaccinated = Diagnosis('Vaccinated', {aHBc_pos.false(), aHBs_pos.true(), HBsAg_pos.false()})
 
 #Defining an issue
 
