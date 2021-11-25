@@ -3,7 +3,7 @@
 import logging
 log = logging.getLogger(__name__)
 
-from osler.graph import Node
+from .graph import Node
 
 class Criterion(object):
 

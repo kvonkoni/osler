@@ -3,8 +3,8 @@
 import logging
 log = logging.getLogger(__name__)
 
-from osler.graph import Node
-from osler.criterion import Criterion
+from .graph import Node
+from .criterion import Criterion
 
 class Assertion(object):
 

@@ -7,8 +7,8 @@ from collections import Counter
 from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concatenate
 from copy import copy
 
-from osler.graph import Node, OslerTree
-from osler.criterion import Criterion
+from .graph import Node, OslerTree
+from .criterion import Criterion
 
 class Matrix(object):
     

@@ -3,8 +3,8 @@
 import logging
 log = logging.getLogger(__name__)
 
-from osler.graph import Node
-from osler.diagnosis import diagnosable, undiagnosable
+from .graph import Node
+from .diagnosis import diagnosable, undiagnosable
 
 class Issue(object):
 
