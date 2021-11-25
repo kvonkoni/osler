@@ -20,13 +20,13 @@ IgMaHBc_pos = Assertion("IgM anti-HBc = positive")
 
 #Defining diagnoses
 
-acute_infection = Diagnosis('Acute infecction', {IgMaHBc_pos.true(), aHBs_pos.false(), aHBc_pos.true(), aHDV_neg.true(), HBsAg_pos.true()})
-chronic_infection = Diagnosis('Chronic infecction', {IgMaHBc_pos.false(), aHBs_pos.false(), aHBc_pos.true(), aHDV_neg.true(), HBsAg_pos.true()})
-uncertain1 = Diagnosis('Uncertain configuration 1', {aHBs_pos.true(), aHBc_pos.true(), aHDV_neg.true(), HBsAg_pos.true()})
-uncertain2 = Diagnosis('Uncertain configuration 2', {aHBc_pos.false(), aHDV_neg.true(), HBsAg_pos.true()})
-hepBD = Diagnosis('Hepatitis B+D', {aHDV_neg.false(), HBsAg_pos.true()})
-unclear_poss_resolved = Diagnosis('Unclear (possibly resolved)', {aHBc_pos.true(), aHBs_pos.false(), HBsAg_pos.false()})
-no_suspicion = Diagnosis('Healthy not vaccinated or suspicious', {aHBc_pos.false(), aHBs_pos.false(), HBsAg_pos.false()})
+acute_infection = Diagnosis('Acute infecction', {Criterion(IgMaHBc_pos, True), Criterion(aHBs_pos, False), Criterion(aHBc_pos, True), Criterion(aHDV_neg, True), Criterion(HBsAg_pos, True)})
+chronic_infection = Diagnosis('Chronic infecction', {Criterion(IgMaHBc_pos, False), Criterion(aHBs_pos, False), Criterion(aHBc_pos, True), Criterion(aHDV_neg, True), Criterion(HBsAg_pos, True)})
+uncertain1 = Diagnosis('Uncertain configuration 1', {Criterion(aHBs_pos, True), Criterion(aHBc_pos, True), Criterion(aHDV_neg, True), Criterion(HBsAg_pos, True)})
+uncertain2 = Diagnosis('Uncertain configuration 2', {Criterion(aHBc_pos, False), Criterion(aHDV_neg, True), Criterion(HBsAg_pos, True)})
+hepBD = Diagnosis('Hepatitis B+D', {Criterion(aHDV_neg, False), Criterion(HBsAg_pos, True)})
+unclear_poss_resolved = Diagnosis('Unclear (possibly resolved)', {Criterion(aHBc_pos, True), Criterion(aHBs_pos, False), Criterion(HBsAg_pos, False)})
+no_suspicion = Diagnosis('Healthy not vaccinated or suspicious', {Criterion(aHBc_pos, False), Criterion(aHBs_pos, False), Criterion(HBsAg_pos, False)})
 
 #Defining an issue
 
