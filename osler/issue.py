@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-from .common import EntityBase, NodeMixin
+from .common import DifferentialDiagnosisError, EntityBase, NodeMixin
 from .diagnosis import diagnosable, undiagnosable
 
 class Issue(EntityBase, NodeMixin):
 
     def __init__(self, name, candidates, **kwargs):
-        self.name = name.replace(" ", "_")
+        super().__init__(name.replace(" ", "_"))
         self.candidates = candidates
         self.metadata = kwargs
         self.validate()
@@ -19,4 +19,4 @@ class Issue(EntityBase, NodeMixin):
     
     def validate(self):
         if not diagnosable(self.candidates):
-            raise Exception("Candidate diagnoses must be diagnosable: can't differentiate {}.".format(str(undiagnosable(self.candidates))))
+            raise DifferentialDiagnosisError("Candidate diagnoses must be diagnosable: can't differentiate {}.".format(str(undiagnosable(self.candidates))))

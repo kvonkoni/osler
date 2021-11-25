@@ -156,10 +156,6 @@ class Matrix(object):
         # Choosing the next assertion
         self.clear_irrelevant_assertions()
         id = self.select_next_assertion()
-        #if self.assertionlist[id].cannot_preceed:
-        #    if any self.assertionlist.cannot_proceed[id] assertion exists in the list self.assertionlist
-        #        id = id_of_self.assertionlist[cannot_proceed item index]
-        #    pass
         self.move_assertion_to_first_position(id)
         self.sort_diagnoses_by_assertion_truth_value()
         
@@ -185,24 +181,24 @@ class Matrix(object):
         
         # Linking the "true" matrix to the assertion and deleting the previous assertion
         if len(matrix_one.candidatelist) > 1:
-            criterion_true = self.assertionlist[0].true()
+            criterion_true = Criterion(self.assertionlist[0], True)
             criterion_true_node = criterion_true.parent(progenitor_node)
             matrix_one.progenitor = criterion_true_node
             matrix_one.delete_assertion(0)
             matrix_one.construct_tree(debug)
         elif len(matrix_one.candidatelist) == 1:
-            criterion_true = self.assertionlist[0].true()
+            criterion_true = Criterion(self.assertionlist[0], True)
             criterion_true_node = criterion_true.parent(progenitor_node)
             matrix_one.candidatelist[0].parent(criterion_true_node)
         
         # Linking the "false" matrix to the assertion and deleting the previous assertion
         if len(matrix_two.candidatelist) > 1:
-            criterion_false = self.assertionlist[0].false()
+            criterion_false = Criterion(self.assertionlist[0], False)
             criterion_false_node = criterion_false.parent(progenitor_node)
             matrix_two.progenitor = criterion_false_node
             matrix_two.delete_assertion(0)
             matrix_two.construct_tree(debug)
         elif len(matrix_two.candidatelist) == 1:
-            criterion_false = self.assertionlist[0].false()
+            criterion_false = Criterion(self.assertionlist[0], False)
             criterion_false_node = criterion_false.parent(progenitor_node)
             matrix_two.candidatelist[0].parent(criterion_false_node)

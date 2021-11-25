@@ -1,28 +1,28 @@
 #!/usr/bin/env python3
 
 from .common import EntityBase, NodeMixin
-from .criterion import Criterion
 
 class Assertion(EntityBase, NodeMixin):
 
-    def __init__(self, proposition, test_difficulty=0.0, **kwargs):
-        self.proposition = proposition
-        self.name = proposition.replace(" ", "_")
-        self.test_difficulty = test_difficulty
-        self.metadata = kwargs
-        if 'cannot_preceed' in kwargs:
-            self.cannot_preceed = kwargs.get('cannot_preceed')
-        else:
-            self.cannot_preceed = None
+    def __init__(self, proposition: str, test_difficulty: float=0.0, **kwargs) -> None:
+        super().__init__(proposition.replace(" ", "_"))
+        self._proposition = proposition
+        self._test_difficulty = test_difficulty
+        self._metadata = kwargs
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Assertion') -> bool:
         if isinstance(other, Assertion):
-            return self.proposition == other.proposition
+            return self._proposition == other._proposition
         else:
             return False
     
-    def true(self):
-        return Criterion(self, True)
+    def __hash__(self) -> int:
+        return hash(self._name)
     
-    def false(self):
-        return Criterion(self, False)
+    @property
+    def proposition(self) -> str:
+        return self._proposition
+    
+    @property
+    def test_difficulty(self):
+        return self._test_difficulty

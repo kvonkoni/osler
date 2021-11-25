@@ -10,13 +10,18 @@ class NodeMixin:
 class EntityBase:
 
     def __init__(self, name):
-        self.name = name
+        self._name = name
 
     def __str__(self):
-        return self.name
+        return self._name
 
     def __repr__(self):
         return self.__str__()
+    
+    @property
+    def name(self) -> str:
+        return self._name
 
-    def __hash__(self):
-        return hash(str(self))
+class DifferentialDiagnosisError(Exception):
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        super().__init__(*args, **kwargs)
