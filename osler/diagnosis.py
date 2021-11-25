@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 
-import logging
-log = logging.getLogger(__name__)
+from .common import EntityBase, NodeMixin
 
-from .graph import Node
-
-class Diagnosis(object):
+class Diagnosis(EntityBase, NodeMixin):
 
     def __init__(self, name, criteria, prevalence=0.0, **kwargs):
         self.name = name.replace(" ", "_")
@@ -13,9 +10,6 @@ class Diagnosis(object):
         self.assertions = self.assertion_set()
         self.prevalence = prevalence
         self.metadata = kwargs
-
-    def __hash__(self):
-        return hash(str(self))
 
     def __eq__(self, other):
         if isinstance(other, Diagnosis):
@@ -31,15 +25,6 @@ class Diagnosis(object):
 
     def __radd__(self, other):
         return self.__add__(other)
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.__str__()
-
-    def parent(self, parent_node):
-        return Node(self, parent_node)
 
     def info(self):
         print("{{Diagnosis name: {}".format(self.name))

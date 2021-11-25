@@ -1,36 +1,21 @@
 #!/usr/bin/env python3
 
-import logging
-log = logging.getLogger(__name__)
-
-from .graph import Node
+from .common import EntityBase, NodeMixin
 from .diagnosis import diagnosable, undiagnosable
 
-class Issue(object):
+class Issue(EntityBase, NodeMixin):
 
     def __init__(self, name, candidates, **kwargs):
         self.name = name.replace(" ", "_")
         self.candidates = candidates
         self.metadata = kwargs
         self.validate()
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __hash__(self):
-        return hash(str(self))
     
     def prevalence(self):
         prevalence = 0.0
         for s in list(self.candidates):
             prevalence += s.prevalence
         return prevalence
-
-    def parent(self, parent_node):
-        return Node(self, parent_node)
     
     def validate(self):
         if not diagnosable(self.candidates):

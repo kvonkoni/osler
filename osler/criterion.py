@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 
-import logging
-log = logging.getLogger(__name__)
+from .common import EntityBase, NodeMixin
 
-from .graph import Node
-
-class Criterion(object):
+class Criterion(EntityBase, NodeMixin):
 
     @classmethod
     def search(cls, assertion, truth_value, criterialist):
@@ -17,26 +14,14 @@ class Criterion(object):
     def __init__(self, assertion, truth_value, **kwargs):
         self.assertion = assertion
         self.truth_value = truth_value
-        self.name = assertion.name+'_is_'+str(truth_value)
+        self.name = assertion.name + '_is_' + str(truth_value)
         self.metadata = kwargs
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __hash__(self):
-        return hash(str(self))
 
     def __eq__(self, other):
         if isinstance(other, Criterion):
             return self.assertion == other.assertion and (self.truth_value == other.truth_value)
         else:
             return False
-
-    def parent(self, parent_node):
-        return Node(self, parent_node)
 
     def opposite(self, other):
         if self.assertion == other.assertion and (self.truth_value != other.truth_value):
