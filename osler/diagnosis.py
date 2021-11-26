@@ -3,8 +3,9 @@
 from typing import Set, FrozenSet
 
 from .assertion import Assertion
-from .common import EntityBase, NodeMixin
+from .common import EntityBase
 from .criterion import Criterion
+from .graph import NodeMixin
 
 class Diagnosis(EntityBase, NodeMixin):
 

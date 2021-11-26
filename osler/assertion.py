@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from .common import EntityBase, NodeMixin
+from .common import EntityBase
+from .graph import NodeMixin
 
 class Assertion(EntityBase, NodeMixin):
 

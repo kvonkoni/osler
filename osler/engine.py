@@ -7,7 +7,7 @@ from collections import Counter
 from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concatenate
 from copy import copy
 
-from .graph import Node, OslerTree
+from .graph import Node
 from .criterion import Criterion
 
 class Matrix(object):
@@ -36,7 +36,6 @@ class Matrix(object):
                         else:
                             matrix[i, j] = 2
         self.matrix = matrix
-        self.tree = OslerTree(issue.name, self.node)
 
     def print_matrix(self):
         print("{{Matrix is ({} diagnoses by {} assertions)".format(len(self.candidatelist), len(self.assertionlist)))

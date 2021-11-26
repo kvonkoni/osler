@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 
-from .graph import Node
-
-class NodeMixin:
-
-    def parent(self, parent_node):
-        return Node(self, parent_node)
-
 class EntityBase:
 
     def __init__(self, name):

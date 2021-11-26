@@ -3,7 +3,8 @@
 from typing import List, Set
 
 from .assertion import Assertion
-from .common import EntityBase, NodeMixin
+from .common import EntityBase
+from .graph import NodeMixin
 
 class Criterion(EntityBase, NodeMixin):
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from .common import DifferentialDiagnosisError, EntityBase, NodeMixin
+from .common import DifferentialDiagnosisError, EntityBase
 from .diagnosis import diagnosable, undiagnosable
+from .graph import NodeMixin
 
 class Issue(EntityBase, NodeMixin):
 
