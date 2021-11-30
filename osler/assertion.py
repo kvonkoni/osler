@@ -25,5 +25,5 @@ class Assertion(EntityBase, NodeMixin):
         return self._proposition
     
     @property
-    def test_difficulty(self):
+    def test_difficulty(self) -> float:
         return self._test_difficulty

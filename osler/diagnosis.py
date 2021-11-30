@@ -150,7 +150,7 @@ def diagnosable(diagnosis_set: Set['Diagnosis']) -> bool:
                 return False
     return True
 
-def undiagnosable(diagnosis_set: Set['Diagnosis']) -> Set['str']:
+def undiagnosable(diagnosis_set: Set['Diagnosis']) -> Set['Diagnosis']:
     if len(diagnosis_set) < 2:
         return diagnosis_set
     undiagnosable = set()

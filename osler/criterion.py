@@ -41,7 +41,7 @@ class Criterion(EntityBase, NodeMixin):
     def opposite(self, other) -> bool:
         return (self.assertion == other.assertion) and (self.truth_value != other.truth_value)
 
-def assertion_set_from_criterion_set(criterion_set: Set[Criterion]):
+def assertion_set_from_criterion_set(criterion_set: Set[Criterion]) -> Set[Assertion]:
     result = set()
     for c in list(criterion_set):
         result.add(c.assertion)

@@ -2,13 +2,13 @@
 
 class EntityBase:
 
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         self._name = name
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._name
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.__str__()
     
     @property
