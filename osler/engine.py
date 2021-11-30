@@ -38,6 +38,15 @@ class Matrix(object):
                         else:
                             matrix[i, j] = 2
         self.matrix = matrix
+    
+    def to_png(self, filename: str) -> None:
+        self.node.to_png(filename)
+    
+    def to_svg(self, filename: str) -> None:
+        self.node.to_svg(filename)
+    
+    def to_image(self, filename: str) -> None:
+        self.node.to_image(filename)
 
     def print_matrix(self) -> None:
         print("{{Matrix is ({} diagnoses by {} assertions)".format(len(self.candidatelist), len(self.assertionlist)))

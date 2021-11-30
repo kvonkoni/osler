@@ -84,8 +84,8 @@ issue = Issue('Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagno
 matrix = Matrix(issue)
 matrix.construct_tree()
 
-matrix.node.to_png("tree.png")
-matrix.node.to_svg("tree.svg")
+matrix.to_png("tree.png")
+matrix.to_svg("tree.svg")
 ```
 
 This results in the decision tree:
