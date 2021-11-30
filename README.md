@@ -38,7 +38,7 @@ from osler.engine import Matrix
 
 #Defining assertions
 
-#            Assertion( Proposition )
+# Assertion(Proposition)
 assertionA = Assertion("assertion A")
 assertionB = Assertion("assertion B")
 assertionC = Assertion("assertion C")
@@ -49,7 +49,7 @@ assertionY = Assertion("assertion Y")
 
 #Defining criteria
 
-#            Criterion(Assertion, Truth Value )
+# Criterion(Assertion, Truth Value)
 criterionA = Criterion(assertionA, True)
 criterionB = Criterion(assertionB, True)
 criterionC = Criterion(assertionC, True)
@@ -67,7 +67,7 @@ criterionY = Criterion(assertionY, False)
 
 #Defining diagnoses
 
-#            Diagnosis( Name        , Set of Criteria                                      , Probability )
+# Diagnosis(Name, Set of Criteria, Probability)
 diagnosis1 = Diagnosis('Diagnosis 1', {criterionA, criterionNB, criterionC, criterionX}, 0.25)
 diagnosis2 = Diagnosis('Diagnosis 2', {criterionNA, criterionNC, criterionD, criterionY, criterionX}, 0.15)
 diagnosis3 = Diagnosis('Diagnosis 3', {criterionNA, criterionC, criterionX}, 0.5)
@@ -76,7 +76,7 @@ diagnosis5 = Diagnosis('Diagnosis 5', {criterionNA, criterionNC, criterionND, cr
 
 #Defining an issue
 
-#       Issue( Name    ,  Description , Set of Diagnoses )
+# Issue(Name, Description, Set of Diagnoses)
 issue = Issue('Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagnosis5})
 
 #Building a test tree
@@ -84,12 +84,12 @@ issue = Issue('Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagno
 matrix = Matrix(issue)
 matrix.construct_tree()
 
-matrix.node.to_png("tree.png")
-matrix.node.to_svg("tree.svg")
+matrix.to_png("tree.png")
+matrix.to_svg("tree.svg")
 ```
 
 This results in the decision tree:
-![Example decision tree](/test/engine_test1.png "Decision Tree Example")
+![Example decision tree](/example/example_contrived1.png "Decision Tree Example")
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

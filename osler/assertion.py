@@ -1,43 +1,29 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import logging
-log = logging.getLogger(__name__)
+from .common import EntityBase
+from .graph import NodeMixin
 
-from osler.graph import Node
-from osler.criterion import Criterion
+class Assertion(EntityBase, NodeMixin):
 
-class Assertion(object):
+    def __init__(self, proposition: str, test_difficulty: float=0.0, **kwargs) -> None:
+        super().__init__(proposition.replace(" ", "_"))
+        self._proposition = proposition
+        self._test_difficulty = test_difficulty
+        self._metadata = kwargs
 
-    def __init__(self, proposition, test_difficulty=0.0, **kwargs):
-        self.proposition = proposition
-        self.name = proposition.replace(" ", "_")
-        self.test_difficulty = test_difficulty
-        self.metadata = kwargs
-        if 'cannot_preceed' in kwargs:
-            self.cannot_preceed = kwargs.get('cannot_preceed')
-        else:
-            self.cannot_preceed = None
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __hash__(self):
-        return hash(str(self))
-
-    def __eq__(self, other):
+    def __eq__(self, other: 'Assertion') -> bool:
         if isinstance(other, Assertion):
-            return self.proposition == other.proposition
+            return self._proposition == other._proposition
         else:
             return False
     
-    def true(self):
-        return Criterion(self, True)
+    def __hash__(self) -> int:
+        return hash(self._name)
     
-    def false(self):
-        return Criterion(self, False)
-
-    def parent(self, parent_node):
-        return Node(self, parent_node)
+    @property
+    def proposition(self) -> str:
+        return self._proposition
+    
+    @property
+    def test_difficulty(self) -> float:
+        return self._test_difficulty

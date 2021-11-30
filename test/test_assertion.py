@@ -11,7 +11,6 @@ class TestAssertion(unittest.TestCase):
         assertion = Assertion("This is an assertion", 1.3)
         self.assertEqual(assertion.proposition, "This is an assertion")
         self.assertEqual(assertion.test_difficulty, 1.3)
-        self.assertFalse(assertion.cannot_preceed)
 
     def test_equivalent(self):
         assertion1 = Assertion("This is an assertion", 1.3)

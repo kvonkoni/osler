@@ -1,73 +1,93 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
-import logging
-log = logging.getLogger(__name__)
+from typing import FrozenSet, Set, Tuple
 
 import anytree
 from anytree.exporter import DotExporter
 from ete3 import Tree
 from graphviz import render, Source
 
+from .common import EntityBase
+
 sys.setrecursionlimit(1500)
 
-class Node(object):
+class Node:
 
-    def __init__(self, object, parent=None):
-        self.object = object
-        self.anynode = anytree.Node(object.name)
-        self.parent = parent
-        self.children = []
-        self.leaf = True
+    def __init__(self, object: EntityBase, parent: 'Node'=None) -> None:
+        self._object = object
+        self._anynode = anytree.Node(object.name)
+        self._parent = parent
+        self._children = []
+        self._leaf = True
         if parent:
-            self.root = False
-            self.parent.leaf = False
-            self.parent.children.append(self)
-            self.anynode.parent = parent.anynode
-            self.etenode = parent.etenode.add_child(name=object.name)
+            self._root = False
+            self._parent._leaf = False
+            self._parent._children.append(self)
+            self._anynode.parent = parent._anynode
+            self._etenode = parent._etenode.add_child(name=object.name)
         else:
-            self.root = True
-            self.anynode.parent = None
-            self.etenode = Tree()
+            self._root = True
+            self._anynode.parent = None
+            self._etenode = Tree()
     
-    def __eq__(self, other):
-        if isinstance(self, Node) and isinstance(other, Node):
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Node):
             return self.object == other.object
-    
-    def is_equal_to_subtree(self, other):
-        if self.path_set() == other.path_set():
-            return True
         else:
-            return False
+            return self.object == other
     
-    def __repr__(self):
+    def is_equal_to_subtree(self, other: 'Node'):
+        return self.path_set() == other.path_set()
+    
+    def __repr__(self) -> str:
         return self.__str__()
     
-    def __str__(self):
-        return str(self.object)
+    def __str__(self) -> str:
+        return str(self._object)
     
-    def __hash__(self):
-        return hash(str(self))
+    def __hash__(self) -> int:
+        return hash(self._object)
     
-    def find_subnodes(self, nodeset):
+    @property
+    def object(self) -> EntityBase:
+        return self._object
+    
+    @property
+    def root(self) -> 'Node':
+        return self._root
+    
+    @property
+    def parent(self) -> 'Node':
+        return self._parent
+    
+    @property
+    def children(self) -> Tuple['Node']:
+        return tuple(self._children)
+    
+    @property
+    def leaf(self) -> bool:
+        return self._leaf
+    
+    def find_subnodes(self, nodeset: Set['Node']) -> None:
         nodeset.add(self)
-        for c in self.children:
+        for c in self._children:
             c.find_subnodes(nodeset)
     
-    def leaf_set(self):
+    def leaf_set(self) -> FrozenSet['Node']:
         leafset = set()
         nodelist = list(self.node_set())
         for n in nodelist:
             if n.leaf:
                 leafset.add(n)
-        return leafset
+        return frozenset(leafset)
 
-    def node_set(self):
+    def node_set(self) -> FrozenSet['Node']:
         nodeset = set()
         self.find_subnodes(nodeset)
-        return nodeset
+        return frozenset(nodeset)
     
-    def path_set(self):
+    def path_set(self) -> Tuple['Node']:
         pathset = set()
         leaflist = list(self.leaf_set())
         for l in leaflist:
@@ -78,27 +98,24 @@ class Node(object):
                 current = current.parent
             pathtuple = tuple(path)
             pathset.add(pathtuple)
-        return pathset
+        return tuple(pathset)
 
-    def render(self):
-        print(anytree.RenderTree(self.anynode))
+    def render(self) -> None:
+        print(anytree.RenderTree(self._anynode))
 
-    def to_image(self, filename):
-        DotExporter(self.anynode).to_dotfile(filename)
+    def to_image(self, filename: str) -> None:
+        DotExporter(self._anynode).to_dotfile(filename)
         Source.from_file(filename)
         render("dot", "png", filename)
 
-    def to_png(self, filename):
-        DotExporter(self.anynode).to_picture(filename)
+    def to_png(self, filename: str) -> None:
+        DotExporter(self._anynode).to_picture(filename)
 
-    def to_svg(self, filename):
-        t = self.etenode
+    def to_svg(self, filename: str) -> None:
+        t = self._etenode
         t.render(filename)
 
-class OslerTree(Node):
-    
-    def __init__(self, name, root):
-        self.name = name.replace(" ", "_")
-        self.id = self.name
-        self.root = root
-        self.tree = {"node":self.root, "children":[]}
+class NodeMixin:
+
+    def parent(self, parent_node: Node) -> Node:
+        return Node(self, parent_node)

@@ -1,18 +1,20 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 log = logging.getLogger(__name__)
 
 from collections import Counter
-from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concatenate
 from copy import copy
+from numpy import ndarray, zeros, delete, argwhere, reshape, array_equal, concatenate
+from typing import Tuple
 
-from osler.graph import Node, OslerTree
-from osler.criterion import Criterion
+from .issue import Issue
+from .graph import Node
+from .criterion import Criterion
 
 class Matrix(object):
     
-    def __init__(self, issue):
+    def __init__(self, issue: Issue) -> None:
         self.progenitor = Node(issue)
         self.node = self.progenitor
         self.candidatelist = list(issue.candidates)
@@ -36,32 +38,40 @@ class Matrix(object):
                         else:
                             matrix[i, j] = 2
         self.matrix = matrix
-        self.tree = OslerTree(issue.name, self.node)
+    
+    def to_png(self, filename: str) -> None:
+        self.node.to_png(filename)
+    
+    def to_svg(self, filename: str) -> None:
+        self.node.to_svg(filename)
+    
+    def to_image(self, filename: str) -> None:
+        self.node.to_image(filename)
 
-    def print_matrix(self):
+    def print_matrix(self) -> None:
         print("{{Matrix is ({} diagnoses by {} assertions)".format(len(self.candidatelist), len(self.assertionlist)))
         print(self.assertionlist)
         for i in range(len(self.matrix)):
             print(str(self.matrix[i])+" "+str(self.candidatelist[i]))
         print("}")
     
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.matrix)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.__str__()
 
-    def swap_assertions(self, a, b):
+    def swap_assertions(self, a: int, b: int) -> None:
         if a != b:
             self.matrix[:,[a, b]] = self.matrix[:,[b, a]]
             self.assertionlist[a], self.assertionlist[b] = self.assertionlist[b], self.assertionlist[a]
 
-    def swap_diagnoses(self, a, b):
+    def swap_diagnoses(self, a: int, b: int) -> None:
         if a != b:
             self.matrix[[a, b],:] = self.matrix[[b, a],:]
             self.candidatelist[a], self.candidatelist[b] = self.candidatelist[b], self.candidatelist[a]
 
-    def move_assertion_to_first_position(self, a):
+    def move_assertion_to_first_position(self, a: int) -> None:
         if a > 0:
             column_ids = [i for i in range(len(self.matrix[0,:]))]
             column_ids.remove(a)
@@ -69,21 +79,21 @@ class Matrix(object):
             self.matrix = self.matrix[:,column_ids]
             self.assertionlist = self.assertionlist[column_ids]
 
-    def sort_diagnoses_by_assertion_truth_value(self):
+    def sort_diagnoses_by_assertion_truth_value(self) -> None:
         arg_sort = self.matrix[:,0].argsort()
         self.matrix = self.matrix[arg_sort]
         self.candidatelist = [self.candidatelist[i] for i in arg_sort]
     
-    def sort_matrix_by_assertions(self):
+    def sort_matrix_by_assertions(self) -> None:
         arg_sort = self.matrix[0,:].argsort()
         self.matrix = self.matrix[:,arg_sort]
         self.assrtionlist = [self.assertionlist[i] for i in arg_sort]
 
-    def delete_assertion(self, a):
+    def delete_assertion(self, a: int) -> None:
         self.matrix = delete(self.matrix, a, 1)
         self.assertionlist = delete(self.assertionlist, a)
 
-    def clear_irrelevant_assertions(self):
+    def clear_irrelevant_assertions(self) -> None:
         # Delete any assertions in the matrix that have no diagnostic value
         # e.g. assertion is true for every potential diagnosis
         dellist = []
@@ -95,7 +105,7 @@ class Matrix(object):
                 dellist.append(i)
         self.delete_assertion(dellist)
 
-    def select_next_assertion(self):
+    def select_next_assertion(self) -> None:
         num_diagnoses = len(self.matrix[0,:])
         measures = [0 for _ in range(num_diagnoses)]
         for i in range(num_diagnoses):
@@ -103,13 +113,13 @@ class Matrix(object):
             index = measures.index(min(measures))
         return index
     
-    def calculate_selection_measure_of_column(self, a, method="widest"):
+    def calculate_selection_measure_of_column(self, a: None, method: str="widest") -> float:
         num_diagnoses = len(self.matrix[0,:])
         if method == "widest":
             count = Counter(self.matrix[:,a])
             return (count[0])**2+(count[1]-num_diagnoses/2.0)**2+(count[1]-num_diagnoses/2.0)**2
 
-    def split_by_truth_value(self):
+    def split_by_truth_value(self) -> Tuple[ndarray]:
         # For the assertion in position 0, split the matrix instance into 3 smaller matrix objects....
         # One for assertion = True, one for False, and one for N/A
         index_null = reshape(argwhere(self.matrix[:,0]==0),-1)
@@ -133,7 +143,7 @@ class Matrix(object):
         matrix_two.projenitor = self.assertionlist[0]
         return (matrix_null, matrix_one, matrix_two)
 
-    def combine(self, other):
+    def combine(self, other: ndarray) -> ndarray:
         # Given two matrix objects with the same assertion lists
         if array_equal(self.assertionlist, other.assertionlist):
             if self.matrix.size > 0 and other.matrix.size > 0:
@@ -148,7 +158,7 @@ class Matrix(object):
             raise TypeError("matrix mismatch")
         return self
 
-    def construct_tree(self, debug=False):
+    def construct_tree(self, debug: bool=False) -> None:
         
         if debug:
             self.print_matrix()
@@ -156,10 +166,6 @@ class Matrix(object):
         # Choosing the next assertion
         self.clear_irrelevant_assertions()
         id = self.select_next_assertion()
-        #if self.assertionlist[id].cannot_preceed:
-        #    if any self.assertionlist.cannot_proceed[id] assertion exists in the list self.assertionlist
-        #        id = id_of_self.assertionlist[cannot_proceed item index]
-        #    pass
         self.move_assertion_to_first_position(id)
         self.sort_diagnoses_by_assertion_truth_value()
         
@@ -185,24 +191,24 @@ class Matrix(object):
         
         # Linking the "true" matrix to the assertion and deleting the previous assertion
         if len(matrix_one.candidatelist) > 1:
-            criterion_true = self.assertionlist[0].true()
+            criterion_true = Criterion(self.assertionlist[0], True)
             criterion_true_node = criterion_true.parent(progenitor_node)
             matrix_one.progenitor = criterion_true_node
             matrix_one.delete_assertion(0)
             matrix_one.construct_tree(debug)
         elif len(matrix_one.candidatelist) == 1:
-            criterion_true = self.assertionlist[0].true()
+            criterion_true = Criterion(self.assertionlist[0], True)
             criterion_true_node = criterion_true.parent(progenitor_node)
             matrix_one.candidatelist[0].parent(criterion_true_node)
         
         # Linking the "false" matrix to the assertion and deleting the previous assertion
         if len(matrix_two.candidatelist) > 1:
-            criterion_false = self.assertionlist[0].false()
+            criterion_false = Criterion(self.assertionlist[0], False)
             criterion_false_node = criterion_false.parent(progenitor_node)
             matrix_two.progenitor = criterion_false_node
             matrix_two.delete_assertion(0)
             matrix_two.construct_tree(debug)
         elif len(matrix_two.candidatelist) == 1:
-            criterion_false = self.assertionlist[0].false()
+            criterion_false = Criterion(self.assertionlist[0], False)
             criterion_false_node = criterion_false.parent(progenitor_node)
             matrix_two.candidatelist[0].parent(criterion_false_node)

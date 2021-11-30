@@ -29,9 +29,9 @@ class TestDiagnosis(unittest.TestCase):
         assertionB = Assertion("assertion B")
         assertionC = Assertion("assertion C")
         assertionX = Assertion("assertion X")
-        diagnosis1 = Diagnosis('Diagnosis 1', {assertionA.true(), assertionB.false(), assertionC.true(), assertionX.false()}, 0.25)
-        diagnosis2 = Diagnosis('Diagnosis 2', {assertionA.true(), assertionB.false(), assertionC.true(), assertionX.false()}, 0.5)
-        diagnosis3 = Diagnosis('Diagnosis 1', {assertionA.true(), assertionB.false(), assertionC.false(), assertionX.false()}, 0.25)
+        diagnosis1 = Diagnosis('Diagnosis 1', {Criterion(assertionA, True), Criterion(assertionB, False), Criterion(assertionC, True), Criterion(assertionX, False)}, 0.25)
+        diagnosis2 = Diagnosis('Diagnosis 2', {Criterion(assertionA, True), Criterion(assertionB, False), Criterion(assertionC, True), Criterion(assertionX, False)}, 0.5)
+        diagnosis3 = Diagnosis('Diagnosis 1', {Criterion(assertionA, True), Criterion(assertionB, False), Criterion(assertionC, False), Criterion(assertionX, False)}, 0.25)
         self.assertTrue(diagnosis1==diagnosis2)
         self.assertFalse(diagnosis1==diagnosis3)
     
@@ -40,9 +40,9 @@ class TestDiagnosis(unittest.TestCase):
         assertionB = Assertion("assertion B")
         assertionC = Assertion("assertion C")
         assertionX = Assertion("assertion X")
-        diagnosis1 = Diagnosis('Diagnosis 1', {assertionA.true(), assertionB.false(), assertionC.true(), assertionX.false()}, 0.25)
-        diagnosis2 = Diagnosis('Diagnosis 2', {assertionA.true(), assertionB.false(), assertionC.true(), assertionX.false()}, 0.5)
-        diagnosis3 = Diagnosis('Diagnosis 3', {assertionA.true(), assertionB.false(), assertionC.false(), assertionX.false()}, 0.25)
+        diagnosis1 = Diagnosis('Diagnosis 1', {Criterion(assertionA, True), Criterion(assertionB, False), Criterion(assertionC, True), Criterion(assertionX, False)}, 0.25)
+        diagnosis2 = Diagnosis('Diagnosis 2', {Criterion(assertionA, True), Criterion(assertionB, False), Criterion(assertionC, True), Criterion(assertionX, False)}, 0.5)
+        diagnosis3 = Diagnosis('Diagnosis 3', {Criterion(assertionA, True), Criterion(assertionB, False), Criterion(assertionC, False), Criterion(assertionX, False)}, 0.25)
         self.assertTrue(diagnosable({diagnosis1, diagnosis3}))
         self.assertFalse(diagnosable({diagnosis1, diagnosis2}))
     
@@ -51,9 +51,9 @@ class TestDiagnosis(unittest.TestCase):
         assertionB = Assertion("assertion B")
         assertionC = Assertion("assertion C")
         assertionX = Assertion("assertion X")
-        diagnosis1 = Diagnosis('Diagnosis 1', {assertionA.true(), assertionB.false(), assertionC.true(), assertionX.false()}, 0.25)
-        diagnosis2 = Diagnosis('Diagnosis 2', {assertionA.true(), assertionB.false(), assertionC.true(), assertionX.false()}, 0.5)
-        self.assertEqual(undiagnosable({diagnosis1, diagnosis2}), {"Diagnosis_1/Diagnosis_2"})
+        diagnosis1 = Diagnosis('Diagnosis 1', {Criterion(assertionA, True), Criterion(assertionB, False), Criterion(assertionC, True), Criterion(assertionX, False)}, 0.25)
+        diagnosis2 = Diagnosis('Diagnosis 2', {Criterion(assertionA, True), Criterion(assertionB, False), Criterion(assertionC, True)}, 0.5)
+        self.assertEqual(undiagnosable({diagnosis1, diagnosis2}), {diagnosis1, diagnosis2})
 
 
 if __name__ == '__main__':
