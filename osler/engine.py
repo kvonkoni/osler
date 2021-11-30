@@ -4,15 +4,17 @@ import logging
 log = logging.getLogger(__name__)
 
 from collections import Counter
-from numpy import matrix, zeros, delete, argwhere, reshape, array_equal, concatenate
 from copy import copy
+from numpy import ndarray, zeros, delete, argwhere, reshape, array_equal, concatenate
+from typing import Tuple
 
+from .issue import Issue
 from .graph import Node
 from .criterion import Criterion
 
 class Matrix(object):
     
-    def __init__(self, issue):
+    def __init__(self, issue: Issue) -> None:
         self.progenitor = Node(issue)
         self.node = self.progenitor
         self.candidatelist = list(issue.candidates)
@@ -37,30 +39,30 @@ class Matrix(object):
                             matrix[i, j] = 2
         self.matrix = matrix
 
-    def print_matrix(self):
+    def print_matrix(self) -> None:
         print("{{Matrix is ({} diagnoses by {} assertions)".format(len(self.candidatelist), len(self.assertionlist)))
         print(self.assertionlist)
         for i in range(len(self.matrix)):
             print(str(self.matrix[i])+" "+str(self.candidatelist[i]))
         print("}")
     
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.matrix)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.__str__()
 
-    def swap_assertions(self, a, b):
+    def swap_assertions(self, a: int, b: int) -> None:
         if a != b:
             self.matrix[:,[a, b]] = self.matrix[:,[b, a]]
             self.assertionlist[a], self.assertionlist[b] = self.assertionlist[b], self.assertionlist[a]
 
-    def swap_diagnoses(self, a, b):
+    def swap_diagnoses(self, a: int, b: int) -> None:
         if a != b:
             self.matrix[[a, b],:] = self.matrix[[b, a],:]
             self.candidatelist[a], self.candidatelist[b] = self.candidatelist[b], self.candidatelist[a]
 
-    def move_assertion_to_first_position(self, a):
+    def move_assertion_to_first_position(self, a: int) -> None:
         if a > 0:
             column_ids = [i for i in range(len(self.matrix[0,:]))]
             column_ids.remove(a)
@@ -68,21 +70,21 @@ class Matrix(object):
             self.matrix = self.matrix[:,column_ids]
             self.assertionlist = self.assertionlist[column_ids]
 
-    def sort_diagnoses_by_assertion_truth_value(self):
+    def sort_diagnoses_by_assertion_truth_value(self) -> None:
         arg_sort = self.matrix[:,0].argsort()
         self.matrix = self.matrix[arg_sort]
         self.candidatelist = [self.candidatelist[i] for i in arg_sort]
     
-    def sort_matrix_by_assertions(self):
+    def sort_matrix_by_assertions(self) -> None:
         arg_sort = self.matrix[0,:].argsort()
         self.matrix = self.matrix[:,arg_sort]
         self.assrtionlist = [self.assertionlist[i] for i in arg_sort]
 
-    def delete_assertion(self, a):
+    def delete_assertion(self, a: int) -> None:
         self.matrix = delete(self.matrix, a, 1)
         self.assertionlist = delete(self.assertionlist, a)
 
-    def clear_irrelevant_assertions(self):
+    def clear_irrelevant_assertions(self) -> None:
         # Delete any assertions in the matrix that have no diagnostic value
         # e.g. assertion is true for every potential diagnosis
         dellist = []
@@ -94,7 +96,7 @@ class Matrix(object):
                 dellist.append(i)
         self.delete_assertion(dellist)
 
-    def select_next_assertion(self):
+    def select_next_assertion(self) -> None:
         num_diagnoses = len(self.matrix[0,:])
         measures = [0 for _ in range(num_diagnoses)]
         for i in range(num_diagnoses):
@@ -102,13 +104,13 @@ class Matrix(object):
             index = measures.index(min(measures))
         return index
     
-    def calculate_selection_measure_of_column(self, a, method="widest"):
+    def calculate_selection_measure_of_column(self, a: None, method: str="widest") -> float:
         num_diagnoses = len(self.matrix[0,:])
         if method == "widest":
             count = Counter(self.matrix[:,a])
             return (count[0])**2+(count[1]-num_diagnoses/2.0)**2+(count[1]-num_diagnoses/2.0)**2
 
-    def split_by_truth_value(self):
+    def split_by_truth_value(self) -> Tuple[ndarray]:
         # For the assertion in position 0, split the matrix instance into 3 smaller matrix objects....
         # One for assertion = True, one for False, and one for N/A
         index_null = reshape(argwhere(self.matrix[:,0]==0),-1)
@@ -132,7 +134,7 @@ class Matrix(object):
         matrix_two.projenitor = self.assertionlist[0]
         return (matrix_null, matrix_one, matrix_two)
 
-    def combine(self, other):
+    def combine(self, other: ndarray) -> ndarray:
         # Given two matrix objects with the same assertion lists
         if array_equal(self.assertionlist, other.assertionlist):
             if self.matrix.size > 0 and other.matrix.size > 0:
@@ -147,7 +149,7 @@ class Matrix(object):
             raise TypeError("matrix mismatch")
         return self
 
-    def construct_tree(self, debug=False):
+    def construct_tree(self, debug: bool=False) -> None:
         
         if debug:
             self.print_matrix()
