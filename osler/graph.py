@@ -1,57 +1,121 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+
+import sys
+from typing import FrozenSet, Set, Tuple
 
 import anytree
-import ete3
-from anytree.exporter import DotExporter, JsonExporter
-#from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
+from anytree.exporter import DotExporter
 from ete3 import Tree
 from graphviz import render, Source
 
-class Node(object):
+from .common import EntityBase
 
-    def __init__(self, object, parent=None):
-        self.object = object
-        self.anynode = anytree.Node(object.name)
+sys.setrecursionlimit(1500)
+
+class Node:
+
+    def __init__(self, object: EntityBase, parent: 'Node'=None) -> None:
+        self._object = object
+        self._anynode = anytree.Node(object.name)
+        self._parent = parent
+        self._children = []
+        self._leaf = True
         if parent:
-            self.anynode.parent = parent.anynode
-            self.etenode = parent.etenode.add_child(name=object.name)
+            self._root = False
+            self._parent._leaf = False
+            self._parent._children.append(self)
+            self._anynode.parent = parent._anynode
+            self._etenode = parent._etenode.add_child(name=object.name)
         else:
-            self.anynode.parent = None
-            self.etenode = Tree()
-        self.parent = parent
+            self._root = True
+            self._anynode.parent = None
+            self._etenode = Tree()
+    
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Node):
+            return self.object == other.object
+        else:
+            return self.object == other
+    
+    def is_equal_to_subtree(self, other: 'Node'):
+        return self.path_set() == other.path_set()
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+    
+    def __str__(self) -> str:
+        return str(self._object)
+    
+    def __hash__(self) -> int:
+        return hash(self._object)
+    
+    @property
+    def object(self) -> EntityBase:
+        return self._object
+    
+    @property
+    def root(self) -> 'Node':
+        return self._root
+    
+    @property
+    def parent(self) -> 'Node':
+        return self._parent
+    
+    @property
+    def children(self) -> Tuple['Node']:
+        return tuple(self._children)
+    
+    @property
+    def leaf(self) -> bool:
+        return self._leaf
+    
+    def find_subnodes(self, nodeset: Set['Node']) -> None:
+        nodeset.add(self)
+        for c in self._children:
+            c.find_subnodes(nodeset)
+    
+    def leaf_set(self) -> FrozenSet['Node']:
+        leafset = set()
+        nodelist = list(self.node_set())
+        for n in nodelist:
+            if n.leaf:
+                leafset.add(n)
+        return frozenset(leafset)
 
-    def render(self):
-        print(anytree.RenderTree(self.anynode))
+    def node_set(self) -> FrozenSet['Node']:
+        nodeset = set()
+        self.find_subnodes(nodeset)
+        return frozenset(nodeset)
+    
+    def path_set(self) -> Tuple['Node']:
+        pathset = set()
+        leaflist = list(self.leaf_set())
+        for l in leaflist:
+            path = []
+            current = l
+            while not current.root:
+                path.append(current.object)
+                current = current.parent
+            pathtuple = tuple(path)
+            pathset.add(pathtuple)
+        return tuple(pathset)
 
-    def to_image(self, filename):
-        DotExporter(self.anynode).to_dotfile(filename)
+    def render(self) -> None:
+        print(anytree.RenderTree(self._anynode))
+
+    def to_image(self, filename: str) -> None:
+        DotExporter(self._anynode).to_dotfile(filename)
         Source.from_file(filename)
         render("dot", "png", filename)
 
-    def to_png(self, filename):
-        DotExporter(self.anynode).to_picture(filename)
+    def to_png(self, filename: str) -> None:
+        DotExporter(self._anynode).to_picture(filename)
 
-    def to_svg(self, filename):
-        t = self.etenode
-        #ts = TreeStyle()
-        #ts.show_leaf_name = False
-        #def my_layout(node):
-        #        F = TextFace(node.name, tight_text=True)
-        #        add_face_to_node(F, node, column=0, position="branch-right")
-        #ts.layout_fn = my_layout
-        #ts.mode = "c"
-        #ts.arc_start = 45 # 0 degrees = 3 o'clock
-        #ts.arc_span = 135
-        #t.render(filename, tree_style=ts)
+    def to_svg(self, filename: str) -> None:
+        t = self._etenode
         t.render(filename)
 
-class OslerTree(object):
-    
-    def __init__(self, name):
-        self.name = name.replace(" ", "_")
-        self.id = self.name
-        self.tree = {"id":self.id, "children":[]}
-    
-    def add_child(self, child):
-        dict = {"id":child.id, "children":[]}
-        self.tree["children"].append(dict)
+class NodeMixin:
+
+    def parent(self, parent_node: Node) -> Node:
+        return Node(self, parent_node)

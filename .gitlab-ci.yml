@@ -1,11 +1,13 @@
-image: continuumio/anaconda3
+image: kvonkoni/osler:v0.3.0
 
 before_script:
-  - python setup.py install
+  - python3 setup.py install
 
 unit_tests:
   script:
-    - python ./test/test_assertion.py
-    - python ./test/test_criterion.py
-    - python ./test/test_diagnosis.py
-    - python ./test/test_issue.py
+    - python3 ./test/test_assertion.py
+    - python3 ./test/test_criterion.py
+    - python3 ./test/test_diagnosis.py
+    - python3 ./test/test_issue.py
+    - python3 ./test/test_graph.py
+    - python3 ./test/test_engine.py

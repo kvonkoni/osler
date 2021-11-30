@@ -1,41 +1,23 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-#import PyLog
-#import PyKnow
-#import kanren
-import nltk
-import anytree
-from anytree.exporter import DotExporter
-from graphviz import Source, render
+from .common import DifferentialDiagnosisError, EntityBase
+from .diagnosis import Diagnosis, diagnosable, undiagnosable
+from .graph import NodeMixin
 
-from osler.graph import Node
-from osler.diagnosis import diagnosable, undiagnosable
+class Issue(EntityBase, NodeMixin):
 
-class Issue(object):
-
-    def __init__(self, name, description, candidates, severity=0):
-        self.name = name.replace(" ", "_")
-        self.id = self.name
-        self.description = description
+    def __init__(self, name: str, candidates: Diagnosis, **kwargs) -> None:
+        super().__init__(name.replace(" ", "_"))
         self.candidates = candidates
-        self.severity = severity
-        self.prevalence = 0.0
-        for s in list(self.candidates):
-            self.prevalence += s.prevalence
+        self.metadata = kwargs
         self.validate()
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __hash__(self):
-        return id(self)
-
-    def parent(self, parent_node):
-        return Node(self, parent_node)
     
-    def validate(self):
+    def prevalence(self) -> float:
+        prevalence = 0.0
+        for s in list(self.candidates):
+            prevalence += s.prevalence
+        return prevalence
+    
+    def validate(self) -> None:
         if not diagnosable(self.candidates):
-            raise Exception("Candidate diagnoses must be diagnosable: can't differentiate {}.".format(str(undiagnosable(self.candidates))))
+            raise DifferentialDiagnosisError("Candidate diagnoses must be diagnosable: can't differentiate {}.".format(str(undiagnosable(self.candidates))))

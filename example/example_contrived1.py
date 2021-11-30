@@ -1,8 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import os,sys,math,csv
+import os
+import sys
+
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
+
 from osler.assertion import Assertion
 from osler.criterion import Criterion
 from osler.diagnosis import Diagnosis
@@ -38,20 +41,20 @@ criterionY = Criterion(assertionY, False)
 
 #Defining diagnoses
 
-diagnosis1 = Diagnosis('Diagnosis 1', 'Diagnosis 1', 'Remedy 1', {criterionA, criterionNB, criterionC, criterionX}, 0.25)
-diagnosis2 = Diagnosis('Diagnosis 2', 'Diagnosis 2', 'Remedy 2', {criterionNA, criterionNC, criterionD, criterionY, criterionX}, 0.15)
-diagnosis3 = Diagnosis('Diagnosis 3', 'Diagnosis 3', 'Remedy 3', {criterionNA, criterionC, criterionX}, 0.5)
-diagnosis4 = Diagnosis('Diagnosis 4', 'Diagnosis 4', 'Remedy 4', {criterionNA, criterionNC, criterionND, criterionE, criterionX}, 0.25)
-diagnosis5 = Diagnosis('Diagnosis 5', 'Diagnosis 5', 'Remedy 5', {criterionNA, criterionNC, criterionND, criterionNE, criterionX}, 0.025)
+diagnosis1 = Diagnosis('Diagnosis 1', {criterionA, criterionNB, criterionC, criterionX}, 0.25)
+diagnosis2 = Diagnosis('Diagnosis 2', {criterionNA, criterionNC, criterionD, criterionY, criterionX}, 0.15)
+diagnosis3 = Diagnosis('Diagnosis 3', {criterionNA, criterionC, criterionX}, 0.5)
+diagnosis4 = Diagnosis('Diagnosis 4', {criterionNA, criterionNC, criterionND, criterionE, criterionX}, 0.25)
+diagnosis5 = Diagnosis('Diagnosis 5', {criterionNA, criterionNC, criterionND, criterionNE, criterionX}, 0.025)
 
 #Defining an issue
 
-issue = Issue('Issue I', 'Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagnosis5})
+issue = Issue('Issue I', {diagnosis1, diagnosis2, diagnosis3, diagnosis4, diagnosis5})
 
 #Building a test tree
 
 matrix = Matrix(issue)
 matrix.construct_tree()
 
-matrix.node.to_png("engine_test1.png")
-matrix.node.to_svg("engine_test1.svg")
+matrix.to_png("example_contrived1.png")
+matrix.to_svg("example_contrived1.svg")

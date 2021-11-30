@@ -9,22 +9,22 @@ from osler.criterion import Criterion
 class TestCriterion(unittest.TestCase):
 
     def test_init(self):
-        assertion = Assertion("This is an assertion", "This is the question that tests the assertion?", "These are instructions on how to test the assertion", 1.3, "Here are more details")
+        assertion = Assertion("This is an assertion", 1.3)
         criterion = Criterion(assertion, True)
         self.assertEqual(criterion.assertion, assertion)
         self.assertEqual(criterion.truth_value, True)
         self.assertEqual(criterion.name, "This_is_an_assertion_is_True")
     
     def test_equivalence(self):
-        assertion1 = Assertion("This is an assertion", "This is the question that tests the assertion?", "These are instructions on how to test the assertion", 1.3, "Here are more details")
+        assertion1 = Assertion("This is an assertion", 1.3)
         criterion1 = Criterion(assertion1, True)
-        assertion2 = Assertion("This is an assertion", "This is the question that tests the assertion?", "These are instructions on how to test the assertion", 1.3, "Here are more details")
+        assertion2 = Assertion("This is an assertion", 1.3)
         criterion2 = Criterion(assertion2, True)
         self.assertTrue(criterion1==criterion2)
         self.assertFalse(criterion1.opposite(criterion2))
     
     def test_opposites(self):
-        assertion = Assertion("This is an assertion", "This is the question that tests the assertion?", "These are instructions on how to test the assertion", 1.3, "Here are more details")
+        assertion = Assertion("This is an assertion", 1.3)
         criterion1 = Criterion(assertion, True)
         criterion2 = Criterion(assertion, False)
         self.assertTrue(criterion1.opposite(criterion2))

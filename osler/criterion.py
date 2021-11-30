@@ -1,52 +1,47 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-#import PyLog
-#import PyKnow
-#import kanren
-import nltk
-import anytree
-from osler.graph import Node
+from typing import List, Set
 
-class Criterion(object):
+from .assertion import Assertion
+from .common import EntityBase
+from .graph import NodeMixin
+
+class Criterion(EntityBase, NodeMixin):
 
     @classmethod
-    def search(cls, assertion, truth_value, criterialist):
+    def search(cls, assertion: Assertion, truth_value: bool, criterialist: List['Criterion']) -> 'Criterion':
         criterion = Criterion(assertion, truth_value)
         for c in criterialist:
             if c == criterion:
                 return c
 
-    def __init__(self, assertion, truth_value):
-        self.assertion = assertion
-        self.truth_value = truth_value
-        self.name = assertion.name+'_is_'+str(truth_value)
-        self.id = self.name
+    def __init__(self, assertion: Assertion, truth_value: bool, **kwargs) -> None:
+        super().__init__(assertion.name + '_is_' + str(truth_value))
+        self._assertion = assertion
+        self._truth_value = truth_value
+        self._metadata = kwargs
 
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __hash__(self):
-        return id(self)
-
-    def __eq__(self, other):
-        if self.assertion == other.assertion and (self.truth_value == other.truth_value):
-            return True
+    def __eq__(self, other) -> bool:
+        if isinstance(other, Criterion):
+            return self.assertion == other.assertion and (self.truth_value == other.truth_value)
         else:
             return False
+    
+    def __hash__(self) -> int:
+        return hash(self._name)
+    
+    @property
+    def assertion(self) -> Assertion:
+        return self._assertion
+    
+    @property
+    def truth_value(self) -> bool:
+        return self._truth_value
 
-    def parent(self, parent_node):
-        return Node(self, parent_node)
+    def opposite(self, other) -> bool:
+        return (self.assertion == other.assertion) and (self.truth_value != other.truth_value)
 
-    def opposite(self, other):
-        if self.assertion == other.assertion and (self.truth_value != other.truth_value):
-            return True
-        else:
-            return False
-
-def assertion_set_from_criterion_set(criterion_set):
+def assertion_set_from_criterion_set(criterion_set: Set[Criterion]) -> Set[Assertion]:
     result = set()
     for c in list(criterion_set):
         result.add(c.assertion)

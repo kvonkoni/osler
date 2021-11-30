@@ -1,41 +1,29 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-#import PyLog
-#import PyKnow
-#import kanren
-import nltk
-import anytree
-#nltk.download()
-from osler.graph import Node
-from osler.criterion import Criterion
+from .common import EntityBase
+from .graph import NodeMixin
 
-class Assertion(object):
+class Assertion(EntityBase, NodeMixin):
 
-    def __init__(self, proposition, question, instruction='', ease=1.0, description=''):
-        self.proposition = proposition
-        self.question = question
-        self.instruction = instruction
-        self.ease = ease
-        self.name = proposition.replace(" ", "_")
-        self.id = self.name
-        self.description = description
-        self.true = Criterion(self, True)
-        self.false = Criterion(self, False)
+    def __init__(self, proposition: str, test_difficulty: float=0.0, **kwargs) -> None:
+        super().__init__(proposition.replace(" ", "_"))
+        self._proposition = proposition
+        self._test_difficulty = test_difficulty
+        self._metadata = kwargs
 
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __hash__(self):
-        return id(self)
-
-    def __eq__(self, other):
-        if self.proposition == other.proposition:
-            return True
+    def __eq__(self, other: 'Assertion') -> bool:
+        if isinstance(other, Assertion):
+            return self._proposition == other._proposition
         else:
             return False
-
-    def parent(self, parent_node):
-        return Node(self, parent_node)
+    
+    def __hash__(self) -> int:
+        return hash(self._name)
+    
+    @property
+    def proposition(self) -> str:
+        return self._proposition
+    
+    @property
+    def test_difficulty(self) -> float:
+        return self._test_difficulty
